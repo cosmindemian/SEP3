@@ -1,1 +1,7 @@
 /.idea/
+/frontend/Client/bin/
+/frontend/Client/obj/
+/frontend/Domain/bin/
+/frontend/Domain/obj/
+/frontend/BlazorWASM/bin/
+/frontend/BlazorWASM/obj/
