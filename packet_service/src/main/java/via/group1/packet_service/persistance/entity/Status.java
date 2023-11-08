@@ -1,10 +1,7 @@
 package via.group1.packet_service.persistance.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.Set;
 
@@ -16,6 +13,12 @@ public class Status {
     private Long Id;
     private String name;
     private String description;
-    @OneToMany(mappedBy = "status")
+    @OneToMany(mappedBy = "status", fetch = FetchType.EAGER)
     private Set<Packet> packets;
+
+    public void addPacket(Packet packet){
+        packet.setStatus(this);
+        packets.add(packet);
+    }
+
 }
