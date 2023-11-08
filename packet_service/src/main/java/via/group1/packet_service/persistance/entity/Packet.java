@@ -18,7 +18,17 @@ public class Packet {
     private Long currentLocationId;
     private Long finalId;
     private Long finalDestinationId;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Status status;
 
+    public Packet() {
+    }
+
+    public Packet(Long senderId, Long receiverId, Long currentLocationId, Long finalId, Long finalDestinationId) {
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.currentLocationId = currentLocationId;
+        this.finalId = finalId;
+        this.finalDestinationId = finalDestinationId;
+    }
 }
