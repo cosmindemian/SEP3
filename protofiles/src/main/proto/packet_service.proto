@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+
+message packet{
+  string hello = 1;
+}
