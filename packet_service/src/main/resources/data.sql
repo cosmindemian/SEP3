@@ -1,0 +1,1 @@
+INSERT INTO status(id, name, description) VALUES (1, 'name', 'test');
