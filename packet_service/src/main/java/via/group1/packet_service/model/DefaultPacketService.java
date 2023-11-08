@@ -15,9 +15,9 @@ public class DefaultPacketService implements PacketService {
     private final PacketRepository packetRepository;
     private final StatusService statusService;
     @Override
-    public void SavePacket(Packet packet) {
+    public Packet SavePacket(Packet packet) {
         Status status = statusService.getDefaultStatus();
         status.addPacket(packet);
-        packetRepository.save(packet);
+        return packetRepository.save(packet);
     }
 }

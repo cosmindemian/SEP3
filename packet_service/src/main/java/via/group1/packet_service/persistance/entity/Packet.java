@@ -18,7 +18,7 @@ public class Packet {
     private Long currentLocationId;
     private Long finalId;
     private Long finalDestinationId;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Status status;
 
     public Packet() {
