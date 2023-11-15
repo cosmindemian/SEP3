@@ -1,6 +1,22 @@
 syntax = "proto3";
 
+import "location_service.proto";
+import "shared.proto";
 
-message packet{
-  string hello = 1;
+message Packet{
+  int64 id = 1;
+  Location currentLocation = 2;
+  Location finalLocation = 3;
+  string senderName = 4;
+  string trackingNumber = 5;
 }
+
+message GetPacketTrackingNumber{
+  string trackingNumber = 1;
+}
+
+service PacketService{
+  rpc getPacketById(IdRequestRpc) returns(Packet);
+  rpc getPacketByTrackingNumber(GetPacketTrackingNumber) returns(Packet);
+}
+
