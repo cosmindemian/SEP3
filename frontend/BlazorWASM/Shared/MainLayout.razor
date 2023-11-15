@@ -1,0 +1,42 @@
+﻿@inherits LayoutComponentBase
+
+<div>
+    <main>
+        <nav class=" navbar navbar-expand-lg m-5 navbar-light">
+            <a class="navbar-brand" href="#">
+                <img src="Logo.svg" alt="Logo"/>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" @onclick="ToggleNavMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end @NavBarCssClass" id="navbarNav"  @onclick="ToggleNavMenu">
+                <ul class="navbar-nav">
+                    <li class="nav-item mx-3">
+                        <NavLink class="nav-link text-black" href="/" Match="NavLinkMatch.All">Pickup points</NavLink>
+                    </li>
+                    <li class="nav-item mx-3">
+                        <NavLink class="nav-link text-black" href="/SendPackage" Match="NavLinkMatch.All">Send a package</NavLink>
+                    </li>
+                    <li class="nav-item login-nav-button mx-3">
+                        <NavLink class="nav-link text-black text-lg-light" href="/" Match="NavLinkMatch.All">Log in</NavLink>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <article class="px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+
+@code {
+    private bool collapseNavMenu = true;
+    private string? NavBarCssClass => collapseNavMenu ? null : "show";
+    private string? NavButtonCssClass => collapseNavMenu ? "collapsed" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}
