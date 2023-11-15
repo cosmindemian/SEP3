@@ -1,7 +1,3 @@
 /.idea/
-/frontend/Client/bin/
-/frontend/Client/obj/
-/frontend/Domain/bin/
-/frontend/Domain/obj/
-/frontend/BlazorWASM/bin/
-/frontend/BlazorWASM/obj/
+/location_service/src/main/resources/application.properties
+/packet_service/src/main/resources/application.properties
