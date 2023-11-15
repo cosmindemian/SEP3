@@ -5,15 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="139c1b26-8301-45ca-8474-e23044ac0a36" name="Changes" comment="structure">
-      <change afterPath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/config/SqlConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/grpc/PacketRpcMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/grpc/PacketRpcService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/grpc/generated/PacketServiceGrpc.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/grpc/generated/PacketServiceOuterClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/model/DefaultPacketService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/model/DefaultPacketService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/model/interfaces/PacketService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/model/interfaces/PacketService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/persistance/entity/Packet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/persistance/entity/Packet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/persistance/entity/Status.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/persistance/entity/Status.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/persistance/repository/PacketRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/persistance/repository/PacketRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/testdata.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/testdata.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../protofiles/src/main/proto/packet_service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/../protofiles/src/main/proto/packet_service.proto" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,8 +58,8 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Packet__Service",
-    "last_opened_file_path": "D:/Users/bolfa/Personal/VIA/Semester 3/Project/SEP3/packet_service/src/main/resources",
+    "git-widget-placeholder": "packet__service",
+    "last_opened_file_path": "D:/Users/bolfa/Personal/VIA/Semester 3/Project/SEP3/packet_service/src/main/java/via/group1/packet_service/grpc",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -81,11 +79,12 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Users\bolfa\Personal\VIA\Semester 3\Project\SEP3\packet_service\src\main\java\via\group1\packet_service\grpc" />
       <recent name="D:\Users\bolfa\Personal\VIA\Semester 3\Project\SEP3\packet_service\src\main\resources" />
       <recent name="D:\Users\bolfa\Personal\VIA\Semester 3\Project\SEP3\packet_service\src\test\resources" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.PacketServiceTest.savingPackageTest">
+  <component name="RunManager" selected="Spring Boot.PacketServiceApplication">
     <configuration name="PacketServiceTest.savingPackageTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="packet_service" />
       <extension name="coverage">
