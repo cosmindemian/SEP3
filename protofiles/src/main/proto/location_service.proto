@@ -3,15 +3,17 @@ syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 
 message location{
-  address address = 1;
-  bool isPickUpPoint = 2;
+  int64 id = 1;
+  address address = 2;
+  bool isPickUpPoint = 3;
 }
 
 message address{
-  string city = 1;
-  string zip = 2;
-  string street = 3;
-  string street_number = 4;
+  int64 id = 1;
+  string city = 2;
+  string zip = 3;
+  string street = 4;
+  string street_number = 5;
 }
 
 message isPickUpPoint{
@@ -21,8 +23,9 @@ message isPickUpPoint{
 message PickUpPoint{
   int64 id = 1;
   address address = 2;
-  google.protobuf.Timestamp opening_hours = 3;
-  google.protobuf.Timestamp closing_hours= 4;
+  string name= 3;
+  google.protobuf.Timestamp opening_hours = 4;
+  google.protobuf.Timestamp closing_hours= 5;
 }
 
 message Warehouse{
