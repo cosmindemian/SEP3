@@ -2,11 +2,13 @@ package via.group1.packet_service.persistance.entity;
 
 
 import jakarta.persistence.*;
+import via.group1.packet_service.config.SqlConfig;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(schema = SqlConfig.PACKET_SCHEMA)
 public class Status {
 
     @Id
