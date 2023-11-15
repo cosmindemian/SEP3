@@ -20,7 +20,6 @@ public class Packet {
     private Long senderId;
     private Long receiverId;
     private Long currentLocationId;
-    private Long finalId;
     private Long finalDestinationId;
     @ManyToOne(cascade = CascadeType.MERGE)
     private Status status;
@@ -36,7 +35,6 @@ public class Packet {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.currentLocationId = currentLocationId;
-        this.finalId = finalId;
         this.finalDestinationId = finalDestinationId;
     }
 
