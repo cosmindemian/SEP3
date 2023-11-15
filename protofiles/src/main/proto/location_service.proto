@@ -1,34 +1,20 @@
 syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
+import "shared.proto";
 
-message location{
-  int64 id = 1;
-  address address = 2;
-  bool isPickUpPoint = 3;
-}
-
-message address{
-  int64 id = 1;
-  string city = 2;
-  string zip = 3;
-  string street = 4;
-  string street_number = 5;
-}
-
-message isPickUpPoint{
+message IsPickUpPoint{
   bool isPickUpPoint = 1;
 }
 
 message PickUpPoint{
   int64 id = 1;
-  address address = 2;
-  string name= 3;
-  google.protobuf.Timestamp opening_hours = 4;
-  google.protobuf.Timestamp closing_hours= 5;
+  Address address = 2;
+  google.protobuf.Timestamp opening_hours = 3;
+  google.protobuf.Timestamp closing_hours= 4;
 }
 
 message Warehouse{
   int64 id = 1;
-  address address = 2;
+  Address address = 2;
 }

@@ -1,14 +1,14 @@
 package via.group1.packet_service.persistance.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+import via.group1.packet_service.config.SqlConfig;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(schema = SqlConfig.PACKET_SCHEMA)
 public class Status {
 
     @Id
@@ -16,6 +16,16 @@ public class Status {
     private Long Id;
     private String name;
     private String description;
-    @OneToMany(mappedBy = "status")
+    @OneToMany(mappedBy = "status", fetch = FetchType.EAGER)
     private Set<Packet> packets;
+
+    public Status() {
+        packets = new HashSet<>();
+    }
+
+    public void addPacket(Packet packet){
+        packet.setStatus(this);
+        packets.add(packet);
+    }
+
 }
