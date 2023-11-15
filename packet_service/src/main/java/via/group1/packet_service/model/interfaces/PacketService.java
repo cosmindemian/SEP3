@@ -6,4 +6,8 @@ public interface PacketService {
 
     Packet SavePacket(Packet packet);
 
+    Packet getPacket(Long Id);
+
+    Packet getPacket(String trackingNumber);
+
 }
