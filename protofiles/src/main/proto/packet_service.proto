@@ -1,11 +1,9 @@
 syntax = "proto3";
 
-import "shared.proto";
-
 message Packet{
   int64 id = 1;
-  Location currentLocation = 2;
-  Location finalLocation = 3;
+  int64 currentAddressId = 2;
+  int64 finalAddressId = 3;
   string senderName = 4;
   string trackingNumber = 5;
 }
