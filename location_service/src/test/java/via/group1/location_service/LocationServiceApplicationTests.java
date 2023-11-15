@@ -10,6 +10,10 @@ import via.group1.location_service.persistance.entity.Warehouse;
 import via.group1.location_service.persistance.repository.AddressRepository;
 import via.group1.location_service.persistance.repository.LocationRepository;
 
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 @SpringBootTest
 class LocationServiceApplicationTests {
 
@@ -33,7 +37,18 @@ class LocationServiceApplicationTests {
  		Location location = new PickUpPoint();
 		 address.setLocation(location);
 	 	location.setAddress(address);
-	 	locationRepository.save(location);
+		((PickUpPoint) location).setName("Aarhus PickUpPoint");
+		SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
+		try
+		{
+			((PickUpPoint) location).setOpening_hours(new Time((stf.parse("10:00:00")).getTime()));
+			((PickUpPoint) location).setClosing_hours(new Time((stf.parse("20:00:00")).getTime()));
+		}
+		catch (ParseException e)
+		{
+			throw new RuntimeException(e);
+		}
+		locationRepository.save(location);
 	}
 
 	@Test

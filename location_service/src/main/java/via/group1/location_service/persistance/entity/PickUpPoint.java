@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -18,7 +20,7 @@ import java.sql.Timestamp;
 public class PickUpPoint extends Location
 {
   private String name;
-  private Timestamp opening_hours;
-  private Timestamp closing_hours;
+  private Time opening_hours;
+  private Time closing_hours;
 
 }

@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(schema = "location_service", name = "location")
-public class Location
+public abstract class Location
 {
   @Id
   @GeneratedValue
