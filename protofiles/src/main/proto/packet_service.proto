@@ -1,6 +1,5 @@
 syntax = "proto3";
 
-import "location_service.proto";
 import "shared.proto";
 
 message Packet{
@@ -15,8 +14,12 @@ message GetPacketTrackingNumber{
   string trackingNumber = 1;
 }
 
+message getPacketIdRpc{
+  int64 id = 1;
+}
+
 service PacketService{
-  rpc getPacketById(IdRequestRpc) returns(Packet);
+  rpc getPacketById(getPacketIdRpc) returns(Packet);
   rpc getPacketByTrackingNumber(GetPacketTrackingNumber) returns(Packet);
 }
 

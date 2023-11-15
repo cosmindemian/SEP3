@@ -3,19 +3,6 @@ syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 import "shared.proto";
 
-
-message Location{
-  Address address = 1;
-  bool isPickUpPoint = 2;
-}
-
-message Address{
-  string city = 1;
-  string zip = 2;
-  string street = 3;
-  string street_number = 4;
-}
-
 message IsPickUpPoint{
   bool isPickUpPoint = 1;
 }
@@ -30,10 +17,4 @@ message PickUpPoint{
 message Warehouse{
   int64 id = 1;
   Address address = 2;
-}
-
-
-
-service LocationService{
-  rpc getLocationByPacketId(IdRequestRpc) returns (Location);
 }
