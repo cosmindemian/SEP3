@@ -1,0 +1,109 @@
+﻿@page "/SendPackage"
+
+
+<h1 class="text-center fw-bold text-uppercase">SEND a Package</h1>
+<div class="container mt-5">
+    <div class=" row justify-content-center">
+        <div class="col-3">
+            <label for="radio-card-1" class="radio-card">
+                        <div class="card-content-wrapper">
+                            <span class="check-icon"></span>
+                            <div class="card">
+                                <div class="card-header">
+                                    <input type="radio" name="radio-card" id="radio-card-1" checked/>
+                                    <span>Type 1</span>
+                                </div>
+                                <div class="card-body bg-light">
+                                    <h5 class="card-title">Standard package</h5>
+                                    <p class="card-text">Maximum size: 50 x 40 x 30 cm and maximum weight: 5 kg</p>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+        </div>
+        
+        <div class="col-3">
+            <label for="radio-card-2" class="radio-card">
+                        <div class="card-content-wrapper">
+                            <span class="check-icon"></span>
+                            <div class="card">
+                                <div class="card-header">
+                                    <input type="radio" name="radio-card" id="radio-card-2"/>
+                                    <span>Type 2</span>
+                                </div>
+                                <div class="card-body bg-light">
+                                    <h5 class="card-title">Overweight package</h5>
+                                    <p class="card-text">Maximum size: 60 x 50 x 40 cm and maximum weight: 30 kg</p>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+        </div>
+        <div class="col-3">
+            <label for="radio-card-3" class="radio-card">
+                        <div class="card-content-wrapper">
+                            <span class="check-icon"></span>
+                            <div class="card">
+                                <div class="card-header">
+                                    <input type="radio" name="radio-card" id="radio-card-3"/>
+                                    <span>Type 3</span>
+                                </div>
+                                <div class="card-body bg-light">
+                                    <h5 class="card-title">Extra package</h5>
+                                    <p class="card-text">Maximum size: 150 x 90 x 50 cm and maximum weight: 50 kg</p>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+        </div>
+        
+
+
+    </div>
+</div>
+
+<div class="container w-100 w-lg-50 mt-5">
+    <div class="row row-cols-2">
+        <div class="col">
+            <div class="mb-3">
+                <label for="receiverName" class="form-label">Receiver’s name</label>
+                <input type="text" class="form-control" id="receiverName" placeholder="Alex Bolfa" >
+                <span id="receiverErrorLabel" class="form-text text-danger">We'll never share your email with anyone else.</span>
+            </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label for="receiverPhone" class="form-label">Receiver’s phone number</label>
+                <input type="number" class="form-control" id="receiverPhone" placeholder="69 69 69 69" >
+                <span id="receiverPhoneErrorLabel" class="form-text text-danger">We'll never share your email with anyone else.</span>
+            </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label for="receiverEmail" class="form-label">Receiver’s email address</label>
+                <input type="number" class="form-control" id="receiverEmail" placeholder="alex@hotmail.com" >
+                <span id="receiverEmailErrorLabel" class="form-text text-danger">We'll never share your email with anyone else.</span>
+            </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label for="receiverPhone" class="form-label">Destination pickup point</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Open this select menu</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+                <span id="DestinationPickupPointErrorLabel" class="form-text text-danger">We'll never share your email with anyone else.</span>
+
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-5">
+      <button type="button" class="btn btn-primary">Send a package</button>
+    </div>
+</div>
+
+@code {
+
+}

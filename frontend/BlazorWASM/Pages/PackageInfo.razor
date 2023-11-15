@@ -1,0 +1,86 @@
+﻿@page "/PackageInfo"
+
+<PageTitle>See package information</PageTitle>
+
+<h1 class="text-center fw-bold text-uppercase">Track your package</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col col-md-4">
+            <input type="text" class="form-control" id="packageNumber" @bind="packageNumber" placeholder="P 123 123 123">
+        </div>
+        <div class="col col-md-3 mx-0 ">
+            <button type="submit" @onclick="ShowPackageInfo" class="btn btn-primary">Track a package</button>
+        </div>
+    </div>
+
+</div>
+
+@if (errorLabel != "")
+{
+    <div class="field">
+        <label style="color: red">
+            @errorLabel
+        </label>
+    </div>
+}
+
+@if (packageInfoValid)
+{
+    <div class="container w-lg-50">
+        
+    <table class="table mt-5">
+        <tbody>
+        <tr>
+            <th scope="row">Package number</th>
+            <td>123</td>
+        </tr>
+        <tr>
+            <th scope="row">Sender</th>
+            <td>Anna</td>
+        </tr>
+        <tr>
+            <th scope="row">Status</th>
+            <td>At pickup point</td>
+
+        </tr>
+        <tr>
+            <th scope="row">Current location</th>
+            <td>Horsens</td>
+
+        </tr>
+        <tr>
+            <th scope="row">Final destination</th>
+            <td>Horsens</td>
+
+        </tr>
+        </tbody>
+    </table>
+    </div>
+}
+
+
+
+@code {
+    private string packageNumber;
+    private string errorLabel = "";
+    bool packageInfoValid = true;
+    private Package package;
+
+    private async Task ShowPackageInfo()
+    {
+        try
+        {
+    //get the package from the server
+            var packageNumberLong = long.Parse(packageNumber);
+    //package = await packageService.GetPackageByIdAsync(packageNumberLong);
+            packageInfoValid = true;
+            errorLabel = "";
+        }
+        catch (Exception e)
+        {
+    //errorLabel = "g";
+            errorLabel = "There is no package with the id";
+        }
+    }
+
+}
