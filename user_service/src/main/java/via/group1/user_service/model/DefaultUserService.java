@@ -21,4 +21,9 @@ public class DefaultUserService implements UserService {
         user.setPassword(encodedPassword);
         return userRepository.save(user);
     }
+
+    @Override
+    public User getUser(Long Id) {
+        return userRepository.findById(Id).orElse(null);
+    }
 }

@@ -4,5 +4,5 @@ import via.group1.user_service.persistance.entity.User;
 
 public interface UserService {
     User saveUser(User user);
-
+    User getUser(Long Id);
 }
