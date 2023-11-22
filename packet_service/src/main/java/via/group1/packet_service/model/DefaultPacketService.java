@@ -18,7 +18,7 @@ public class DefaultPacketService implements PacketService {
     private final StatusService statusService;
 
     @Override
-    public Packet SavePacket(Packet packet) {
+    public Packet savePacket(Packet packet) {
         Status status = statusService.getDefaultStatus();
         status.addPacket(packet);
         String trackingNumber;
