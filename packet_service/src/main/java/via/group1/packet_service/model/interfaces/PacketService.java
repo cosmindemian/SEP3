@@ -4,7 +4,7 @@ import via.group1.packet_service.persistance.entity.Packet;
 
 public interface PacketService {
 
-    Packet SavePacket(Packet packet);
+    Packet savePacket(Packet packet);
 
     Packet getPacket(Long Id);
 

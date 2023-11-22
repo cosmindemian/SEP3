@@ -4,6 +4,7 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
 
 /**
  */
+
 @javax.annotation.Generated(
         value = "by gRPC proto compiler (version 1.59.0)",
         comments = "Source: packet_service.proto")
@@ -15,27 +16,58 @@ public final class PacketServiceGrpc {
   public static final java.lang.String SERVICE_NAME = "PacketService";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<PacketServiceOuterClass.getPacketIdRpc,
+  private static volatile io.grpc.MethodDescriptor<PacketServiceOuterClass.AddPacket,
+          PacketServiceOuterClass.Packet> getAddPacketMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+          fullMethodName = SERVICE_NAME + '/' + "addPacket",
+          requestType = PacketServiceOuterClass.AddPacket.class,
+          responseType = PacketServiceOuterClass.Packet.class,
+          methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<PacketServiceOuterClass.AddPacket,
+          PacketServiceOuterClass.Packet> getAddPacketMethod() {
+    io.grpc.MethodDescriptor<PacketServiceOuterClass.AddPacket, PacketServiceOuterClass.Packet> getAddPacketMethod;
+    if ((getAddPacketMethod = PacketServiceGrpc.getAddPacketMethod) == null) {
+      synchronized (PacketServiceGrpc.class) {
+        if ((getAddPacketMethod = PacketServiceGrpc.getAddPacketMethod) == null) {
+          PacketServiceGrpc.getAddPacketMethod = getAddPacketMethod =
+                  io.grpc.MethodDescriptor.<PacketServiceOuterClass.AddPacket, PacketServiceOuterClass.Packet>newBuilder()
+                          .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+                          .setFullMethodName(generateFullMethodName(SERVICE_NAME, "addPacket"))
+                          .setSampledToLocalTracing(true)
+                          .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                                  PacketServiceOuterClass.AddPacket.getDefaultInstance()))
+                          .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                                  PacketServiceOuterClass.Packet.getDefaultInstance()))
+                          .setSchemaDescriptor(new PacketServiceMethodDescriptorSupplier("addPacket"))
+                          .build();
+        }
+      }
+    }
+    return getAddPacketMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<PacketServiceOuterClass.GetPacketIdRpc,
           PacketServiceOuterClass.Packet> getGetPacketByIdMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
           fullMethodName = SERVICE_NAME + '/' + "getPacketById",
-          requestType = PacketServiceOuterClass.getPacketIdRpc.class,
+          requestType = PacketServiceOuterClass.GetPacketIdRpc.class,
           responseType = PacketServiceOuterClass.Packet.class,
           methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<PacketServiceOuterClass.getPacketIdRpc,
+  public static io.grpc.MethodDescriptor<PacketServiceOuterClass.GetPacketIdRpc,
           PacketServiceOuterClass.Packet> getGetPacketByIdMethod() {
-    io.grpc.MethodDescriptor<PacketServiceOuterClass.getPacketIdRpc, PacketServiceOuterClass.Packet> getGetPacketByIdMethod;
+    io.grpc.MethodDescriptor<PacketServiceOuterClass.GetPacketIdRpc, PacketServiceOuterClass.Packet> getGetPacketByIdMethod;
     if ((getGetPacketByIdMethod = PacketServiceGrpc.getGetPacketByIdMethod) == null) {
       synchronized (PacketServiceGrpc.class) {
         if ((getGetPacketByIdMethod = PacketServiceGrpc.getGetPacketByIdMethod) == null) {
           PacketServiceGrpc.getGetPacketByIdMethod = getGetPacketByIdMethod =
-                  io.grpc.MethodDescriptor.<PacketServiceOuterClass.getPacketIdRpc, PacketServiceOuterClass.Packet>newBuilder()
+                  io.grpc.MethodDescriptor.<PacketServiceOuterClass.GetPacketIdRpc, PacketServiceOuterClass.Packet>newBuilder()
                           .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
                           .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getPacketById"))
                           .setSampledToLocalTracing(true)
                           .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                                  PacketServiceOuterClass.getPacketIdRpc.getDefaultInstance()))
+                                  PacketServiceOuterClass.GetPacketIdRpc.getDefaultInstance()))
                           .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                                   PacketServiceOuterClass.Packet.getDefaultInstance()))
                           .setSchemaDescriptor(new PacketServiceMethodDescriptorSupplier("getPacketById"))
@@ -127,7 +159,14 @@ public final class PacketServiceGrpc {
 
     /**
      */
-    default void getPacketById(PacketServiceOuterClass.getPacketIdRpc request,
+    default void addPacket(PacketServiceOuterClass.AddPacket request,
+                           io.grpc.stub.StreamObserver<PacketServiceOuterClass.Packet> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getAddPacketMethod(), responseObserver);
+    }
+
+    /**
+     */
+    default void getPacketById(PacketServiceOuterClass.GetPacketIdRpc request,
                                io.grpc.stub.StreamObserver<PacketServiceOuterClass.Packet> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetPacketByIdMethod(), responseObserver);
     }
@@ -169,7 +208,15 @@ public final class PacketServiceGrpc {
 
     /**
      */
-    public void getPacketById(PacketServiceOuterClass.getPacketIdRpc request,
+    public void addPacket(PacketServiceOuterClass.AddPacket request,
+                          io.grpc.stub.StreamObserver<PacketServiceOuterClass.Packet> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+              getChannel().newCall(getAddPacketMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void getPacketById(PacketServiceOuterClass.GetPacketIdRpc request,
                               io.grpc.stub.StreamObserver<PacketServiceOuterClass.Packet> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
               getChannel().newCall(getGetPacketByIdMethod(), getCallOptions()), request, responseObserver);
@@ -202,7 +249,14 @@ public final class PacketServiceGrpc {
 
     /**
      */
-    public PacketServiceOuterClass.Packet getPacketById(PacketServiceOuterClass.getPacketIdRpc request) {
+    public PacketServiceOuterClass.Packet addPacket(PacketServiceOuterClass.AddPacket request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+              getChannel(), getAddPacketMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public PacketServiceOuterClass.Packet getPacketById(PacketServiceOuterClass.GetPacketIdRpc request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
               getChannel(), getGetPacketByIdMethod(), getCallOptions(), request);
     }
@@ -233,8 +287,16 @@ public final class PacketServiceGrpc {
 
     /**
      */
+    public com.google.common.util.concurrent.ListenableFuture<PacketServiceOuterClass.Packet> addPacket(
+            PacketServiceOuterClass.AddPacket request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+              getChannel().newCall(getAddPacketMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
     public com.google.common.util.concurrent.ListenableFuture<PacketServiceOuterClass.Packet> getPacketById(
-            PacketServiceOuterClass.getPacketIdRpc request) {
+            PacketServiceOuterClass.GetPacketIdRpc request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
               getChannel().newCall(getGetPacketByIdMethod(), getCallOptions()), request);
     }
@@ -248,8 +310,9 @@ public final class PacketServiceGrpc {
     }
   }
 
-  private static final int METHODID_GET_PACKET_BY_ID = 0;
-  private static final int METHODID_GET_PACKET_BY_TRACKING_NUMBER = 1;
+  private static final int METHODID_ADD_PACKET = 0;
+  private static final int METHODID_GET_PACKET_BY_ID = 1;
+  private static final int METHODID_GET_PACKET_BY_TRACKING_NUMBER = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
           io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -268,8 +331,12 @@ public final class PacketServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
+        case METHODID_ADD_PACKET:
+          serviceImpl.addPacket((PacketServiceOuterClass.AddPacket) request,
+                  (io.grpc.stub.StreamObserver<PacketServiceOuterClass.Packet>) responseObserver);
+          break;
         case METHODID_GET_PACKET_BY_ID:
-          serviceImpl.getPacketById((PacketServiceOuterClass.getPacketIdRpc) request,
+          serviceImpl.getPacketById((PacketServiceOuterClass.GetPacketIdRpc) request,
                   (io.grpc.stub.StreamObserver<PacketServiceOuterClass.Packet>) responseObserver);
           break;
         case METHODID_GET_PACKET_BY_TRACKING_NUMBER:
@@ -295,10 +362,17 @@ public final class PacketServiceGrpc {
   public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
     return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
             .addMethod(
+                    getAddPacketMethod(),
+                    io.grpc.stub.ServerCalls.asyncUnaryCall(
+                            new MethodHandlers<
+                                    PacketServiceOuterClass.AddPacket,
+                                    PacketServiceOuterClass.Packet>(
+                                    service, METHODID_ADD_PACKET)))
+            .addMethod(
                     getGetPacketByIdMethod(),
                     io.grpc.stub.ServerCalls.asyncUnaryCall(
                             new MethodHandlers<
-                                    PacketServiceOuterClass.getPacketIdRpc,
+                                    PacketServiceOuterClass.GetPacketIdRpc,
                                     PacketServiceOuterClass.Packet>(
                                     service, METHODID_GET_PACKET_BY_ID)))
             .addMethod(
@@ -356,6 +430,7 @@ public final class PacketServiceGrpc {
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
                   .setSchemaDescriptor(new PacketServiceFileDescriptorSupplier())
+                  .addMethod(getAddPacketMethod())
                   .addMethod(getGetPacketByIdMethod())
                   .addMethod(getGetPacketByTrackingNumberMethod())
                   .build();
