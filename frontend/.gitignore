@@ -1,6 +1,8 @@
 ﻿/BlazorWASM/obj/
+/BlazorWASM/bin
 /Client/bin/
 /Client/obj/
 /Domain/bin/
 /Domain/obj/
 /packages/
+.idea
