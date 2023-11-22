@@ -3,23 +3,24 @@ package via.group1.location_service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import via.group1.location_service.model.interfaces.AddressService;
+import via.group1.location_service.model.interfaces.LocationService;
 import via.group1.location_service.persistance.entity.Address;
 import via.group1.location_service.persistance.entity.Location;
 import via.group1.location_service.persistance.entity.PickUpPoint;
 import via.group1.location_service.persistance.entity.Warehouse;
-import via.group1.location_service.persistance.repository.AddressRepository;
-import via.group1.location_service.persistance.repository.LocationRepository;
 
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 @SpringBootTest
 class LocationServiceApplicationTests {
 
-	@Autowired
-	AddressRepository addressRepository;
-	@Autowired LocationRepository locationRepository;
+	@Autowired AddressService addressService;
+	@Autowired LocationService locationService;
 //	@Test
 //	void contextLoads() {
 //		System.out.println(addressRepository.findById(1L).get());
@@ -33,7 +34,7 @@ class LocationServiceApplicationTests {
 		address.setZip("8200");
 		address.setStreet("Hasselager Alle");
 		address.setStreet_number("22");
-		addressRepository.save(address);
+		assertDoesNotThrow(() -> addressService.saveAddress(address));
  		Location location = new PickUpPoint();
 		 address.setLocation(location);
 	 	location.setAddress(address);
@@ -48,7 +49,7 @@ class LocationServiceApplicationTests {
 		{
 			throw new RuntimeException(e);
 		}
-		locationRepository.save(location);
+		assertDoesNotThrow(() -> locationService.saveLocation(location));
 	}
 
 	@Test
@@ -58,11 +59,11 @@ class LocationServiceApplicationTests {
 		address.setZip("8200");
 		address.setStreet("Hasselager Alle");
 		address.setStreet_number("25");
-		addressRepository.save(address);
+		assertDoesNotThrow(() -> addressService.saveAddress(address));
 		Location location = new Warehouse();
 		address.setLocation(location);
 		location.setAddress(address);
-		locationRepository.save(location);
+		assertDoesNotThrow(() -> locationService.saveLocation(location));
 	}
 
 }
