@@ -7,6 +7,8 @@ import via.group1.user_service.model.interfaces.UserService;
 import via.group1.user_service.persistance.entity.User;
 import via.group1.user_service.persistance.repository.UserRepository;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class DefaultUserService implements UserService {
@@ -23,7 +25,12 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public User getUser(Long Id) {
-        return userRepository.findById(Id).orElse(null);
+    public User getUser(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<User> getUserList(List<Long> ids) {
+        return userRepository.findAllByIdIn(ids);
     }
 }

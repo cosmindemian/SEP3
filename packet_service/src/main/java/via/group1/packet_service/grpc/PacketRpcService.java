@@ -12,11 +12,22 @@ import via.group1.packet_service.persistance.entity.Packet;
 @RequiredArgsConstructor
 public class PacketRpcService extends PacketServiceGrpc.PacketServiceImplBase {
 
-    private final PacketService  packetService;
+    private final PacketService packetService;
     private final PacketRpcMapper mapper;
 
     @Override
-    public void getPacketById(PacketServiceOuterClass.getPacketIdRpc request,
+    public void addPacket(PacketServiceOuterClass.AddPacket request,
+                          StreamObserver<PacketServiceOuterClass.Packet> responseObserver) {
+
+        Packet packet = mapper.parseAddPacketRequest(request);
+        packet = packetService.savePacket(packet);
+        PacketServiceOuterClass.Packet packetRpc = mapper.buildPacketRpc(packet);
+        responseObserver.onNext(packetRpc);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getPacketById(PacketServiceOuterClass.GetPacketIdRpc request,
                               StreamObserver<PacketServiceOuterClass.Packet> responseObserver) {
         Packet packet = packetService.getPacket(request.getId());
         PacketServiceOuterClass.Packet packetRpc = mapper.buildPacketRpc(packet);

@@ -5,19 +5,27 @@ message Packet{
   int64 currentAddressId = 2;
   int64 finalAddressId = 3;
   int64 senderId = 4;
-  string trackingNumber = 5;
+  int64 receiverId = 5;
+  string trackingNumber = 6;
 }
 
 message GetPacketTrackingNumber{
   string trackingNumber = 1;
 }
 
-message getPacketIdRpc{
+message GetPacketIdRpc{
   int64 id = 1;
 }
 
+message AddPacket{
+  int64  senderId = 1;
+  int64  receiverId = 2;
+  int64 finalDestinationId = 5;
+}
+
 service PacketService{
-  rpc getPacketById(getPacketIdRpc) returns(Packet);
+  rpc addPacket(AddPacket) returns (Packet);
+  rpc getPacketById(GetPacketIdRpc) returns(Packet);
   rpc getPacketByTrackingNumber(GetPacketTrackingNumber) returns(Packet);
 }
 
