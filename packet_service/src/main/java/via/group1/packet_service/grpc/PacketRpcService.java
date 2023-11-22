@@ -12,7 +12,7 @@ import via.group1.packet_service.persistance.entity.Packet;
 @RequiredArgsConstructor
 public class PacketRpcService extends PacketServiceGrpc.PacketServiceImplBase {
 
-    private final PacketService  packetService;
+    private final PacketService packetService;
     private final PacketRpcMapper mapper;
 
     @Override
