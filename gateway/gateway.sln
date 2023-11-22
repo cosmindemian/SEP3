@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gateway", "gateway\gateway.csproj", "{86041DED-DBCE-4ED7-B9A3-83FAC2D4129A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RpcClient", "RpcClient\RpcClient.csproj", "{32B69645-A34D-450A-A1BF-59C034A46435}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{77E867F2-C5E4-4697-A09F-D7A0757138DD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{86041DED-DBCE-4ED7-B9A3-83FAC2D4129A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86041DED-DBCE-4ED7-B9A3-83FAC2D4129A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86041DED-DBCE-4ED7-B9A3-83FAC2D4129A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86041DED-DBCE-4ED7-B9A3-83FAC2D4129A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32B69645-A34D-450A-A1BF-59C034A46435}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32B69645-A34D-450A-A1BF-59C034A46435}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32B69645-A34D-450A-A1BF-59C034A46435}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32B69645-A34D-450A-A1BF-59C034A46435}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77E867F2-C5E4-4697-A09F-D7A0757138DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77E867F2-C5E4-4697-A09F-D7A0757138DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77E867F2-C5E4-4697-A09F-D7A0757138DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77E867F2-C5E4-4697-A09F-D7A0757138DD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
