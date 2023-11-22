@@ -1,3 +1,7 @@
 ﻿.idea
 gateway/obj
 gateway/bin
+RpcClient/bin
+RpcClient/obj
+Model/bin
+Model/obj
