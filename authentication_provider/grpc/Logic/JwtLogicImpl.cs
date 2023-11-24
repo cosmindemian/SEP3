@@ -9,7 +9,6 @@ namespace grpc.Logic;
 
 public class JwtLogicImpl : IJwtLogic
 {
-
     private readonly IConfiguration _config;
 
     public JwtLogicImpl(IConfiguration config)

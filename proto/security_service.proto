@@ -9,7 +9,7 @@ message JwtToken {
   string token = 1;
 }
 
-service AuthenticationProvider{
+service SecurityService{
   rpc login(Credentials) returns (JwtToken);
   rpc register(Credentials) returns (JwtToken);
 }

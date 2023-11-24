@@ -7,15 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BCrypt.Net-Next" Version="4.0.3"/>
         <PackageReference Include="Grpc.AspNetCore" Version="2.49.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.13"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\c_proto\c_proto\c_proto.csproj" />
-        <ProjectReference Include="..\persistence\persistence.csproj"/>
+        <Protobuf Include="..\..\proto\location_service.proto" GrpcServices="LocationService"/>
+        <Protobuf Include="..\..\proto\packet_service.proto" GrpcServices="PacketService"/>
+        <Protobuf Include="..\..\proto\user_service.proto" GrpcServices="UserService"/>
+        <Protobuf Include="..\..\proto\security_service.proto" GrpcServices="Server" />
     </ItemGroup>
-
 
 </Project>

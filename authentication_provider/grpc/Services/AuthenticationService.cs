@@ -6,7 +6,7 @@ using persistance.Exception;
 
 namespace grpc.Services;
 
-public class AuthenticationService : AuthenticationProvider.AuthenticationProviderBase
+public class AuthenticationService : SecurityService.SecurityServiceBase
 {
     private readonly ICredentialLogic _credentialLogic;
     private readonly IJwtLogic _jwtLogic;
