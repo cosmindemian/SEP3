@@ -1,7 +1,8 @@
 package via.group1.user_service.grpc;
 
+import generated.UserServiceOuterClass;
 import org.springframework.stereotype.Component;
-import via.group1.user_service.grpc.generated.UserServiceOuterClass;
+
 import via.group1.user_service.persistance.entity.User;
 
 import java.util.List;

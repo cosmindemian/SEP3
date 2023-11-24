@@ -1,7 +1,7 @@
 package via.group1.packet_service.grpc;
 
+import generated.PacketServiceOuterClass;
 import org.springframework.stereotype.Component;
-import via.group1.packet_service.grpc.generated.PacketServiceOuterClass;
 import via.group1.packet_service.persistance.entity.Packet;
 
 @Component

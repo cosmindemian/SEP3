@@ -1,10 +1,10 @@
 package via.group1.user_service.grpc;
 
+import generated.UserServiceGrpc;
+import generated.UserServiceOuterClass;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
-import via.group1.user_service.grpc.generated.UserServiceGrpc;
-import via.group1.user_service.grpc.generated.UserServiceOuterClass;
 import via.group1.user_service.model.interfaces.UserService;
 import via.group1.user_service.persistance.entity.User;
 

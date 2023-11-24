@@ -1,10 +1,10 @@
 package via.group1.location_service.grpc;
 
+import generated.LocationServiceGrpc;
+import generated.LocationServiceOuterClass;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
-import via.group1.location_service.grpc.generated.LocationServiceGrpc;
-import via.group1.location_service.grpc.generated.LocationServiceOuterClass;
 import via.group1.location_service.model.interfaces.AddressService;
 import via.group1.location_service.model.interfaces.LocationService;
 import via.group1.location_service.persistance.entity.Address;
