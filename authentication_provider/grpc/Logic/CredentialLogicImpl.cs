@@ -8,34 +8,37 @@ namespace grpc.Logic;
 public class CredentialLogicImpl : ICredentialLogic
 {
     private readonly ICredentialDao _credentialDao;
-
-    public CredentialLogicImpl(ICredentialDao credentialDao)
+    private readonly IRoleDao _roleDao;
+    public CredentialLogicImpl(ICredentialDao credentialDao, IRoleDao roleDao)
     {
         _credentialDao = credentialDao;
+        _roleDao = roleDao;
     }
 
-    public async Task RegisterAsync(Credential credential)
+    public async Task<Credential> RegisterAsync(string email, string password, long userId)
     {
-        credential.Password = BCrypt.Net.BCrypt.HashPassword(credential.Password);
-        await _credentialDao.AddCredentialAsync(credential);
+        password = BCrypt.Net.BCrypt.HashPassword(password);
+        return await _credentialDao.AddCredentialAsync(email, password, userId, _roleDao.GetDefaultRole());
     }
 
-    public async Task LoginAsync(Credential credential)
+    public async Task<Credential> LoginAsync(string email, string password)
     {
         Credential existing;
         try
         {
-            existing = await _credentialDao.GetCredentialAsync(credential.Email);
+            existing = await _credentialDao.GetCredentialAsync(email);
         }
         catch (NotFoundException e)
         {
             throw new LoginException("Invalid credentials");
         }
 
-        if (!BCrypt.Net.BCrypt.Verify(credential.Password, existing.Password))
+        if (!BCrypt.Net.BCrypt.Verify(password, existing.Password))
             throw new LoginException("Invalid credentials");
+
+        return existing;
     }
-    
+
     public async Task<Credential> GetCredentialAsync(string email)
     {
         return await _credentialDao.GetCredentialAsync(email);

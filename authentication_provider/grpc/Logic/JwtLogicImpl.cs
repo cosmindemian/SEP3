@@ -29,23 +29,23 @@ public class JwtLogicImpl : IJwtLogic
         };
     }
 
-    private List<Claim> GenerateClaims(Credential credential)
+    private List<Claim> GenerateClaims(string email, Role role, long userId)
     {
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, _config["Jwt:Subject"]),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-            new Claim(ClaimTypes.Name, credential.Email),
-            new Claim(ClaimTypes.Role, "basic"),
-            new Claim("UserId", credential.UserId.ToString())
+            new Claim(ClaimTypes.Name, email),
+            new Claim(ClaimTypes.Role, role.Name),
+            new Claim("UserId", userId.ToString())
         };
         return claims.ToList();
     }
 
-    public string GenerateJwt(Credential credential)
+    public string GenerateJwt(string email, Role role, long userId)
     {
-        List<Claim> claims = GenerateClaims(credential);
+        List<Claim> claims = GenerateClaims(email, role, userId);
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
         var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
@@ -65,7 +65,6 @@ public class JwtLogicImpl : IJwtLogic
 
     public string ParseEmail(string jwt)
     {
-       
         var token = _tokenHandler.ReadJwtToken(jwt);
         var email = token.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
         return email;
@@ -79,7 +78,7 @@ public class JwtLogicImpl : IJwtLogic
         var authLevel = token.Claims.First(claim => claim.Type == ClaimTypes.Role).Value;
         return new AuthenticationEntity(userId, email, authLevel);
     }
-    
+
     public bool ValidateToken(string token)
     {
         try

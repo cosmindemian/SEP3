@@ -4,6 +4,6 @@ namespace persistance.Dao;
 
 public interface ICredentialDao
 {
-    Task AddCredentialAsync(Credential credential);
+    Task<Credential> AddCredentialAsync(string email, string password, long userId, Role role);
     Task<Credential> GetCredentialAsync(string email);
 }

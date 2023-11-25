@@ -8,6 +8,7 @@ namespace persistance;
 public class PostgresContext : DbContext
 {
     public DbSet<Credential> Credentials { set; get; }
+    public DbSet<Role> Roles { set; get; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -20,9 +21,11 @@ public class PostgresContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("authentication_provider");
-        //set the email of Credential as unique
-        modelBuilder.Entity<Credential>()
+        modelBuilder.Entity<Credential>() //sets the email of Credential as unique
             .HasIndex(cr => cr.Email)
+            .IsUnique();
+        modelBuilder.Entity<Role>() //sets the name of Role as unique
+            .HasIndex(r => r.Name)
             .IsUnique();
     }
 }

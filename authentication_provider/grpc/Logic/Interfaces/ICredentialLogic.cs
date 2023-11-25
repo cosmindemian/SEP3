@@ -4,9 +4,9 @@ namespace grpc.Logic;
 
 public interface ICredentialLogic
 {
-    public Task RegisterAsync(Credential credential);
+    public Task<Credential> RegisterAsync(string email, string password, long userId);
     
-    public Task LoginAsync(Credential credential);
+    public Task<Credential> LoginAsync(string email, string password);
     
     public Task<Credential> GetCredentialAsync(string email);
 }

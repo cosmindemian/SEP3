@@ -14,16 +14,18 @@ public class CredentialDaoImp : ICredentialDao
         _context = context;
     }
 
-    public async Task AddCredentialAsync(Credential credential)
+    public async Task<Credential> AddCredentialAsync(string email, string password, long userId, Role role)
     {
+        var credential = new Credential(password, email, userId, role);
         var existing = await _context.Credentials.FirstOrDefaultAsync(cr => cr.Email == credential.Email);
         if (existing != null)
         {
             throw new EmailTakenException("Email is already taken");
         }
 
-        await _context.Credentials.AddAsync(credential);
+        credential = (await _context.Credentials.AddAsync(credential)).Entity;
         await _context.SaveChangesAsync();
+        return credential;
     }
 
     public async Task<Credential> GetCredentialAsync(string email)

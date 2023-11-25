@@ -19,10 +19,10 @@ public class AuthenticationService : global::AuthenticationService.Authenticatio
 
     public override async Task<JwtToken> register(RegisterRequest request, ServerCallContext context)
     {
-        Credential credential = new Credential(request.Email, request.Password, request.UserId);
+        Credential credential;
         try
         {
-            await _credentialLogic.RegisterAsync(credential);
+            credential = await _credentialLogic.RegisterAsync(request.Email, request.Password, request.UserId);
         }
         catch (EmailTakenException e)
         {
@@ -34,15 +34,15 @@ public class AuthenticationService : global::AuthenticationService.Authenticatio
             throw new RpcException(new Status(StatusCode.Internal, e.Message));
         }
 
-        return new JwtToken { Token = _jwtLogic.GenerateJwt(credential) };
+        return new JwtToken { Token = _jwtLogic.GenerateJwt(credential.Email, credential.Role, credential.UserId) };
     }
 
     public override async Task<JwtToken> login(LoginRequest request, ServerCallContext context)
     {
-        var credential = new Credential(request.Email, request.Password);
+        Credential credential;
         try
         {
-            await _credentialLogic.LoginAsync(credential);
+            credential = await _credentialLogic.LoginAsync(request.Email, request.Password);
         }
         catch (LoginException e)
         {
@@ -54,7 +54,7 @@ public class AuthenticationService : global::AuthenticationService.Authenticatio
             throw new RpcException(new Status(StatusCode.Internal, e.Message));
         }
 
-        return new JwtToken { Token = _jwtLogic.GenerateJwt(credential) };
+        return new JwtToken { Token = _jwtLogic.GenerateJwt(credential.Email, credential.Role, credential.UserId) };
     }
 
     public override Task<VerifyTokenResponse> verifyToken(JwtToken request, ServerCallContext context)

@@ -27,7 +27,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 
-
+builder.Services.AddScoped<IRoleDao, RoleDaoImpl>();
 builder.Services.AddScoped<IJwtLogic, JwtLogicImpl>();
 builder.Services.AddScoped<ICredentialLogic, CredentialLogicImpl>();
 builder.Services.AddScoped<ICredentialDao, CredentialDaoImp>();

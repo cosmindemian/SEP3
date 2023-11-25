@@ -10,3 +10,6 @@ grpc/appsettings.json
 Authentication/obj
 Authentication/bin
 Authentication/.idea
+AuthenticationProviderTest/bin
+AuthenticationProviderTest/obj
+AuthenticationProviderTest/.idea
