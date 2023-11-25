@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="139c1b26-8301-45ca-8474-e23044ac0a36" name="Changes" comment="" />
+    <list default="true" id="139c1b26-8301-45ca-8474-e23044ac0a36" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/grpc/PacketRpcService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/grpc/PacketRpcService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../proto/packet_service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/../proto/packet_service.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../protofiles/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../protofiles/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../protofiles/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../protofiles/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../protofiles/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../protofiles/.idea/vcs.xml" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,9 +26,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 1
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2Xt51TIhuarfnHK4k4q9eVfIF8C" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -26,14 +36,28 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/markg/Desktop/VIA/3rdSemester/SEP3/packet_service",
+    "git-widget-placeholder": "proto",
+    "last_opened_file_path": "C:/Java projects/VIA/SEP3/packet_service",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "spring.configuration.checksum": "2a950e2d6056d972a0cc67707af0193f",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Java projects\VIA\SEP3\packet_service\src\main\resources" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="PacketServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="packet_service" />
@@ -52,6 +76,9 @@
       <option name="presentableId" value="Default" />
       <updated>1699435321835</updated>
       <workItem from="1699435322892" duration="31000" />
+      <workItem from="1700838438413" duration="510000" />
+      <workItem from="1700839088716" duration="1070000" />
+      <workItem from="1700840168998" duration="284000" />
     </task>
     <servers />
   </component>

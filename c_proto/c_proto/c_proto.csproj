@@ -14,7 +14,7 @@
         <Protobuf Include="..\..\proto\location_service.proto" GrpcServices="LocationService"/>
         <Protobuf Include="..\..\proto\packet_service.proto" GrpcServices="PacketService"/>
         <Protobuf Include="..\..\proto\user_service.proto" GrpcServices="UserService"/>
-        <Protobuf Include="..\..\proto\security_service.proto" GrpcServices="Server" />
+        <Protobuf Include="..\..\proto\authentication_service.proto" GrpcServices="AuthenticationService" />
     </ItemGroup>
 
 </Project>

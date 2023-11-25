@@ -7,4 +7,6 @@ public interface ICredentialLogic
     public Task RegisterAsync(Credential credential);
     
     public Task LoginAsync(Credential credential);
+    
+    public Task<Credential> GetCredentialAsync(string email);
 }

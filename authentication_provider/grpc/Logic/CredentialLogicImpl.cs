@@ -35,4 +35,9 @@ public class CredentialLogicImpl : ICredentialLogic
         if (!BCrypt.Net.BCrypt.Verify(credential.Password, existing.Password))
             throw new LoginException("Invalid credentials");
     }
+    
+    public async Task<Credential> GetCredentialAsync(string email)
+    {
+        return await _credentialDao.GetCredentialAsync(email);
+    }
 }

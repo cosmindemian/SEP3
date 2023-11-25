@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# 
+#
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "grpc", "grpc\grpc.csproj", "{74CF6F9B-F277-41F8-A160-6E5DAE2A9CEC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "persistence", "persistence\persistence.csproj", "{8DBE2D0E-59F5-44F3-B9D9-F68A35AA1D99}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "c_proto", "..\c_proto\c_proto\c_proto.csproj", "{A04B7B3E-670B-45D1-B63A-FE6CA09CB172}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication", "Authentication\Authentication.csproj", "{A6340DEF-E9C1-4086-9B0E-280BA22BA0F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,5 +27,9 @@ Global
 		{A04B7B3E-670B-45D1-B63A-FE6CA09CB172}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A04B7B3E-670B-45D1-B63A-FE6CA09CB172}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A04B7B3E-670B-45D1-B63A-FE6CA09CB172}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6340DEF-E9C1-4086-9B0E-280BA22BA0F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6340DEF-E9C1-4086-9B0E-280BA22BA0F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6340DEF-E9C1-4086-9B0E-280BA22BA0F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6340DEF-E9C1-4086-9B0E-280BA22BA0F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

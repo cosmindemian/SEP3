@@ -6,7 +6,7 @@ using persistance.Exception;
 
 namespace grpc.Services;
 
-public class AuthenticationService : SecurityService.SecurityServiceBase
+public class AuthenticationService : global::AuthenticationService.AuthenticationServiceBase
 {
     private readonly ICredentialLogic _credentialLogic;
     private readonly IJwtLogic _jwtLogic;
@@ -17,9 +17,9 @@ public class AuthenticationService : SecurityService.SecurityServiceBase
         _jwtLogic = jwtLogic;
     }
 
-    public override async Task<JwtToken> register(Credentials request, ServerCallContext context)
+    public override async Task<JwtToken> register(RegisterRequest request, ServerCallContext context)
     {
-        Credential credential = new Credential(request.Email, request.Password);
+        Credential credential = new Credential(request.Email, request.Password, request.UserId);
         try
         {
             await _credentialLogic.RegisterAsync(credential);
@@ -30,18 +30,19 @@ public class AuthenticationService : SecurityService.SecurityServiceBase
         }
         catch (System.Exception e)
         {
+            Console.WriteLine(e.StackTrace);
             throw new RpcException(new Status(StatusCode.Internal, e.Message));
         }
 
         return new JwtToken { Token = _jwtLogic.GenerateJwt(credential) };
     }
 
-    public override async Task<JwtToken> login(Credentials request, ServerCallContext context)
+    public override async Task<JwtToken> login(LoginRequest request, ServerCallContext context)
     {
         var credential = new Credential(request.Email, request.Password);
         try
         {
-           await _credentialLogic.LoginAsync(credential);
+            await _credentialLogic.LoginAsync(credential);
         }
         catch (LoginException e)
         {
@@ -49,9 +50,34 @@ public class AuthenticationService : SecurityService.SecurityServiceBase
         }
         catch (System.Exception e)
         {
+            Console.WriteLine(e.StackTrace);
             throw new RpcException(new Status(StatusCode.Internal, e.Message));
         }
 
         return new JwtToken { Token = _jwtLogic.GenerateJwt(credential) };
+    }
+
+    public override Task<VerifyTokenResponse> verifyToken(JwtToken request, ServerCallContext context)
+    {
+        if (!_jwtLogic.ValidateToken(request.Token))
+            throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid token"));
+        try
+        {
+            var authEntity = _jwtLogic.ParseToken(request.Token);
+            return new Task<VerifyTokenResponse>(() => new VerifyTokenResponse
+            {
+                IsTokenValid = true, UserId = authEntity.UserId, AuthLevel = authEntity.AuthLevel,
+                Email = authEntity.Email
+            });
+        }
+        catch (NotFoundException e)
+        {
+            throw new RpcException(new Status(StatusCode.Unauthenticated, "User not found"));
+        }
+        catch (System.Exception e)
+        {
+            Console.WriteLine(e.StackTrace);
+            throw new RpcException(new Status(StatusCode.Internal, e.Message));
+        }
     }
 }
