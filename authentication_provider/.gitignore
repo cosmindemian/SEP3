@@ -7,3 +7,6 @@ persistence/obj
 persistence/Database.config
 persistence/Config
 grpc/appsettings.json
+Authentication/obj
+Authentication/bin
+Authentication/.idea
