@@ -19,13 +19,15 @@ import via.group1.location_service.persistance.entity.PickUpPoint;
     {
       PickUpPoint pickUpPoint= (PickUpPoint) location;
       System.out.println(pickUpPoint.getName());
+      LocationServiceOuterClass.PickUpPoint builderPickUpPoint=
+          LocationServiceOuterClass.PickUpPoint.newBuilder()
+          .setId(pickUpPoint.getId())
+          .setAddressId(pickUpPoint.getAddress().getId())
+          .setName("test")
+          .build();
       builder
           .setIsPickUpPoint(true)
-          .setPickUpPoint(
-          LocationServiceOuterClass.PickUpPoint.newBuilder()
-              .setId(pickUpPoint.getId())
-              .setAddressId(pickUpPoint.getAddress().getId())
-              .build());
+          .setPickUpPoint(builderPickUpPoint);
     }
     else
     {

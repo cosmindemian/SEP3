@@ -77,6 +77,37 @@ public final class LocationServiceGrpc {
     return getGetAddressByIdMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<LocationServiceOuterClass.getLocationIdRpc,
+      LocationServiceOuterClass.PickUpPoint> getGetPickUpPointByIdMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "getPickUpPointById",
+      requestType = LocationServiceOuterClass.getLocationIdRpc.class,
+      responseType = LocationServiceOuterClass.PickUpPoint.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<LocationServiceOuterClass.getLocationIdRpc,
+      LocationServiceOuterClass.PickUpPoint> getGetPickUpPointByIdMethod() {
+    io.grpc.MethodDescriptor<LocationServiceOuterClass.getLocationIdRpc, LocationServiceOuterClass.PickUpPoint> getGetPickUpPointByIdMethod;
+    if ((getGetPickUpPointByIdMethod = LocationServiceGrpc.getGetPickUpPointByIdMethod) == null) {
+      synchronized (LocationServiceGrpc.class) {
+        if ((getGetPickUpPointByIdMethod = LocationServiceGrpc.getGetPickUpPointByIdMethod) == null) {
+          LocationServiceGrpc.getGetPickUpPointByIdMethod = getGetPickUpPointByIdMethod =
+              io.grpc.MethodDescriptor.<LocationServiceOuterClass.getLocationIdRpc, LocationServiceOuterClass.PickUpPoint>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getPickUpPointById"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  LocationServiceOuterClass.getLocationIdRpc.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  LocationServiceOuterClass.PickUpPoint.getDefaultInstance()))
+              .setSchemaDescriptor(new LocationServiceMethodDescriptorSupplier("getPickUpPointById"))
+              .build();
+        }
+      }
+    }
+    return getGetPickUpPointByIdMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -138,6 +169,13 @@ public final class LocationServiceGrpc {
         io.grpc.stub.StreamObserver<LocationServiceOuterClass.Address> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetAddressByIdMethod(), responseObserver);
     }
+
+    /**
+     */
+    default void getPickUpPointById(LocationServiceOuterClass.getLocationIdRpc request,
+        io.grpc.stub.StreamObserver<LocationServiceOuterClass.PickUpPoint> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetPickUpPointByIdMethod(), responseObserver);
+    }
   }
 
   /**
@@ -182,6 +220,14 @@ public final class LocationServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetAddressByIdMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void getPickUpPointById(LocationServiceOuterClass.getLocationIdRpc request,
+        io.grpc.stub.StreamObserver<LocationServiceOuterClass.PickUpPoint> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getGetPickUpPointByIdMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -202,16 +248,26 @@ public final class LocationServiceGrpc {
 
     /**
      */
-    public LocationServiceOuterClass.Location getLocationById(LocationServiceOuterClass.getLocationIdRpc request) {
+    public LocationServiceOuterClass.Location getLocationById(
+        LocationServiceOuterClass.getLocationIdRpc request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetLocationByIdMethod(), getCallOptions(), request);
     }
 
     /**
      */
-    public LocationServiceOuterClass.Address getAddressById(LocationServiceOuterClass.getAddressIdRpc request) {
+    public LocationServiceOuterClass.Address getAddressById(
+        LocationServiceOuterClass.getAddressIdRpc request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetAddressByIdMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public LocationServiceOuterClass.PickUpPoint getPickUpPointById(
+        LocationServiceOuterClass.getLocationIdRpc request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getGetPickUpPointByIdMethod(), getCallOptions(), request);
     }
   }
 
@@ -246,10 +302,19 @@ public final class LocationServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetAddressByIdMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<LocationServiceOuterClass.PickUpPoint> getPickUpPointById(
+        LocationServiceOuterClass.getLocationIdRpc request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getGetPickUpPointByIdMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GET_LOCATION_BY_ID = 0;
   private static final int METHODID_GET_ADDRESS_BY_ID = 1;
+  private static final int METHODID_GET_PICK_UP_POINT_BY_ID = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -275,6 +340,10 @@ public final class LocationServiceGrpc {
         case METHODID_GET_ADDRESS_BY_ID:
           serviceImpl.getAddressById((LocationServiceOuterClass.getAddressIdRpc) request,
               (io.grpc.stub.StreamObserver<LocationServiceOuterClass.Address>) responseObserver);
+          break;
+        case METHODID_GET_PICK_UP_POINT_BY_ID:
+          serviceImpl.getPickUpPointById((LocationServiceOuterClass.getLocationIdRpc) request,
+              (io.grpc.stub.StreamObserver<LocationServiceOuterClass.PickUpPoint>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -308,6 +377,13 @@ public final class LocationServiceGrpc {
               LocationServiceOuterClass.getAddressIdRpc,
               LocationServiceOuterClass.Address>(
                 service, METHODID_GET_ADDRESS_BY_ID)))
+        .addMethod(
+          getGetPickUpPointByIdMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              LocationServiceOuterClass.getLocationIdRpc,
+              LocationServiceOuterClass.PickUpPoint>(
+                service, METHODID_GET_PICK_UP_POINT_BY_ID)))
         .build();
   }
 
@@ -358,6 +434,7 @@ public final class LocationServiceGrpc {
               .setSchemaDescriptor(new LocationServiceFileDescriptorSupplier())
               .addMethod(getGetLocationByIdMethod())
               .addMethod(getGetAddressByIdMethod())
+              .addMethod(getGetPickUpPointByIdMethod())
               .build();
         }
       }

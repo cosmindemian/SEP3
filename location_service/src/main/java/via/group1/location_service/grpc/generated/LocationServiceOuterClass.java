@@ -2184,8 +2184,6 @@ public final class LocationServiceOuterClass {
      * @return The isPickUpPoint.
      */
     boolean getIsPickUpPoint();
-
-    Location.TypeCase getTypeCase();
   }
   /**
    * Protobuf type {@code Location}
@@ -2222,56 +2220,16 @@ public final class LocationServiceOuterClass {
               Location.class, Builder.class);
     }
 
-    private int typeCase_ = 0;
-    @SuppressWarnings("serial")
-    private Object type_;
-    public enum TypeCase
-        implements com.google.protobuf.Internal.EnumLite,
-            InternalOneOfEnum {
-      PICK_UP_POINT(1),
-      WAREHOUSE(2),
-      TYPE_NOT_SET(0);
-      private final int value;
-      private TypeCase(int value) {
-        this.value = value;
-      }
-      /**
-       * @param value The number of the enum to look for.
-       * @return The enum associated with the given number.
-       * @deprecated Use {@link #forNumber(int)} instead.
-       */
-      @Deprecated
-      public static TypeCase valueOf(int value) {
-        return forNumber(value);
-      }
-
-      public static TypeCase forNumber(int value) {
-        switch (value) {
-          case 1: return PICK_UP_POINT;
-          case 2: return WAREHOUSE;
-          case 0: return TYPE_NOT_SET;
-          default: return null;
-        }
-      }
-      public int getNumber() {
-        return this.value;
-      }
-    };
-
-    public TypeCase
-    getTypeCase() {
-      return TypeCase.forNumber(
-          typeCase_);
-    }
-
+    private int bitField0_;
     public static final int PICK_UP_POINT_FIELD_NUMBER = 1;
+    private PickUpPoint pickUpPoint_;
     /**
      * <code>.PickUpPoint pick_up_point = 1;</code>
      * @return Whether the pickUpPoint field is set.
      */
     @Override
     public boolean hasPickUpPoint() {
-      return typeCase_ == 1;
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>.PickUpPoint pick_up_point = 1;</code>
@@ -2279,30 +2237,25 @@ public final class LocationServiceOuterClass {
      */
     @Override
     public PickUpPoint getPickUpPoint() {
-      if (typeCase_ == 1) {
-         return (PickUpPoint) type_;
-      }
-      return PickUpPoint.getDefaultInstance();
+      return pickUpPoint_ == null ? PickUpPoint.getDefaultInstance() : pickUpPoint_;
     }
     /**
      * <code>.PickUpPoint pick_up_point = 1;</code>
      */
     @Override
     public PickUpPointOrBuilder getPickUpPointOrBuilder() {
-      if (typeCase_ == 1) {
-         return (PickUpPoint) type_;
-      }
-      return PickUpPoint.getDefaultInstance();
+      return pickUpPoint_ == null ? PickUpPoint.getDefaultInstance() : pickUpPoint_;
     }
 
     public static final int WAREHOUSE_FIELD_NUMBER = 2;
+    private Warehouse warehouse_;
     /**
      * <code>.Warehouse warehouse = 2;</code>
      * @return Whether the warehouse field is set.
      */
     @Override
     public boolean hasWarehouse() {
-      return typeCase_ == 2;
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>.Warehouse warehouse = 2;</code>
@@ -2310,20 +2263,14 @@ public final class LocationServiceOuterClass {
      */
     @Override
     public Warehouse getWarehouse() {
-      if (typeCase_ == 2) {
-         return (Warehouse) type_;
-      }
-      return Warehouse.getDefaultInstance();
+      return warehouse_ == null ? Warehouse.getDefaultInstance() : warehouse_;
     }
     /**
      * <code>.Warehouse warehouse = 2;</code>
      */
     @Override
     public WarehouseOrBuilder getWarehouseOrBuilder() {
-      if (typeCase_ == 2) {
-         return (Warehouse) type_;
-      }
-      return Warehouse.getDefaultInstance();
+      return warehouse_ == null ? Warehouse.getDefaultInstance() : warehouse_;
     }
 
     public static final int ISPICKUPPOINT_FIELD_NUMBER = 3;
@@ -2351,11 +2298,11 @@ public final class LocationServiceOuterClass {
     @Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (typeCase_ == 1) {
-        output.writeMessage(1, (PickUpPoint) type_);
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(1, getPickUpPoint());
       }
-      if (typeCase_ == 2) {
-        output.writeMessage(2, (Warehouse) type_);
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeMessage(2, getWarehouse());
       }
       if (isPickUpPoint_ != false) {
         output.writeBool(3, isPickUpPoint_);
@@ -2369,13 +2316,13 @@ public final class LocationServiceOuterClass {
       if (size != -1) return size;
 
       size = 0;
-      if (typeCase_ == 1) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, (PickUpPoint) type_);
+          .computeMessageSize(1, getPickUpPoint());
       }
-      if (typeCase_ == 2) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, (Warehouse) type_);
+          .computeMessageSize(2, getWarehouse());
       }
       if (isPickUpPoint_ != false) {
         size += com.google.protobuf.CodedOutputStream
@@ -2396,21 +2343,18 @@ public final class LocationServiceOuterClass {
       }
       Location other = (Location) obj;
 
+      if (hasPickUpPoint() != other.hasPickUpPoint()) return false;
+      if (hasPickUpPoint()) {
+        if (!getPickUpPoint()
+            .equals(other.getPickUpPoint())) return false;
+      }
+      if (hasWarehouse() != other.hasWarehouse()) return false;
+      if (hasWarehouse()) {
+        if (!getWarehouse()
+            .equals(other.getWarehouse())) return false;
+      }
       if (getIsPickUpPoint()
           != other.getIsPickUpPoint()) return false;
-      if (!getTypeCase().equals(other.getTypeCase())) return false;
-      switch (typeCase_) {
-        case 1:
-          if (!getPickUpPoint()
-              .equals(other.getPickUpPoint())) return false;
-          break;
-        case 2:
-          if (!getWarehouse()
-              .equals(other.getWarehouse())) return false;
-          break;
-        case 0:
-        default:
-      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -2422,21 +2366,17 @@ public final class LocationServiceOuterClass {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasPickUpPoint()) {
+        hash = (37 * hash) + PICK_UP_POINT_FIELD_NUMBER;
+        hash = (53 * hash) + getPickUpPoint().hashCode();
+      }
+      if (hasWarehouse()) {
+        hash = (37 * hash) + WAREHOUSE_FIELD_NUMBER;
+        hash = (53 * hash) + getWarehouse().hashCode();
+      }
       hash = (37 * hash) + ISPICKUPPOINT_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getIsPickUpPoint());
-      switch (typeCase_) {
-        case 1:
-          hash = (37 * hash) + PICK_UP_POINT_FIELD_NUMBER;
-          hash = (53 * hash) + getPickUpPoint().hashCode();
-          break;
-        case 2:
-          hash = (37 * hash) + WAREHOUSE_FIELD_NUMBER;
-          hash = (53 * hash) + getWarehouse().hashCode();
-          break;
-        case 0:
-        default:
-      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2556,27 +2496,36 @@ public final class LocationServiceOuterClass {
 
       // Construct using LocationServiceOuterClass.Location.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getPickUpPointFieldBuilder();
+          getWarehouseFieldBuilder();
+        }
       }
       @Override
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
+        pickUpPoint_ = null;
         if (pickUpPointBuilder_ != null) {
-          pickUpPointBuilder_.clear();
+          pickUpPointBuilder_.dispose();
+          pickUpPointBuilder_ = null;
         }
+        warehouse_ = null;
         if (warehouseBuilder_ != null) {
-          warehouseBuilder_.clear();
+          warehouseBuilder_.dispose();
+          warehouseBuilder_ = null;
         }
         isPickUpPoint_ = false;
-        typeCase_ = 0;
-        type_ = null;
         return this;
       }
 
@@ -2604,29 +2553,29 @@ public final class LocationServiceOuterClass {
       public Location buildPartial() {
         Location result = new Location(this);
         if (bitField0_ != 0) { buildPartial0(result); }
-        buildPartialOneofs(result);
         onBuilt();
         return result;
       }
 
       private void buildPartial0(Location result) {
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.pickUpPoint_ = pickUpPointBuilder_ == null
+              ? pickUpPoint_
+              : pickUpPointBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.warehouse_ = warehouseBuilder_ == null
+              ? warehouse_
+              : warehouseBuilder_.build();
+          to_bitField0_ |= 0x00000002;
+        }
         if (((from_bitField0_ & 0x00000004) != 0)) {
           result.isPickUpPoint_ = isPickUpPoint_;
         }
-      }
-
-      private void buildPartialOneofs(Location result) {
-        result.typeCase_ = typeCase_;
-        result.type_ = this.type_;
-        if (typeCase_ == 1 &&
-            pickUpPointBuilder_ != null) {
-          result.type_ = pickUpPointBuilder_.build();
-        }
-        if (typeCase_ == 2 &&
-            warehouseBuilder_ != null) {
-          result.type_ = warehouseBuilder_.build();
-        }
+        result.bitField0_ |= to_bitField0_;
       }
 
       @Override
@@ -2673,21 +2622,14 @@ public final class LocationServiceOuterClass {
 
       public Builder mergeFrom(Location other) {
         if (other == Location.getDefaultInstance()) return this;
+        if (other.hasPickUpPoint()) {
+          mergePickUpPoint(other.getPickUpPoint());
+        }
+        if (other.hasWarehouse()) {
+          mergeWarehouse(other.getWarehouse());
+        }
         if (other.getIsPickUpPoint() != false) {
           setIsPickUpPoint(other.getIsPickUpPoint());
-        }
-        switch (other.getTypeCase()) {
-          case PICK_UP_POINT: {
-            mergePickUpPoint(other.getPickUpPoint());
-            break;
-          }
-          case WAREHOUSE: {
-            mergeWarehouse(other.getWarehouse());
-            break;
-          }
-          case TYPE_NOT_SET: {
-            break;
-          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -2719,14 +2661,14 @@ public final class LocationServiceOuterClass {
                 input.readMessage(
                     getPickUpPointFieldBuilder().getBuilder(),
                     extensionRegistry);
-                typeCase_ = 1;
+                bitField0_ |= 0x00000001;
                 break;
               } // case 10
               case 18: {
                 input.readMessage(
                     getWarehouseFieldBuilder().getBuilder(),
                     extensionRegistry);
-                typeCase_ = 2;
+                bitField0_ |= 0x00000002;
                 break;
               } // case 18
               case 24: {
@@ -2749,49 +2691,27 @@ public final class LocationServiceOuterClass {
         } // finally
         return this;
       }
-      private int typeCase_ = 0;
-      private Object type_;
-      public TypeCase
-          getTypeCase() {
-        return TypeCase.forNumber(
-            typeCase_);
-      }
-
-      public Builder clearType() {
-        typeCase_ = 0;
-        type_ = null;
-        onChanged();
-        return this;
-      }
-
       private int bitField0_;
 
+      private PickUpPoint pickUpPoint_;
       private com.google.protobuf.SingleFieldBuilderV3<
           PickUpPoint, PickUpPoint.Builder, PickUpPointOrBuilder> pickUpPointBuilder_;
       /**
        * <code>.PickUpPoint pick_up_point = 1;</code>
        * @return Whether the pickUpPoint field is set.
        */
-      @Override
       public boolean hasPickUpPoint() {
-        return typeCase_ == 1;
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>.PickUpPoint pick_up_point = 1;</code>
        * @return The pickUpPoint.
        */
-      @Override
       public PickUpPoint getPickUpPoint() {
         if (pickUpPointBuilder_ == null) {
-          if (typeCase_ == 1) {
-            return (PickUpPoint) type_;
-          }
-          return PickUpPoint.getDefaultInstance();
+          return pickUpPoint_ == null ? PickUpPoint.getDefaultInstance() : pickUpPoint_;
         } else {
-          if (typeCase_ == 1) {
-            return pickUpPointBuilder_.getMessage();
-          }
-          return PickUpPoint.getDefaultInstance();
+          return pickUpPointBuilder_.getMessage();
         }
       }
       /**
@@ -2802,12 +2722,12 @@ public final class LocationServiceOuterClass {
           if (value == null) {
             throw new NullPointerException();
           }
-          type_ = value;
-          onChanged();
+          pickUpPoint_ = value;
         } else {
           pickUpPointBuilder_.setMessage(value);
         }
-        typeCase_ = 1;
+        bitField0_ |= 0x00000001;
+        onChanged();
         return this;
       }
       /**
@@ -2816,12 +2736,12 @@ public final class LocationServiceOuterClass {
       public Builder setPickUpPoint(
           PickUpPoint.Builder builderForValue) {
         if (pickUpPointBuilder_ == null) {
-          type_ = builderForValue.build();
-          onChanged();
+          pickUpPoint_ = builderForValue.build();
         } else {
           pickUpPointBuilder_.setMessage(builderForValue.build());
         }
-        typeCase_ = 1;
+        bitField0_ |= 0x00000001;
+        onChanged();
         return this;
       }
       /**
@@ -2829,61 +2749,52 @@ public final class LocationServiceOuterClass {
        */
       public Builder mergePickUpPoint(PickUpPoint value) {
         if (pickUpPointBuilder_ == null) {
-          if (typeCase_ == 1 &&
-              type_ != PickUpPoint.getDefaultInstance()) {
-            type_ = PickUpPoint.newBuilder((PickUpPoint) type_)
-                .mergeFrom(value).buildPartial();
+          if (((bitField0_ & 0x00000001) != 0) &&
+            pickUpPoint_ != null &&
+            pickUpPoint_ != PickUpPoint.getDefaultInstance()) {
+            getPickUpPointBuilder().mergeFrom(value);
           } else {
-            type_ = value;
+            pickUpPoint_ = value;
           }
-          onChanged();
         } else {
-          if (typeCase_ == 1) {
-            pickUpPointBuilder_.mergeFrom(value);
-          } else {
-            pickUpPointBuilder_.setMessage(value);
-          }
+          pickUpPointBuilder_.mergeFrom(value);
         }
-        typeCase_ = 1;
+        if (pickUpPoint_ != null) {
+          bitField0_ |= 0x00000001;
+          onChanged();
+        }
         return this;
       }
       /**
        * <code>.PickUpPoint pick_up_point = 1;</code>
        */
       public Builder clearPickUpPoint() {
-        if (pickUpPointBuilder_ == null) {
-          if (typeCase_ == 1) {
-            typeCase_ = 0;
-            type_ = null;
-            onChanged();
-          }
-        } else {
-          if (typeCase_ == 1) {
-            typeCase_ = 0;
-            type_ = null;
-          }
-          pickUpPointBuilder_.clear();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        pickUpPoint_ = null;
+        if (pickUpPointBuilder_ != null) {
+          pickUpPointBuilder_.dispose();
+          pickUpPointBuilder_ = null;
         }
+        onChanged();
         return this;
       }
       /**
        * <code>.PickUpPoint pick_up_point = 1;</code>
        */
       public PickUpPoint.Builder getPickUpPointBuilder() {
+        bitField0_ |= 0x00000001;
+        onChanged();
         return getPickUpPointFieldBuilder().getBuilder();
       }
       /**
        * <code>.PickUpPoint pick_up_point = 1;</code>
        */
-      @Override
       public PickUpPointOrBuilder getPickUpPointOrBuilder() {
-        if ((typeCase_ == 1) && (pickUpPointBuilder_ != null)) {
+        if (pickUpPointBuilder_ != null) {
           return pickUpPointBuilder_.getMessageOrBuilder();
         } else {
-          if (typeCase_ == 1) {
-            return (PickUpPoint) type_;
-          }
-          return PickUpPoint.getDefaultInstance();
+          return pickUpPoint_ == null ?
+              PickUpPoint.getDefaultInstance() : pickUpPoint_;
         }
       }
       /**
@@ -2893,47 +2804,35 @@ public final class LocationServiceOuterClass {
           PickUpPoint, PickUpPoint.Builder, PickUpPointOrBuilder>
           getPickUpPointFieldBuilder() {
         if (pickUpPointBuilder_ == null) {
-          if (!(typeCase_ == 1)) {
-            type_ = PickUpPoint.getDefaultInstance();
-          }
           pickUpPointBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
               PickUpPoint, PickUpPoint.Builder, PickUpPointOrBuilder>(
-                  (PickUpPoint) type_,
+                  getPickUpPoint(),
                   getParentForChildren(),
                   isClean());
-          type_ = null;
+          pickUpPoint_ = null;
         }
-        typeCase_ = 1;
-        onChanged();
         return pickUpPointBuilder_;
       }
 
+      private Warehouse warehouse_;
       private com.google.protobuf.SingleFieldBuilderV3<
           Warehouse, Warehouse.Builder, WarehouseOrBuilder> warehouseBuilder_;
       /**
        * <code>.Warehouse warehouse = 2;</code>
        * @return Whether the warehouse field is set.
        */
-      @Override
       public boolean hasWarehouse() {
-        return typeCase_ == 2;
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>.Warehouse warehouse = 2;</code>
        * @return The warehouse.
        */
-      @Override
       public Warehouse getWarehouse() {
         if (warehouseBuilder_ == null) {
-          if (typeCase_ == 2) {
-            return (Warehouse) type_;
-          }
-          return Warehouse.getDefaultInstance();
+          return warehouse_ == null ? Warehouse.getDefaultInstance() : warehouse_;
         } else {
-          if (typeCase_ == 2) {
-            return warehouseBuilder_.getMessage();
-          }
-          return Warehouse.getDefaultInstance();
+          return warehouseBuilder_.getMessage();
         }
       }
       /**
@@ -2944,12 +2843,12 @@ public final class LocationServiceOuterClass {
           if (value == null) {
             throw new NullPointerException();
           }
-          type_ = value;
-          onChanged();
+          warehouse_ = value;
         } else {
           warehouseBuilder_.setMessage(value);
         }
-        typeCase_ = 2;
+        bitField0_ |= 0x00000002;
+        onChanged();
         return this;
       }
       /**
@@ -2958,12 +2857,12 @@ public final class LocationServiceOuterClass {
       public Builder setWarehouse(
           Warehouse.Builder builderForValue) {
         if (warehouseBuilder_ == null) {
-          type_ = builderForValue.build();
-          onChanged();
+          warehouse_ = builderForValue.build();
         } else {
           warehouseBuilder_.setMessage(builderForValue.build());
         }
-        typeCase_ = 2;
+        bitField0_ |= 0x00000002;
+        onChanged();
         return this;
       }
       /**
@@ -2971,61 +2870,52 @@ public final class LocationServiceOuterClass {
        */
       public Builder mergeWarehouse(Warehouse value) {
         if (warehouseBuilder_ == null) {
-          if (typeCase_ == 2 &&
-              type_ != Warehouse.getDefaultInstance()) {
-            type_ = Warehouse.newBuilder((Warehouse) type_)
-                .mergeFrom(value).buildPartial();
+          if (((bitField0_ & 0x00000002) != 0) &&
+            warehouse_ != null &&
+            warehouse_ != Warehouse.getDefaultInstance()) {
+            getWarehouseBuilder().mergeFrom(value);
           } else {
-            type_ = value;
+            warehouse_ = value;
           }
-          onChanged();
         } else {
-          if (typeCase_ == 2) {
-            warehouseBuilder_.mergeFrom(value);
-          } else {
-            warehouseBuilder_.setMessage(value);
-          }
+          warehouseBuilder_.mergeFrom(value);
         }
-        typeCase_ = 2;
+        if (warehouse_ != null) {
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
         return this;
       }
       /**
        * <code>.Warehouse warehouse = 2;</code>
        */
       public Builder clearWarehouse() {
-        if (warehouseBuilder_ == null) {
-          if (typeCase_ == 2) {
-            typeCase_ = 0;
-            type_ = null;
-            onChanged();
-          }
-        } else {
-          if (typeCase_ == 2) {
-            typeCase_ = 0;
-            type_ = null;
-          }
-          warehouseBuilder_.clear();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        warehouse_ = null;
+        if (warehouseBuilder_ != null) {
+          warehouseBuilder_.dispose();
+          warehouseBuilder_ = null;
         }
+        onChanged();
         return this;
       }
       /**
        * <code>.Warehouse warehouse = 2;</code>
        */
       public Warehouse.Builder getWarehouseBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
         return getWarehouseFieldBuilder().getBuilder();
       }
       /**
        * <code>.Warehouse warehouse = 2;</code>
        */
-      @Override
       public WarehouseOrBuilder getWarehouseOrBuilder() {
-        if ((typeCase_ == 2) && (warehouseBuilder_ != null)) {
+        if (warehouseBuilder_ != null) {
           return warehouseBuilder_.getMessageOrBuilder();
         } else {
-          if (typeCase_ == 2) {
-            return (Warehouse) type_;
-          }
-          return Warehouse.getDefaultInstance();
+          return warehouse_ == null ?
+              Warehouse.getDefaultInstance() : warehouse_;
         }
       }
       /**
@@ -3035,18 +2925,13 @@ public final class LocationServiceOuterClass {
           Warehouse, Warehouse.Builder, WarehouseOrBuilder>
           getWarehouseFieldBuilder() {
         if (warehouseBuilder_ == null) {
-          if (!(typeCase_ == 2)) {
-            type_ = Warehouse.getDefaultInstance();
-          }
           warehouseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
               Warehouse, Warehouse.Builder, WarehouseOrBuilder>(
-                  (Warehouse) type_,
+                  getWarehouse(),
                   getParentForChildren(),
                   isClean());
-          type_ = null;
+          warehouse_ = null;
         }
-        typeCase_ = 2;
-        onChanged();
         return warehouseBuilder_;
       }
 
@@ -5219,17 +5104,18 @@ public final class LocationServiceOuterClass {
       "\n\ropening_hours\030\004 \001(\0132\032.google.protobuf." +
       "Timestamp\0221\n\rclosing_hours\030\005 \001(\0132\032.googl" +
       "e.protobuf.Timestamp\"*\n\tWarehouse\022\n\n\002id\030" +
-      "\001 \001(\003\022\021\n\taddressId\030\002 \001(\003\"q\n\010Location\022%\n\r" +
-      "pick_up_point\030\001 \001(\0132\014.PickUpPointH\000\022\037\n\tw" +
-      "arehouse\030\002 \001(\0132\n.WarehouseH\000\022\025\n\risPickUp" +
-      "Point\030\003 \001(\010B\006\n\004type\"W\n\007Address\022\n\n\002id\030\001 \001" +
-      "(\003\022\014\n\004city\030\002 \001(\t\022\013\n\003zip\030\003 \001(\t\022\016\n\006street\030" +
-      "\004 \001(\t\022\025\n\rstreet_number\030\005 \001(\t\"\036\n\020getLocat" +
-      "ionIdRpc\022\n\n\002id\030\001 \001(\003\"\035\n\017getAddressIdRpc\022" +
-      "\n\n\002id\030\001 \001(\0032p\n\017LocationService\022/\n\017getLoc" +
-      "ationById\022\021.getLocationIdRpc\032\t.Location\022" +
-      ",\n\016getAddressById\022\020.getAddressIdRpc\032\010.Ad" +
-      "dressb\006proto3"
+      "\001 \001(\003\022\021\n\taddressId\030\002 \001(\003\"e\n\010Location\022#\n\r" +
+      "pick_up_point\030\001 \001(\0132\014.PickUpPoint\022\035\n\twar" +
+      "ehouse\030\002 \001(\0132\n.Warehouse\022\025\n\risPickUpPoin" +
+      "t\030\003 \001(\010\"W\n\007Address\022\n\n\002id\030\001 \001(\003\022\014\n\004city\030\002" +
+      " \001(\t\022\013\n\003zip\030\003 \001(\t\022\016\n\006street\030\004 \001(\t\022\025\n\rstr" +
+      "eet_number\030\005 \001(\t\"\036\n\020getLocationIdRpc\022\n\n\002" +
+      "id\030\001 \001(\003\"\035\n\017getAddressIdRpc\022\n\n\002id\030\001 \001(\0032" +
+      "\247\001\n\017LocationService\022/\n\017getLocationById\022\021" +
+      ".getLocationIdRpc\032\t.Location\022,\n\016getAddre" +
+      "ssById\022\020.getAddressIdRpc\032\010.Address\0225\n\022ge" +
+      "tPickUpPointById\022\021.getLocationIdRpc\032\014.Pi" +
+      "ckUpPointb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -5259,7 +5145,7 @@ public final class LocationServiceOuterClass {
     internal_static_Location_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Location_descriptor,
-        new String[] { "PickUpPoint", "Warehouse", "IsPickUpPoint", "Type", });
+        new String[] { "PickUpPoint", "Warehouse", "IsPickUpPoint", });
     internal_static_Address_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_Address_fieldAccessorTable = new

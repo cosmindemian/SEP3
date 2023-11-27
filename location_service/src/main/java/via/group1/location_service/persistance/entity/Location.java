@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import via.group1.location_service.config.SqlConfig;
 
 @Entity
 @Getter
@@ -13,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(schema = "location_service", name = "location")
+@Table(schema = SqlConfig.LOCATION_SCHEMA, name = "location")
 public abstract class Location
 {
   @Id
