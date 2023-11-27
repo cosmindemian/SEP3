@@ -6,14 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="139c1b26-8301-45ca-8474-e23044ac0a36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/grpc/PacketRpcService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/grpc/PacketRpcService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../proto/packet_service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/../proto/packet_service.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../protofiles/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../protofiles/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../protofiles/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../protofiles/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../protofiles/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../protofiles/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/via/group1/packet_service/PacketServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/via/group1/packet_service/PacketServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +36,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "proto",
+    "git-widget-placeholder": "gatewayGetPackage",
     "last_opened_file_path": "C:/Java projects/VIA/SEP3/packet_service",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -79,6 +72,8 @@
       <workItem from="1700838438413" duration="510000" />
       <workItem from="1700839088716" duration="1070000" />
       <workItem from="1700840168998" duration="284000" />
+      <workItem from="1701073193768" duration="1632000" />
+      <workItem from="1701089362642" duration="185000" />
     </task>
     <servers />
   </component>
