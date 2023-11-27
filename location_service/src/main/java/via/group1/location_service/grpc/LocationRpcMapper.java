@@ -1,8 +1,8 @@
 package via.group1.location_service.grpc;
 
-import com.google.protobuf.Timestamp;
+
+import generated.LocationServiceOuterClass;
 import org.springframework.stereotype.Component;
-import via.group1.location_service.grpc.generated.LocationServiceOuterClass;
 import via.group1.location_service.persistance.entity.Location;
 import via.group1.location_service.persistance.entity.PickUpPoint;
 

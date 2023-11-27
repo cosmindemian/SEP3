@@ -1,10 +1,11 @@
 package via.group1.packet_service.grpc;
 
+import generated.PacketServiceGrpc;
+import generated.PacketServiceOuterClass;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
-import via.group1.packet_service.grpc.generated.PacketServiceGrpc;
-import via.group1.packet_service.grpc.generated.PacketServiceOuterClass;
+
 import via.group1.packet_service.model.interfaces.PacketService;
 import via.group1.packet_service.persistance.entity.Packet;
 

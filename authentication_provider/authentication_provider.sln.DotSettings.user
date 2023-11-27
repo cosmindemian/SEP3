@@ -1,0 +1,8 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CJava_0020projects_005CVIA_005CSEP3_005Cc_005Fproto_005Cc_005Fproto_002Esln/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e2be5564_002D6666_002D4734_002D8d8c_002Dafcc486978df/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="JwtLogicTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::D2CB2AB2-E0B8-4E01-8B03-A8545E62D59E::net7.0::AuthenticationProviderTest.JwtLogicTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::D2CB2AB2-E0B8-4E01-8B03-A8545E62D59E::net7.0::AuthenticationProviderTest.CredentialLogicTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

@@ -1,0 +1,15 @@
+.idea
+grpc/obj
+grpc/bin
+grpc/.idea
+persistence/bin
+persistence/obj
+persistence/Database.config
+persistence/Config
+grpc/appsettings.json
+Authentication/obj
+Authentication/bin
+Authentication/.idea
+AuthenticationProviderTest/bin
+AuthenticationProviderTest/obj
+AuthenticationProviderTest/.idea

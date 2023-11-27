@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Grpc.AspNetCore" Version="2.49.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf Include="..\..\proto\location_service.proto" GrpcServices="LocationService"/>
+        <Protobuf Include="..\..\proto\packet_service.proto" GrpcServices="PacketService"/>
+        <Protobuf Include="..\..\proto\user_service.proto" GrpcServices="UserService"/>
+        <Protobuf Include="..\..\proto\authentication_service.proto" GrpcServices="AuthenticationService" />
+    </ItemGroup>
+
+</Project>
