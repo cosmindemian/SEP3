@@ -13,6 +13,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\CSharpShared\CSharpShared\CSharpShared.csproj" />
+      <ProjectReference Include="..\..\CSharpShared\c_proto\c_proto.csproj" />
       <ProjectReference Include="..\RpcClient\RpcClient.csproj" />
     </ItemGroup>
 
