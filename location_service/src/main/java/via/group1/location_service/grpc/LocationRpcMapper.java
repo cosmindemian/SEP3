@@ -1,6 +1,7 @@
 package via.group1.location_service.grpc;
 
 
+
 import generated.LocationServiceOuterClass;
 import org.springframework.stereotype.Component;
 import via.group1.location_service.persistance.entity.Location;

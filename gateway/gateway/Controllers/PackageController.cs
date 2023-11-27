@@ -21,11 +21,12 @@ public class PackageController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<GetPackageDto>> GetById([FromRoute] string id)
     {
+        Console.WriteLine("helooooo");
         try
         {
-            var package = await packageLogic.GetPackageByTrackingNumber(id);
-            GetPackageDto dto = _dtoGenerator.GetPackageDto(package);
-            return Ok(dto);
+            //var package = await packageLogic.GetPackageByTrackingNumber(id);}}
+            //GetPackageDto dto = _dtoGenerator.GetPackageDto(package);
+            return Ok(null);
         }
         catch (Exception e)
         {
