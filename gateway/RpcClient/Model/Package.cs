@@ -4,17 +4,17 @@ public class Package
 {
     public long Id { set; get; }
     public string PackageNumber { set; get; }
-    public string SenderName { set; get; }
+    public User Sender { set; get; }
     public string PackageStatus { set; get; }
     public string PackageType { set; get; }
     public Location CurrentLocation { set; get; }
     public Location FinalDestination { set; get; }
 
-    public Package(long id, string packageNumber, string senderName, string packageStatus, string packageType, Location currentLocation, Location finalDestination)
+    public Package(long id, string packageNumber, User sender, string packageStatus, string packageType, Location currentLocation, Location finalDestination)
     {
         Id = id;
         PackageNumber = packageNumber;
-        SenderName = senderName;
+        Sender = sender;
         PackageStatus = packageStatus;
         PackageType = packageType;
         CurrentLocation = currentLocation;
