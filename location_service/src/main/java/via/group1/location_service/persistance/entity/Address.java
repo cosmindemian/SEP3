@@ -21,4 +21,14 @@ public class Address
 
   @OneToOne(mappedBy = "address")
   private Location location;
+
+  public Address() {
+  }
+
+  public Address(String city, String zip, String street, String street_number) {
+    this.city = city;
+    this.zip = zip;
+    this.street = street;
+    this.street_number = street_number;
+  }
 }

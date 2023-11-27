@@ -22,9 +22,14 @@ public abstract class Location
   @GeneratedValue
   private Long id;
 
-  @OneToOne
+  @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "address_id", referencedColumnName = "id")
   private Address address;
+
+
+  public Location(Address address) {
+    this.address = address;
+  }
 
   @Override public String toString()
   {

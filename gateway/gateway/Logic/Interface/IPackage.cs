@@ -5,5 +5,5 @@ namespace gateway.Model;
 
 public interface IPackage
 {
-    Task<Package> GetPackageByTrackingNumber(string trackingNumber);
+    Task<GetPackageDto> GetPackageByTrackingNumber(string trackingNumber);
 }

@@ -15,14 +15,15 @@ public class ImplementationPackage : IPackage
     private readonly IUserServiceClient _userServiceClient;
 
 
-public ImplementationPackage(IPackageServiceClient packageServiceClient, ILocationServiceClient locationServiceClient, IUserServiceClient userServiceClient)
+    public ImplementationPackage(IPackageServiceClient packageServiceClient,
+        ILocationServiceClient locationServiceClient, IUserServiceClient userServiceClient)
     {
         _packageServiceClient = packageServiceClient;
         _userServiceClient = userServiceClient;
         _locationServiceClient = locationServiceClient;
     }
 
-    public async Task<Package> GetPackageByTrackingNumber(string trackingNumber)
+    public async Task<GetPackageDto> GetPackageByTrackingNumber(string trackingNumber)
     {
         var package = await _packageServiceClient.GetPackageByTrackingNumberAsync(trackingNumber);
 
@@ -33,12 +34,13 @@ public ImplementationPackage(IPackageServiceClient packageServiceClient, ILocati
 
         var user = userRequest.Result;
         var location = locationRequest.Result;
-        
+
         if (package == null)
         {
             throw new Exception($"Package with id {trackingNumber} not found");
         }
-
-        throw new NotImplementedException();
+        //Todo: set it correctly
+        return new GetPackageDto(package.Id, package.TrackingNumber, user.Name, "coming", "coming",
+            null, new GetLocationDto(null, true));
     }
 }
