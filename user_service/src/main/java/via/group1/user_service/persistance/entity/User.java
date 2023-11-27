@@ -23,4 +23,12 @@ public class User {
     private String email;
     private String name;
     private String phone;
+
+
+    //For data insertion
+    public User(String name, String email, String phone) {
+        this.email = email;
+        this.name = name;
+        this.phone = phone;
+    }
 }
