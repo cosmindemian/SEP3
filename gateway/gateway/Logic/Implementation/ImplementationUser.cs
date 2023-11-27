@@ -1,4 +1,6 @@
-﻿namespace gateway.Model.Implementation;
+﻿using RpcClient.RpcClient.Interface;
+
+namespace gateway.Model.Implementation;
 
 public class ImplementationUser
 {
@@ -15,6 +17,7 @@ public class ImplementationUser
 
         var userRequest = await _userServiceClient.GetUserByIdAsync(id);
 
+        
         var user = userRequest.Result;
 
         throw new NotImplementedException();

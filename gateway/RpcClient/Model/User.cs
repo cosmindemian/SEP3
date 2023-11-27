@@ -2,12 +2,12 @@ namespace RpcClient.Model;
 
 public class User
 {
-   public long Id;
+   public long Id { set; get; }
 
-    public string Email;
-    public string Name;
-    public string Address;
-    public string Phone;
+    public string Email { set; get; }
+    public string Name { set; get; }
+    public string Address { set; get; }
+    public string Phone { set; get; }
 
     public User(string email, string name, string address, string phone)
     {

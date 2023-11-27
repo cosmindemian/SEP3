@@ -5,5 +5,5 @@ namespace gateway.Model;
 
 public interface IUser
 {
-    Task<User> GetUser(long id);
+    Task<User> GetUserByIdAsync(long id);
 }

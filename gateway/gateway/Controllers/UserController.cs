@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using gateway.DTO;
+using gateway.DtoGenerators;
+using gateway.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace gateway.Controllers;
@@ -22,7 +25,7 @@ public class UserController: ControllerBase
             try
             {
                 var user = await userLogic.GetUserByIdAsync(id);
-                GetUserDto dto = _dtoGenerator.GetPackageDto(package);
+                GetUserDto dto = _dtoGenerator.GetUserDto(user);
                 return Ok(dto);
             }
             catch (Exception e)
