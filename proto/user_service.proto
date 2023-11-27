@@ -5,16 +5,14 @@ option java_package = "generated";
 message User {
     int64 id = 1;
     string email = 2;
-    string password = 3;
-    string name = 4;
-    string phone = 6;
+    string name = 3;
+    string phone = 4;
 }
 
 message CreateUser {
-    string email = 2;
-    string password = 3;
-    string name = 4;
-    string phone = 6;
+    string email = 1;
+    string name = 2;
+    string phone = 3;
 }
 
 message UserList {

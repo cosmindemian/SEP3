@@ -1,10 +1,8 @@
-﻿
-
-using RpcClient.Model;
+﻿using RpcClient.Model;
 
 namespace gateway.RpcClient.Interface;
 
 public interface IPackageServiceClient
 {
-    Task<Package> GetPackageByTrackingNumber(string packageNumber);
+    Task<Packet> GetPackageByTrackingNumberAsync(string packageNumber);
 }

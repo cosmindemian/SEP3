@@ -3,9 +3,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Client.Interfaces;
 using System.Text.Json;
-
-
-
 namespace Client.Implementations
 {
     public class PackageHttpClient: IPackageService{
@@ -19,6 +16,7 @@ namespace Client.Implementations
 
             public async Task<PackageGetDTO> GetPackageByTrackingNumberAsync(string trackingNumber)
             {
+                client.DefaultRequestHeaders.Add("Bearer", "hello");
                 HttpResponseMessage response = await client.GetAsync($"/package/{trackingNumber}");
                 string content = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
