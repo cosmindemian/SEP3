@@ -8,6 +8,8 @@ import via.group1.packet_service.persistance.entity.Packet;
 import via.group1.packet_service.persistance.entity.Status;
 import via.group1.packet_service.persistance.repository.PacketRepository;
 
+import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -48,6 +50,16 @@ public class DefaultPacketService implements PacketService {
 
         String generatedString = random.ints(leftLimit, rightLimit + 1).limit(targetStringLength).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
         return generatedString.toUpperCase();
+    }
+
+    public ArrayList<Packet> getAllPacketsBySenderId(Long id) {
+        Optional<ArrayList<Packet>> packet = packetRepository.findBySenderId(id);
+        return packet.orElse(null);
+    }
+
+    public ArrayList<Packet> getAllPacketsByReceiverId(Long id) {
+        Optional<ArrayList<Packet>> packet = packetRepository.findByReceiverId(id);
+        return packet.orElse(null);
     }
 
 }
