@@ -13,7 +13,6 @@ public class UserRpcMapper {
         return UserServiceOuterClass.User.newBuilder()
                 .setId(user.getId())
                 .setEmail(user.getEmail())
-                .setPassword(user.getPassword())
                 .setName(user.getName())
                 .setPhone(user.getPhone())
                 .build();
@@ -22,9 +21,7 @@ public class UserRpcMapper {
     public User parseUserRpc(UserServiceOuterClass.User user){
         return User.builder()
                 .email(user.getEmail())
-                .password(user.getPassword())
                 .name(user.getName())
-                .address(user.getEmail())
                 .phone(user.getPhone())
                 .build();
     }
