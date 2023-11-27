@@ -13,7 +13,7 @@ public class DtoGenerator
             var finalAddress = new GetAddressDto(package.FinalDestination.Address.Street,
                 package.FinalDestination.Address.City, package.FinalDestination.Address.BuildingNumber);
             var finalLocation = new GetLocationDto(finalAddress, package.FinalDestination.IsPickupPoint);
-            var dto = new GetPackageDto(package.Id, package.PackageNumber, package.SenderName, package.PackageStatus,
+            var dto = new GetPackageDto(package.Id, package.PackageNumber, "Bolfa", package.PackageStatus,
                 package.PackageType, currentLocation, finalLocation);
             return dto;
     }
