@@ -1,4 +1,5 @@
 ﻿using gateway.DTO;
+using gateway.DtoGenerators;
 using gateway.Model;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +10,12 @@ namespace gateway.Controllers;
 public class PackageController : ControllerBase
 {
     private readonly IPackage packageLogic;
+    private readonly DtoGenerator _dtoGenerator ;
 
     public PackageController(IPackage packageLogic)
     {
         this.packageLogic = packageLogic;
+        _dtoGenerator = new DtoGenerator();
     }
 
     [HttpGet("{id}")]
@@ -20,16 +23,8 @@ public class PackageController : ControllerBase
     {
         try
         {
-            //TODO create a separate class for generating DTOs
             var package = await packageLogic.GetPackageByTrackingNumber(id);
-            var currentAddress = new GetAddressDto(package.CurrentLocation.Address.Street,
-                package.CurrentLocation.Address.City, package.CurrentLocation.Address.BuildingNumber);
-            var currentLocation = new GetLocationDto(currentAddress, package.CurrentLocation.IsPickupPoint);
-            var finalAddress = new GetAddressDto(package.FinalDestination.Address.Street,
-                package.FinalDestination.Address.City, package.FinalDestination.Address.BuildingNumber);
-            var finalLocation = new GetLocationDto(finalAddress, package.FinalDestination.IsPickupPoint);
-            var dto = new GetPackageDto(package.Id, package.PackageNumber, package.SenderName, package.PackageStatus,
-                package.PackageType, currentLocation, finalLocation);
+            GetPackageDto dto = _dtoGenerator.GetPackageDto(package);
             return Ok(dto);
         }
         catch (Exception e)

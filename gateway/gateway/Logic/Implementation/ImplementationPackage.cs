@@ -28,6 +28,5 @@ public class ImplementationPackage: IPackage
             throw new Exception($"Package with id {trackingNumber} not found");
         }
         return package;
-        //return new GetPackageDto(package.Id, package.PackageNumber, package.SenderName, package.PackageStatus, package.PackageType, package.CurrentLocation, package.FinalDestination);
     }
 }

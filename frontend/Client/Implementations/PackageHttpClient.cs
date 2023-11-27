@@ -5,6 +5,7 @@ using Client.Interfaces;
 using System.Text.Json;
 
 
+
 namespace Client.Implementations
 {
     public class PackageHttpClient: IPackageService{
@@ -15,17 +16,15 @@ namespace Client.Implementations
             {
                 this.client = client;
             }
-        
 
-            public async Task<Package> GetPackageByIdAsync(long id)
+            public async Task<PackageGetDTO> GetPackageByTrackingNumberAsync(string trackingNumber)
             {
-                HttpResponseMessage response = await client.GetAsync($"/package/{id}");
+                HttpResponseMessage response = await client.GetAsync($"/package/{trackingNumber}");
                 string content = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new Exception(content);
                 }
-                Console.WriteLine(content);
                 //use var (packageDTO)
                 var packageDTO = JsonSerializer.Deserialize<PackageGetDTO>(content, new JsonSerializerOptions
                 {
@@ -33,13 +32,22 @@ namespace Client.Implementations
                     IncludeFields = true
             
                 });
-        
-                Customer sender = new Customer(packageDTO.SenderName);
-                Address receiverAddress = new Address(packageDTO.ReceiverAddress.Street, packageDTO.ReceiverAddress.Number,
-                    packageDTO.ReceiverAddress.City);
-                Address lastKnowLocation = new Address("Kabelikova", 3, "Prerov");
+                return packageDTO;
+            }
 
-                Package package = new Package(packageDTO.Weight, sender, lastKnowLocation, receiverAddress);
+            public async Task<PackageGetDTO> CreatePackage(PackageGetDTO dto)
+            {
+                HttpResponseMessage response = await client.PostAsJsonAsync("/packages", dto);
+                string result = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception(result);
+                }
+
+                PackageGetDTO package = JsonSerializer.Deserialize<PackageGetDTO>(result, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
                 return package;
             }
     }

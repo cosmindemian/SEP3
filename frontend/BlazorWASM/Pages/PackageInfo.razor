@@ -1,4 +1,6 @@
 ﻿@page "/PackageInfo"
+@using Client.Interfaces
+@inject IPackageService PackageService;
 
 <PageTitle>See package information</PageTitle>
 
@@ -32,7 +34,7 @@
         <tbody>
         <tr>
             <th scope="row">Package number</th>
-            <td>123</td>
+            <td>@user</td>
         </tr>
         <tr>
             <th scope="row">Sender</th>
@@ -63,24 +65,25 @@
 @code {
     private string packageNumber;
     private string errorLabel = "";
-    bool packageInfoValid = true;
-    private Package package;
+    bool packageInfoValid;
+    private PackageGetDTO package;
+    private string user;
+    
 
     private async Task ShowPackageInfo()
     {
         try
         {
-    //get the package from the server
-            var packageNumberLong = long.Parse(packageNumber);
-    //package = await packageService.GetPackageByIdAsync(packageNumberLong);
+            package = await PackageService.GetPackageByTrackingNumberAsync(packageNumber);
             packageInfoValid = true;
             errorLabel = "";
         }
         catch (Exception e)
         {
-    //errorLabel = "g";
             errorLabel = "There is no package with the id";
         }
     }
+
+    
 
 }
