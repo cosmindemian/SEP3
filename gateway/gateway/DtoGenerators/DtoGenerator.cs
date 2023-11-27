@@ -20,7 +20,7 @@ public class DtoGenerator
 
     public GetUserDto GetUserDto(User user)
     {
-        var dto = new GetUserDto(user.Id, user.Name, user.Email, user.Phone);
+        var dto = new GetUserDto(user.Id, user.Email, user.Name, user.Phone);
         return dto;
     }
 }

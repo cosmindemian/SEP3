@@ -18,7 +18,7 @@ public class ImplementationUser
         var userRequest = await _userServiceClient.GetUserByIdAsync(id);
 
         
-        var user = userRequest.Result;
+        var user = userRequest;
 
         throw new NotImplementedException();
     }
