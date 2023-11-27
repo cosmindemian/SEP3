@@ -1,6 +1,7 @@
 package via.group1.location_service.grpc;
 
 
+import com.google.protobuf.Timestamp;
 import generated.LocationServiceOuterClass;
 import org.springframework.stereotype.Component;
 import via.group1.location_service.persistance.entity.Location;
@@ -18,14 +19,19 @@ import via.group1.location_service.persistance.entity.PickUpPoint;
     if (location instanceof PickUpPoint)
     {
       PickUpPoint pickUpPoint= (PickUpPoint) location;
-      System.out.println(pickUpPoint.getName());
-      builder
-          .setIsPickUpPoint(true)
-          .setPickUpPoint(
-          LocationServiceOuterClass.PickUpPoint.newBuilder()
+//      System.out.println(pickUpPoint.getClosing_hours());
+//      System.out.println(pickUpPoint.getName());
+      LocationServiceOuterClass.PickUpPoint builderPickUpPoint=
+            LocationServiceOuterClass.PickUpPoint.newBuilder()
               .setId(pickUpPoint.getId())
               .setAddressId(pickUpPoint.getAddress().getId())
-              .build());
+              .setName(pickUpPoint.getName())
+              .setOpeningHours(pickUpPoint.getOpening_hours().toString())
+              .setClosingHours(pickUpPoint.getClosing_hours().toString())
+              .build();
+      builder
+          .setIsPickUpPoint(true)
+          .setPickUpPoint(builderPickUpPoint);
     }
     else
     {
@@ -51,4 +57,18 @@ import via.group1.location_service.persistance.entity.PickUpPoint;
         .setStreetNumber(address.getStreet_number())
         .build();
   }
+
+  public LocationServiceOuterClass.PickUpPoint buildPickupPoint(
+      via.group1.location_service.persistance.entity.PickUpPoint pickUpPoint) {
+
+    return LocationServiceOuterClass.PickUpPoint.newBuilder()
+        .setId(pickUpPoint.getId())
+        .setAddressId(pickUpPoint.getAddress().getId())
+        .setOpeningHours(pickUpPoint.getOpening_hours().toString())
+        .setClosingHours(pickUpPoint.getClosing_hours().toString())
+        .setName(pickUpPoint.getName())
+        .build();
+  }
+
+
 }

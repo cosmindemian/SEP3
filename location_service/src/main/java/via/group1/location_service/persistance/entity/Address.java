@@ -3,11 +3,12 @@ package via.group1.location_service.persistance.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import via.group1.location_service.config.SqlConfig;
 
 @Entity
 @Getter
 @Setter
-@Table(schema = "location_service", name = "address")
+@Table(schema = SqlConfig.LOCATION_SCHEMA, name = "address")
 public class Address
 {
   @Id

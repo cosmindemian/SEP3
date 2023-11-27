@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import via.group1.location_service.model.interfaces.LocationService;
 import via.group1.location_service.persistance.entity.Location;
+import via.group1.location_service.persistance.entity.PickUpPoint;
 import via.group1.location_service.persistance.repository.LocationRepository;
 
 @Service

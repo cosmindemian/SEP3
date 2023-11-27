@@ -9,6 +9,7 @@ import via.group1.location_service.model.interfaces.AddressService;
 import via.group1.location_service.model.interfaces.LocationService;
 import via.group1.location_service.persistance.entity.Address;
 import via.group1.location_service.persistance.entity.Location;
+import via.group1.location_service.persistance.entity.PickUpPoint;
 
 @GrpcService
 @RequiredArgsConstructor
@@ -23,6 +24,7 @@ public class LocationRpcService extends LocationServiceGrpc.LocationServiceImplB
                               StreamObserver<LocationServiceOuterClass.Location> responseObserver)
   {
     Location location = locationService.getLocation(request.getId());
+//    System.out.println(location);
     LocationServiceOuterClass.Location locationRpc = mapper.buildLocationRpc(location);
     responseObserver.onNext(locationRpc);
     responseObserver.onCompleted();
@@ -33,8 +35,10 @@ public class LocationRpcService extends LocationServiceGrpc.LocationServiceImplB
                               StreamObserver<LocationServiceOuterClass.Address> responseObserver)
   {
     Address address = addressService.getAddress(request.getId());
+//    System.out.println(address);
     LocationServiceOuterClass.Address addressRpc = mapper.buildAddressRpc(address);
     responseObserver.onNext(addressRpc);
     responseObserver.onCompleted();
   }
+
 }
