@@ -64,7 +64,7 @@ public class AuthenticationService : global::AuthenticationService.Authenticatio
         try
         {
             var authEntity = _jwtLogic.ParseToken(request.Token);
-            return new Task<VerifyTokenResponse>(() => new VerifyTokenResponse
+            return Task.FromResult(new VerifyTokenResponse
             {
                 IsTokenValid = true, UserId = authEntity.UserId, AuthLevel = authEntity.AuthLevel,
                 Email = authEntity.Email

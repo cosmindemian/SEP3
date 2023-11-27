@@ -1,6 +1,19 @@
-﻿namespace gateway.Controllers;
+﻿using Microsoft.AspNetCore.Mvc;
 
-public class UserController
+namespace gateway.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class UserController: ControllerBase
 {
+    
+    [HttpGet]
+    public async Task<ActionResult> Get()
+    {
+        return Ok("Hello from user controller");
+    }
+    
+    
+    
     
 }

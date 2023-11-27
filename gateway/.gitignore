@@ -5,3 +5,13 @@ RpcClient/bin
 RpcClient/obj
 Model/bin
 Model/obj
+AuthenticationScheme/bin
+AuthenticationScheme/obj
+AuthenticationScheme/.idea
+AuthenticationScheme/.vs
+gateway/.idea
+gateway/.vs
+RpcClient/.idea
+RpcClient/.vs
+Model/.idea
+Model/.vs
