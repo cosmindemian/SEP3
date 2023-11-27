@@ -17,4 +17,10 @@ public class DtoGenerator
                 package.PackageType, currentLocation, finalLocation);
             return dto;
     }
+    
+    // public GetUserDto GetUserDto(User user)
+    // {
+    //     
+    //     return dto;
+    // }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace gateway.Controllers;
 
@@ -12,8 +13,6 @@ public class UserController: ControllerBase
     {
         return Ok("Hello from user controller");
     }
-    
-    
     
     
 }
