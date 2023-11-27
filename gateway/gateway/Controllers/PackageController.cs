@@ -24,8 +24,8 @@ public class PackageController : ControllerBase
         Console.WriteLine("helooooo");
         try
         {
-            //var package = await packageLogic.GetPackageByTrackingNumber(id);}}
-            //GetPackageDto dto = _dtoGenerator.GetPackageDto(package);
+            var package = await packageLogic.GetPackageByTrackingNumber(id);
+            GetPackageDto dto = _dtoGenerator.GetPackageDto(package);
             return Ok(null);
         }
         catch (Exception e)

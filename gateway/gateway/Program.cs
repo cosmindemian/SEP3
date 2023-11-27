@@ -1,4 +1,9 @@
 using gateway.AuhtenticationScheme;
+using gateway.Model;
+using gateway.Model.Implementation;
+using gateway.RpcClient;
+using gateway.RpcClient.Interface;
+using RpcClient.Model;
 using RpcClient.RpcClient.Implementation;
 using RpcClient.RpcClient.Interface;
 
@@ -11,6 +16,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IAuthenticationServiceClient, AuthenticationServiceClientImpl>();
+builder.Services.AddScoped<IPackage, ImplementationPackage>();
+builder.Services.AddScoped<ILocationServiceClient, LocationServiceClientImpl>();
+builder.Services.AddScoped<IAuthenticationServiceClient, AuthenticationServiceClientImpl>();
+builder.Services.AddScoped<IPackageServiceClient, PackageServiceClient>();
+builder.Services.AddScoped<IUserServiceClient, UserServiceClientImpl>();
+
 
 // Add authentication. Every request will be authenticated using the AuthenticationProviderSchemeHandler
 builder.Services.AddAuthentication().AddScheme<AuthenticationProviderOptions, AuthenticationProviderSchemeHandler>(
