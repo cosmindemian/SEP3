@@ -15,12 +15,8 @@ public class DefaultUserService implements UserService {
 
     private final UserRepository userRepository;
 
-    private final PasswordEncoder passwordEncoder;
-
     @Override
     public User saveUser(User user) {
-        String encodedPassword = this.passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
         return userRepository.save(user);
     }
 

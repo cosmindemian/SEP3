@@ -1,32 +1,44 @@
 ﻿using gateway.DTO;
 using gateway.RpcClient.Interface;
 using RpcClient.Model;
+using RpcClient.RpcClient.Interface;
 
 
 namespace gateway.Model.Implementation;
 
-public class ImplementationPackage: IPackage
+public class ImplementationPackage : IPackage
 {
-    private readonly IPackageServiceClient? _packageServiceClient;
-  
+    private readonly IPackageServiceClient _packageServiceClient;
+
     private readonly ILocationServiceClient _locationServiceClient;
 
-    public ImplementationPackage(IPackageServiceClient? packageServiceClient, ILocationServiceClient locationServiceClient)
+    private readonly IUserServiceClient _userServiceClient;
+
+
+public ImplementationPackage(IPackageServiceClient packageServiceClient, ILocationServiceClient locationServiceClient, IUserServiceClient userServiceClient)
     {
         _packageServiceClient = packageServiceClient;
-    
+        _userServiceClient = userServiceClient;
         _locationServiceClient = locationServiceClient;
     }
 
     public async Task<Package> GetPackageByTrackingNumber(string trackingNumber)
     {
-        Package? package = await _packageServiceClient.GetPackageByTrackingNumber(trackingNumber);
-        Location finalDestination = await _locationServiceClient.GetLocationById(package.CurrentLocation.Id);
+        var package = await _packageServiceClient.GetPackageByTrackingNumberAsync(trackingNumber);
+
+        var userRequest = _userServiceClient.GetUserByIdAsync(package.Id);
+        var locationRequest = _locationServiceClient.GetLocationByIdAsync(package.CurrentAddressId);
+
+        await Task.WhenAll(userRequest, locationRequest);
+
+        var user = userRequest.Result;
+        var location = locationRequest.Result;
         
         if (package == null)
         {
             throw new Exception($"Package with id {trackingNumber} not found");
         }
-        return package;
+
+        throw new NotImplementedException();
     }
 }
