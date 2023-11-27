@@ -1,5 +1,6 @@
 package via.group1.location_service.grpc;
 
+import com.google.protobuf.Empty;
 import generated.LocationServiceGrpc;
 import generated.LocationServiceOuterClass;
 import io.grpc.stub.StreamObserver;
@@ -38,6 +39,16 @@ public class LocationRpcService extends LocationServiceGrpc.LocationServiceImplB
 //    System.out.println(address);
     LocationServiceOuterClass.Address addressRpc = mapper.buildAddressRpc(address);
     responseObserver.onNext(addressRpc);
+    responseObserver.onCompleted();
+  }
+
+  @Override public void getAllLocations(Empty request,
+      StreamObserver<LocationServiceOuterClass.Locations> responseObserver)
+  {
+
+    //    System.out.println(location);
+    LocationServiceOuterClass.Locations locationsRpc = mapper.buildLocationsRpc(locationService.getAllLocations());
+    responseObserver.onNext(locationsRpc);
     responseObserver.onCompleted();
   }
 

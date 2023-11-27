@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 
 option java_package = "generated";
 
@@ -46,7 +46,17 @@ message getAddressIdRpc{
   int64 id = 1;
 }
 
+message Locations{
+  repeated Location locations = 1;
+}
+
+message getTypeRpc{
+  string type = 1;
+}
+
 service LocationService{
   rpc getLocationById(getLocationIdRpc) returns(Location);
   rpc getAddressById(getAddressIdRpc) returns(Address);
+  rpc getAllLocations(google.protobuf.Empty) returns(Locations);
+  rpc getAllLocationsByType(getTypeRpc) returns(Locations);
 }

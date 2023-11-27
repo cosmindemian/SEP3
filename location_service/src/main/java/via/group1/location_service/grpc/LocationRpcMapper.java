@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 import via.group1.location_service.persistance.entity.Location;
 import via.group1.location_service.persistance.entity.PickUpPoint;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 @Component public class LocationRpcMapper
 {
   public LocationServiceOuterClass.Location buildLocationRpc(
@@ -58,17 +61,15 @@ import via.group1.location_service.persistance.entity.PickUpPoint;
         .build();
   }
 
-  public LocationServiceOuterClass.PickUpPoint buildPickupPoint(
-      via.group1.location_service.persistance.entity.PickUpPoint pickUpPoint) {
-
-    return LocationServiceOuterClass.PickUpPoint.newBuilder()
-        .setId(pickUpPoint.getId())
-        .setAddressId(pickUpPoint.getAddress().getId())
-        .setOpeningHours(pickUpPoint.getOpening_hours().toString())
-        .setClosingHours(pickUpPoint.getClosing_hours().toString())
-        .setName(pickUpPoint.getName())
-        .build();
+  public LocationServiceOuterClass.Locations buildLocationsRpc(ArrayList<Location> locations)
+  {
+    LocationServiceOuterClass.Locations.Builder builder =
+        LocationServiceOuterClass.Locations.newBuilder();
+    for (Location location : locations)
+    {
+      builder.addLocations(buildLocationRpc(location));
+    }
+    return builder.build();
   }
-
 
 }
