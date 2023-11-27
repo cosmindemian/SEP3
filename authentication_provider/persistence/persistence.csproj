@@ -15,11 +15,11 @@
       </PackageReference>
       <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.13" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
-
-
     </ItemGroup>
 
-
-
+    <ItemGroup>
+      <ProjectReference Include="..\..\CSharpShared\CSharpShared\CSharpShared.csproj" />
+    </ItemGroup>
+    
 
 </Project>
