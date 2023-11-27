@@ -1,6 +1,9 @@
-﻿namespace gateway.Model;
+﻿using gateway.DTO;
+using RpcClient.Model;
 
-public class IUser
+namespace gateway.Model;
+
+public interface IUser
 {
-    Task<Package> GetPackageByTrackingNumber(string trackingNumber);
+    Task<User> GetUser(long id);
 }

@@ -1,6 +1,4 @@
-﻿
-
-using RpcClient.Model;
+﻿using RpcClient.Model;
 
 namespace gateway.RpcClient.Interface;
 
