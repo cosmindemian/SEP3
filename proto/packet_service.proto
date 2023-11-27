@@ -11,6 +11,14 @@ message Packet{
   string trackingNumber = 6;
 }
 
+message Id{
+  int64 id = 1;
+}
+
+message Packets{
+  repeated Packet packet = 1;
+}
+
 message GetPacketTrackingNumber{
   string trackingNumber = 1;
 }
@@ -29,5 +37,7 @@ service PacketService{
   rpc addPacket(AddPacket) returns (Packet);
   rpc getPacketById(GetPacketIdRpc) returns(Packet);
   rpc getPacketByTrackingNumber(GetPacketTrackingNumber) returns(Packet);
+  rpc getAllPacketsBySender(Id) returns(Packets);
+  rpc getAllPacketsByReceiver(Id) returns(Packets);
 }
 
