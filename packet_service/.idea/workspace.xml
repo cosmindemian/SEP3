@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="139c1b26-8301-45ca-8474-e23044ac0a36" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/grpc/PacketRpcService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/via/group1/packet_service/grpc/PacketRpcService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../proto/packet_service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/../proto/packet_service.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../protofiles/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../protofiles/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../protofiles/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../protofiles/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../protofiles/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../protofiles/.idea/vcs.xml" beforeDir="false" />
-    </list>
+    <list default="true" id="139c1b26-8301-45ca-8474-e23044ac0a36" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,8 +33,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "proto",
-    "last_opened_file_path": "C:/Java projects/VIA/SEP3/packet_service",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "D:/Users/bolfa/Personal/VIA/Semester 3/Project/SEP3",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -79,6 +69,7 @@
       <workItem from="1700838438413" duration="510000" />
       <workItem from="1700839088716" duration="1070000" />
       <workItem from="1700840168998" duration="284000" />
+      <workItem from="1701073927544" duration="306000" />
     </task>
     <servers />
   </component>

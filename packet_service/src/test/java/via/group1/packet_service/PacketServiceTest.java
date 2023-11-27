@@ -15,7 +15,7 @@ public class PacketServiceTest {
 
     @Test
     public void savingPackageTest(){
-        assertDoesNotThrow(() -> packetService.SavePacket(new Packet(1L, 1L,
+        assertDoesNotThrow(() -> packetService.savePacket(new Packet(1L, 1L,
                 1L,1L,1L)));
     }
 }
