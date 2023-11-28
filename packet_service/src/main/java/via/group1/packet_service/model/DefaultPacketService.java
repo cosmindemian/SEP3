@@ -26,7 +26,7 @@ public class DefaultPacketService implements PacketService {
 
     @Override
     public Packet savePacket(Packet packet) {
-        Status status = statusService.getDefaultStatus();
+        Status status = statusService.getStatusById(packet.getStatus().getId());
         Size size = sizeService.getSizeById(packet.getSize().getId());
 
         status.addPacket(packet);

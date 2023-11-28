@@ -13,4 +13,9 @@ public class DefaultStatusService implements StatusService {
     public Status getDefaultStatus() {
         return statusRepository.findById(1L).orElseThrow(() -> new RuntimeException("Default status not found"));
     }
+
+    @Override public Status getStatusById(Long id)
+    {
+        return statusRepository.findById(id).orElseThrow();
+    }
 }
