@@ -35,16 +35,16 @@ namespace Client.Implementations
                 return packageDTO;
             }
 
-            public async Task<PackageGetDTO> CreatePackage(PackageGetDTO dto)
+            public async Task<PackageCreationDto> CreatePackage(PackageCreationDto dto)
             {
-                HttpResponseMessage response = await client.PostAsJsonAsync("/packages", dto);
+                HttpResponseMessage response = await client.PostAsJsonAsync("/createPackage", dto);
                 string result = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new Exception(result);
                 }
 
-                PackageGetDTO package = JsonSerializer.Deserialize<PackageGetDTO>(result, new JsonSerializerOptions
+                PackageCreationDto package = JsonSerializer.Deserialize<PackageCreationDto>(result, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });

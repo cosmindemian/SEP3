@@ -1,7 +1,6 @@
-﻿using gateway.DTO;
+﻿/*using gateway.DTO;
 using gateway.DtoGenerators;
 using gateway.Model;
-using grpc.Exception;
 using Microsoft.AspNetCore.Mvc;
 
 namespace gateway.Controllers;
@@ -11,38 +10,28 @@ namespace gateway.Controllers;
 public class AuthController: ControllerBase
 {
     private readonly IAuth authLogic;
+    private readonly DtoGenerator _dtoGenerator;
 
-    public AuthController(IAuth authLogic)
+    public UserController(IUser userLogic)
     {
-        this.authLogic = authLogic;
+        this.userLogic = userLogic;
+        _dtoGenerator = new DtoGenerator();
     }
 
-
-    [HttpPost, Route("login")]
-    public async Task<ActionResult<TokenDto>> Login([FromBody] LoginDto userLoginDto)
+    [HttpGet("{id}")]
+    public async Task<ActionResult<GetUserDto>> GetById([FromRoute] long id)
     {
         try
         {
-            var dto = await authLogic.LoginAsync(userLoginDto);
+            var user = await userLogic.GetUserByIdAsync(id);
+            GetUserDto dto = _dtoGenerator.GetUserDto(user);
             return Ok(dto);
         }
-        catch (LoginException)
+        catch (Exception e)
         {
-            return StatusCode(401);
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
         }
     }
     
-    [HttpPost, Route("register")]
-    public async Task<ActionResult<TokenDto>> Register([FromBody] RegisterDto userRegisterDto)
-    {
-        try
-        {
-            var dto = await authLogic.RegisterAsync(userRegisterDto);
-            return Ok(dto);
-        }
-        catch (LoginException)
-        {
-            return StatusCode(404);
-        }
-    }
-}
+}*/

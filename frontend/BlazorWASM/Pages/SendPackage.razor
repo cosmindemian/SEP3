@@ -1,127 +1,134 @@
 ﻿@page "/SendPackage"
+@using Domain.DTO
 @using Client.Interfaces
 @inject IPackageService PackageService;
 <PageTitle>Send a package</PageTitle>
 
-
 <h1 class="text-center fw-bold text-uppercase">SEND a Package</h1>
-<div class="container mt-5">
-    <div class=" row justify-content-center">
-        <div class="col-3">
-            <label for="radio-card-1" class="radio-card" @bind="type">
-                        <div class="card-content-wrapper">
-                            <span class="check-icon"></span>
-                            <div class="card">
-                                <div class="card-header">
-                                    <input type="radio" name="radio-card" id="radio-card-1" checked/>
-                                    <span>Type 1</span>
-                                </div>
-                                <div class="card-body bg-light">
-                                    <h5 class="card-title">Standard package</h5>
-                                    <p class="card-text">Maximum size: 50 x 40 x 30 cm and maximum weight: 5 kg</p>
-                                </div>
+<EditForm Model="@packageCreationDto" OnValidSubmit="SendPackageAsync">
+    <div class="container mt-5">
+        <div class=" row justify-content-center">
+            <div class="col-3">
+                <DataAnnotationsValidator/>
+                <label for="radio-card-1" class="radio-card" @bind="packageCreationDto.PackageType">
+                    <div class="card-content-wrapper">
+                        <span class="check-icon"></span>
+                        <div class="card">
+                            <div class="card-header">
+                                <input type="radio" name="radio-card" id="radio-card-1" checked/>
+                                <span>Type 1</span>
+                            </div>
+                            <div class="card-body bg-light">
+                                <h5 class="card-title">Standard package</h5>
+                                <p class="card-text">Maximum size: 50 x 40 x 30 cm and maximum weight: 5 kg</p>
                             </div>
                         </div>
-                    </label>
-        </div>
-        
-        <div class="col-3">
-            <label for="radio-card-2" class="radio-card" @bind="type">
-                        <div class="card-content-wrapper">
-                            <span class="check-icon"></span>
-                            <div class="card">
-                                <div class="card-header">
-                                    <input type="radio" name="radio-card" id="radio-card-2"/>
-                                    <span>Type 2</span>
-                                </div>
-                                <div class="card-body bg-light">
-                                    <h5 class="card-title">Overweight package</h5>
-                                    <p class="card-text">Maximum size: 60 x 50 x 40 cm and maximum weight: 30 kg</p>
-                                </div>
-                            </div>
-                        </div>
-                    </label>
-        </div>
-        <div class="col-3">
-            <label for="radio-card-3" class="radio-card" @bind="type">
-                        <div class="card-content-wrapper">
-                            <span class="check-icon"></span>
-                            <div class="card">
-                                <div class="card-header">
-                                    <input type="radio" name="radio-card" id="radio-card-3"/>
-                                    <span>Type 3</span>
-                                </div>
-                                <div class="card-body bg-light">
-                                    <h5 class="card-title">Extra package</h5>
-                                    <p class="card-text">Maximum size: 150 x 90 x 50 cm and maximum weight: 50 kg</p>
-                                </div>
-                            </div>
-                        </div>
-                    </label>
-        </div>
-    </div>
-</div>
+                    </div>
+                </label>
+            </div>
 
-<div class="container w-100 w-lg-50 mt-5">
-    <div class="row row-cols-2">
-        <div class="col">
-            <div class="mb-3">
-                <label for="receiverName" class="form-label">Receiver’s name</label>
-                <input type="text" class="form-control" id="receiverName" placeholder="Alex Bolfa" @bind="receiverName"  @bind:event="oninput">
-                <ValidationMessage For="() => receiverName"/>
+            <div class="col-3">
+                <label for="radio-card-2" class="radio-card" @bind="packageCreationDto.PackageType">
+                    <div class="card-content-wrapper">
+                        <span class="check-icon"></span>
+                        <div class="card">
+                            <div class="card-header">
+                                <input type="radio" name="radio-card" id="radio-card-2"/>
+                                <span>Type 2</span>
+                            </div>
+                            <div class="card-body bg-light">
+                                <h5 class="card-title">Overweight package</h5>
+                                <p class="card-text">Maximum size: 60 x 50 x 40 cm and maximum weight: 30 kg</p>
+                            </div>
+                        </div>
+                    </div>
+                </label>
+            </div>
+            <div class="col-3">
+                <label for="radio-card-3" class="radio-card" @bind="packageCreationDto.PackageType">
+                    <div class="card-content-wrapper">
+                        <span class="check-icon"></span>
+                        <div class="card">
+                            <div class="card-header">
+                                <input type="radio" name="radio-card" id="radio-card-3"/>
+                                <span>Type 3</span>
+                            </div>
+                            <div class="card-body bg-light">
+                                <h5 class="card-title">Extra package</h5>
+                                <p class="card-text">Maximum size: 150 x 90 x 50 cm and maximum weight: 50 kg</p>
+                            </div>
+                        </div>
+                    </div>
+                </label>
             </div>
         </div>
-        <div class="col">
-            <div class="mb-3">
-                <label for="receiverPhoneNumber" class="form-label">Receiver’s phone number</label>
-                <input type="tel" class="form-control" id="receiverPhoneNumber" placeholder="69 69 69 69" @bind="receiverPhoneNumber" @bind:event="oninput">
-                <ValidationMessage For="() => receiverPhoneNumber"/>
+    </div>
+
+    <div class="container w-100 w-lg-50 mt-5">
+        <div class="row row-cols-2">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="receiverName" class="form-label">Receiver’s name</label>
+                    <input type="text" class="form-control" id="receiverName" placeholder="Alex Bolfa" @bind="packageCreationDto.ReceiverName" @bind:event="oninput">
+                    <ValidationMessage For="() => packageCreationDto.ReceiverName"/>
                 </div>
-        </div>
-        <div class="col">
-            <div class="mb-3">
-                <label for="receiverEmail" class="form-label">Receiver’s email address</label>
-                <input type="text" class="form-control" id="receiverEmail" placeholder="alex@hotmail.com" @bind="receiverEmail" @bind:event="oninput">
-                <ValidationMessage For="() => receiverEmail"/>
             </div>
-        </div>
-        <div class="col">
-            <div class="mb-3">
-                <label for="receiverPhone" class="form-label">Destination pickup point</label>
-                <select class="form-select" @bind="pickupPoint" >
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-                <span id="DestinationPickupPointErrorLabel" class="form-text text-danger">We'll never share your email with anyone else.</span>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="senderName" class="form-label">Receiver’s name</label>
+                    <input type="text" class="form-control" id="senderName" placeholder="Alex Bolfa" @bind="packageCreationDto.SenderName" @bind:event="oninput">
+                    <ValidationMessage For="() => packageCreationDto.SenderName"/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="receiverEmail" class="form-label">Receiver’s email address</label>
+                    <input type="text" class="form-control" id="receiverEmail" placeholder="alex@hotmail.com" @bind="packageCreationDto.ReceiverEmail" @bind:event="oninput">
+                    <ValidationMessage For="() => packageCreationDto.ReceiverEmail"/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="receiverPhone" class="form-label">Receiver’s phone number</label>
+                    <input type="tel" class="form-control" id="receiverPhone" placeholder="13 67 67 87" @bind="packageCreationDto.ReceiverPhoneNumber" @bind:event="oninput">
+                    <ValidationMessage For="() => packageCreationDto.ReceiverPhoneNumber"/>
+                </div>
+            </div>
+            @*<div class="col-12">
+                <div class="mb-3">
+                    <label class="form-label">Destination pickup point</label>
+                    <select class="form-select" @bind="packageCreationDto.FinalDestination">
+                        <option selected value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
 
-            </div>
+                </div>
+            </div> *@
+        </div>
+        <div class="text-center mt-5">
+            <button type="submit" class="btn btn-primary">Send a package</button>
         </div>
     </div>
-    <div class="text-center mt-5">
-      <button type="button" class="btn btn-primary" >Send a package</button>
-    </div>
-</div>
+</EditForm>
 
 @code {
+    public PackageCreationDto packageCreationDto = new PackageCreationDto();
     private string type = "";
-    private string receiverName = "";
-    private string receiverPhoneNumber = "";
-    private string receiverEmail = "";
-    private string pickupPoint = "";
-    
+    //todo implement getting pickup points
+    //private IEnumerable<GetLocationDto>? locations;
+
+
+    private string errorMsgForPickupPoints = "";
     private string resultMsg = "";
-    private bool isValid;
     private string color = "";
-    
-    private async Task Create()
+
+    private async Task SendPackageAsync()
     {
         resultMsg = "";
         try
         {
-            //await PackageService.CreatePackage(new UserCreationDto(username));
-            //username = "";
+            await PackageService.CreatePackage(packageCreationDto);
             resultMsg = "User successfully created";
             color = "green";
         }
@@ -132,4 +139,21 @@
             color = "red";
         }
     }
+
+    /*protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            errorMsgForPickupPoints = "";
+    //locations = await PackageService.GetAllPackagesByUserId(1);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            errorMsgForPickupPoints = e.Message;
+        }
+    }*/
+
+
+
 }
