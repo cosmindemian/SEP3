@@ -11,12 +11,12 @@ namespace gateway.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IUser userLogic;
-    private readonly DtoGenerator _dtoGenerator;
+    private readonly DtoMapper _dtoMapper;
 
-    public UserController(IUser userLogic)
+    public UserController(IUser userLogic, DtoMapper dtoMapper)
     {
         this.userLogic = userLogic;
-        _dtoGenerator = new DtoGenerator();
+        _dtoMapper = dtoMapper;
     }
 
     [HttpGet("{id}")]
@@ -25,7 +25,7 @@ public class UserController : ControllerBase
         try
         {
             var user = await userLogic.GetUserByIdAsync(id);
-            GetUserDto dto = _dtoGenerator.GetUserDto(user);
+            GetUserDto dto = _dtoMapper.GetUserDto(user);
             return Ok(dto);
         }
         catch (Exception e)

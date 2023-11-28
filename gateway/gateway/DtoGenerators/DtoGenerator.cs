@@ -17,10 +17,4 @@ public class DtoGenerator
             package.PackageType, currentLocation, finalLocation);
         return dto;
     }
-
-    public GetUserDto GetUserDto(User user)
-    {
-        var dto = new GetUserDto(user.Id, user.Email, user.Name, user.Phone);
-        return dto;
-    }
 }

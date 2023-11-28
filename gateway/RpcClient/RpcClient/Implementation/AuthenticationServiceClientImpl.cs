@@ -15,8 +15,7 @@ public class AuthenticationServiceClientImpl : IAuthenticationServiceClient
         var channel = GrpcChannel.ForAddress(ServiceConfig.AuthenticationServiceUrl);
         _client = new AuthenticationService.AuthenticationServiceClient(channel);
     }
-
-
+    
     public async Task<AuthenticationEntity> VerifyTokenAsync(string token)
     {
         var response = await _client.verifyTokenAsync(new JwtToken
@@ -26,5 +25,15 @@ public class AuthenticationServiceClientImpl : IAuthenticationServiceClient
         if (!response.IsTokenValid)
             throw new AuthenticationException("Token is not valid");
         return new AuthenticationEntity(response.UserId, response.AuthLevel, response.Email);
+    }
+    
+    public async Task<JwtToken> LoginAsync(string email, string password)
+    {
+        var response = await _client.loginAsync(new LoginRequest
+        {
+            Email = email,
+            Password = password
+        });
+        return response;
     }
 }

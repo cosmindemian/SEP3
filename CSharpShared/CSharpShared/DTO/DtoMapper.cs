@@ -44,10 +44,6 @@ public class DtoMapper
         return new GetShortPackageDto(package.Id, package.TrackingNumber, package.Status.Status_);
     }
     
-    public GetUserDto BuildGetUserDto(User user)
-    {
-        return new GetUserDto(user.Id, user.Email, user.Name, user.Phone);
-    }
     
     public LoginDto BuildLoginDto(string email, string password)
     {
@@ -59,8 +55,13 @@ public class DtoMapper
         return new RegisterDto(email, password, name, phone);
     }
     
-    public TokenDto GetTokenDto(string token)
+    public TokenDto BuildTokenDto(JwtToken token)
     {
-        return new TokenDto(token);
+        return new TokenDto(token.Token);
+    }
+
+    public GetUserDto GetUserDto(User user)
+    {
+        return new GetUserDto(user.Id, user.Email, user.Name, user.Phone);
     }
 }

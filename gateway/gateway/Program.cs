@@ -23,6 +23,7 @@ builder.Services.AddScoped<IAuthenticationServiceClient, AuthenticationServiceCl
 builder.Services.AddScoped<IPackageServiceClient, PackageServiceClient>();
 builder.Services.AddScoped<IUserServiceClient, UserServiceClientImpl>();
 builder.Services.AddScoped<DtoMapper>();
+builder.Services.AddScoped<IAuth, ImplementationAuth>();
 
 
 // Add authentication. Every request will be authenticated using the AuthenticationProviderSchemeHandler
