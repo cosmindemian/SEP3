@@ -66,8 +66,8 @@ public class ImplementationPackage : IPackage
             Id = package.Id,
             PackageNumber = package.TrackingNumber,
             SenderName = user.Name,
-            PackageStatus = "hello",
-            PackageType = "hello",
+            PackageStatus = package.Status.Status_,
+            PackageType = package.Size.SizeName,
             CurrentLocation = _dtoMapper.BuildGetLocationDto(currentLocation),
             FinalDestination = _dtoMapper.BuildGetLocationDto(finalLocation)
         };
