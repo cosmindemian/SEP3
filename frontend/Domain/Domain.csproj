@@ -42,6 +42,7 @@
         <Compile Include="DTO\GetAddressDto.cs" />
         <Compile Include="DTO\GetLocationDto.cs" />
         <Compile Include="DTO\PackageBasicDto.cs" />
+        <Compile Include="DTO\PackageCreationDto.cs" />
         <Compile Include="DTO\PackageGetDTO.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>

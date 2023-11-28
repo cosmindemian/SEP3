@@ -1,5 +1,7 @@
 using System.Security.Claims;
 using System.Text.Encodings.Web;
+using Authentication;
+using Grpc.Core;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
 using RpcClient.RpcClient.Interface;
@@ -27,7 +29,23 @@ public class AuthenticationProviderSchemeHandler : AuthenticationHandler<Authent
         if (authHeader.Count < 1) //If there is no authorization header, authentication fails.
             return AuthenticateResult.Fail("Missing Authorization Header");
         var token = authHeader[0]!;
-        var authenticationEntity = await _authenticationClient.VerifyTokenAsync(token);
+        AuthenticationEntity? authenticationEntity = null;
+        try
+        {
+            authenticationEntity = await _authenticationClient.VerifyTokenAsync(token);
+        }
+        catch(RpcException e)
+        {
+            if (e.StatusCode== StatusCode.Unauthenticated)
+            {
+                AuthenticateResult.Fail("Invalid token");
+            }
+        }
+
+        if (authenticationEntity == null)
+        {
+            return AuthenticateResult.Fail("No idea");
+        }
         var claims = new[]
         {
             new Claim("UserId", authenticationEntity.UserId.ToString()),

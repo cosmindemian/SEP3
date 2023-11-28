@@ -41,25 +41,25 @@
             <tbody>
             <tr>
                 <th scope="row">Package number</th>
-                <td>@user</td>
+                <td>@package.PackageNumber</td>
             </tr>
             <tr>
                 <th scope="row">Sender</th>
-                <td>Anna</td>
+                <td>@package.SenderName</td>
             </tr>
             <tr>
                 <th scope="row">Status</th>
-                <td>At pickup point</td>
+                <td>@package.PackageStatus</td>
 
             </tr>
             <tr>
                 <th scope="row">Current location</th>
-                <td>Horsens</td>
+                <td>@package.CurrentLocation.Address.City</td>
 
             </tr>
             <tr>
                 <th scope="row">Final destination</th>
-                <td>Horsens</td>
+                <td>@package.FinalDestination.Address.City</td>
 
             </tr>
             </tbody>
@@ -79,6 +79,7 @@
 
     private async Task ShowPackageInfo()
     {
+        packageInfoValid = false;
         try
         {
             package = await PackageService.GetPackageByTrackingNumberAsync(packageNumber);

@@ -27,16 +27,15 @@ public class DtoMapper
     public GetPackageDto BuildGetPackageDto(Packet package, LocationWithAddress currentLocation,
         LocationWithAddress finalLocation, string userName)
     {
-        return new GetPackageDto
-        {
-            Id = package.Id,
-            PackageNumber = package.TrackingNumber,
-            SenderName = userName,
-            PackageStatus = package.Status.Status_,
-            PackageType = package.Size.SizeName,
-            CurrentLocation = this.BuildGetLocationDto(currentLocation),
-            FinalDestination = this.BuildGetLocationDto(finalLocation)
-        };
+        var dto =  new GetPackageDto();
+        dto.Id = package.Id;
+        dto.CurrentLocation = BuildGetLocationDto(currentLocation);
+        dto.FinalDestination = this.BuildGetLocationDto(finalLocation);
+        dto.PackageType = "small";
+        dto.PackageNumber = package.TrackingNumber;
+        dto.SenderName = userName;
+        dto.PackageStatus = package.Status.Status_;
+        return dto;
     }
     
     public GetShortPackageDto BuildGetShortPackageDto(Packet package)
