@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\c_proto\c_proto.csproj" />
+    </ItemGroup>
+
 </Project>

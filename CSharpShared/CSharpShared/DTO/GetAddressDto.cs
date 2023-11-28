@@ -12,4 +12,8 @@ public class GetAddressDto
         City = city;
         BuildingNumber = buildingNumber;
     }
+
+    public GetAddressDto()
+    {
+    }
 }

@@ -1,4 +1,5 @@
 using gateway.AuhtenticationScheme;
+using gateway.DTO;
 using gateway.Model;
 using gateway.Model.Implementation;
 using gateway.RpcClient;
@@ -21,6 +22,7 @@ builder.Services.AddScoped<ILocationServiceClient, LocationServiceClientImpl>();
 builder.Services.AddScoped<IAuthenticationServiceClient, AuthenticationServiceClientImpl>();
 builder.Services.AddScoped<IPackageServiceClient, PackageServiceClient>();
 builder.Services.AddScoped<IUserServiceClient, UserServiceClientImpl>();
+builder.Services.AddScoped<DtoMapper>();
 
 
 // Add authentication. Every request will be authenticated using the AuthenticationProviderSchemeHandler
