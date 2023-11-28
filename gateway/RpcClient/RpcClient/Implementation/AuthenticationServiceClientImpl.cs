@@ -36,4 +36,15 @@ public class AuthenticationServiceClientImpl : IAuthenticationServiceClient
         });
         return response;
     }
+
+    public async Task<JwtToken> RegisterAsync(string email, string password, long userId)
+    {
+        var response = await _client.registerAsync(new RegisterRequest
+        {
+            Email = email,
+            Password = password,
+            UserId = userId
+        });
+        return response;
+    }
 }

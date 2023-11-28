@@ -21,4 +21,15 @@ public class UserServiceClientImpl : IUserServiceClient
         });
         return response;
     }
+
+    public async Task<User> SaveUserAsync(string email, string name, string phone)
+    {
+        var response = await _client.SaveUserAsync(new CreateUser()
+        {
+            Email = email,
+            Name = name,
+            Phone = phone
+        });
+        return response;
+    }
 }
