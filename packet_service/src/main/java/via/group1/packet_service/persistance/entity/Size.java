@@ -13,22 +13,23 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(schema = SqlConfig.PACKET_SCHEMA)
-public class Status {
-
+public class Size {
     @Id
     @GeneratedValue
     private Long Id;
     private String name;
-    private String description;
-    @OneToMany(mappedBy = "status", fetch = FetchType.EAGER)
+    private String Length;
+    private String Width;
+    private String Height;
+    @OneToMany(mappedBy = "size", fetch = FetchType.EAGER)
     private Set<Packet> packets;
 
-    public Status() {
+    public Size() {
         packets = new HashSet<>();
     }
 
     public void addPacket(Packet packet) {
-        packet.setStatus(this);
+        packet.setSize(this);
         packets.add(packet);
     }
 

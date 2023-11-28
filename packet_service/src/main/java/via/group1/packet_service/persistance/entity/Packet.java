@@ -23,6 +23,8 @@ public class Packet {
     private Long finalDestinationId;
     @ManyToOne(cascade = CascadeType.MERGE)
     private Status status;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    private Size size;
 
     @Column(nullable = false, unique = true)
     private String trackingNumber;
