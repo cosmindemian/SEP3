@@ -10,4 +10,5 @@ public interface LocationService
   Location saveLocation(Location location);
   Location getLocation(Long Id);
   ArrayList<Location> getAllLocations();
+  ArrayList<Location> getAllLocationsByType(String type);
 }

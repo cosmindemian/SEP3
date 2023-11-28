@@ -15,6 +15,8 @@ import via.group1.location_service.persistance.entity.PickUpPoint;
 
 import java.util.NoSuchElementException;
 
+import java.util.ArrayList;
+
 @GrpcService
 @RequiredArgsConstructor
 public class LocationRpcService extends LocationServiceGrpc.LocationServiceImplBase
@@ -43,6 +45,7 @@ public class LocationRpcService extends LocationServiceGrpc.LocationServiceImplB
       responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asException());
     }
   }
+
   @Override
   public void getAddressById(LocationServiceOuterClass.getAddressIdRpc request,
                               StreamObserver<LocationServiceOuterClass.Address> responseObserver)
@@ -100,4 +103,13 @@ public class LocationRpcService extends LocationServiceGrpc.LocationServiceImplB
     }
   }
 
+  @Override public void getAllLocationsByType(
+      LocationServiceOuterClass.getTypeRpc request,
+      StreamObserver<LocationServiceOuterClass.Locations> responseObserver)
+  {
+    ArrayList<Location> locations=locationService.getAllLocationsByType(request.getType());
+    LocationServiceOuterClass.Locations locationsRpc = mapper.buildLocationsRpc(locations);
+    responseObserver.onNext(locationsRpc);
+    responseObserver.onCompleted();
+  }
 }

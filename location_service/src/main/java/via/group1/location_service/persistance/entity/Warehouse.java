@@ -11,8 +11,13 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
-@AllArgsConstructor
 public class Warehouse extends Location
 {
+  public Warehouse() {
+    super("Warehouse");
+  }
 
+  public Warehouse(Address address) {
+    super(address, "Warehouse");
+  }
 }

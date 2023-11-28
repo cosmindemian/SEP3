@@ -37,7 +37,7 @@ message WarehouseWithAddress{
 
 message Location{
   oneof type{
-    PickUpPoint pick_up_point = 1;
+    PickUpPoint pickUpPoint = 1;
     Warehouse warehouse = 2;
   }
   bool isPickUpPoint = 3;
