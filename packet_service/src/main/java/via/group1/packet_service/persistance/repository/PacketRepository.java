@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import via.group1.packet_service.persistance.entity.Packet;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,4 +15,6 @@ public interface PacketRepository extends JpaRepository<Packet, Long> {
     Optional<ArrayList<Packet>> findBySenderId(Long senderId);
 
     Optional<ArrayList<Packet>> findByReceiverId(Long receiverId);
+
+    Optional<ArrayList<Packet>> getPacketsByReceiverIdIn(List<Long> ids);
 }

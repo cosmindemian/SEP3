@@ -32,11 +32,6 @@ public class PackageController : ControllerBase
         {
             return NotFound();
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return StatusCode(500, e.Message);
-        }
     }
     
     [HttpGet]
