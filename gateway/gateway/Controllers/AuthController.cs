@@ -11,7 +11,6 @@ namespace gateway.Controllers;
 public class AuthController: ControllerBase
 {
     private readonly IAuth authLogic;
-    private readonly DtoGenerator _dtoGenerator;
 
     public AuthController(IAuth authLogic)
     {
