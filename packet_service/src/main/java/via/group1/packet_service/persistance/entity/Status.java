@@ -27,6 +27,12 @@ public class Status {
         packets = new HashSet<>();
     }
 
+    public Status(String name, String description) {
+        this.name = name;
+        this.description = description;
+        packets = new HashSet<>();
+    }
+
     public void addPacket(Packet packet) {
         packet.setStatus(this);
         packets.add(packet);

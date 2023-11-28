@@ -15,3 +15,5 @@ insert into packet_service.size(id, name, length, width, height,weight)
 values (2, 'name2', 'length2', 'width2', 'height2','weight2');
 insert into packet_service.size(id, name, length, width, height,weight)
 values (3, 'name3', 'length3', 'width3', 'height3','weight3');
+
+-- can be deleted

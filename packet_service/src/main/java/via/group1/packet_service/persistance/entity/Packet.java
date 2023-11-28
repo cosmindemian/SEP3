@@ -38,11 +38,20 @@ public class Packet {
 
     }
 
-    public Packet(Long senderId, Long receiverId, Long currentLocationId, Long finalId, Long finalDestinationId) {
+    public Packet(Long senderId, Long receiverId, Long currentLocationId, Long finalDestinationId) {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.currentLocationId = currentLocationId;
         this.finalDestinationId = finalDestinationId;
     }
 
+    public Packet(Long id,Long senderId, Long receiverId, Long currentLocationId, Long finalDestinationId, Status status, Size size) {
+        this.id=id;
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.currentLocationId = currentLocationId;
+        this.finalDestinationId = finalDestinationId;
+        this.status = status;
+        this.size = size;
+    }
 }

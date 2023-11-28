@@ -13,3 +13,5 @@ VALUES (1, 1, 'PickupPoint', 'Aarhus PickUpPoint', '08:00:00', '16:00:00');
 
 INSERT INTO location_service.location (id, address_id, dtype)
 VALUES (2, 2, 'Warehouse');
+
+-- can be deleted

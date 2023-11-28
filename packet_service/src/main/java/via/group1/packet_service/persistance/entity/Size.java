@@ -36,4 +36,12 @@ public class Size {
         packets.add(packet);
     }
 
+    public Size(String name, String Length, String Width, String Height, String Weight) {
+        this.name = name;
+        this.Length = Length;
+        this.Width = Width;
+        this.Height = Height;
+        this.Weight = Weight;
+    }
+
 }
