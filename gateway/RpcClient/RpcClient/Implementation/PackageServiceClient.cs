@@ -23,4 +23,13 @@ public class PackageServiceClient : IPackageServiceClient
         });
       return response;
     }
+    
+    public async Task<Packets> GetPackageByReceiverAsync(long userId)
+    {
+        var response = await _client.getAllPacketsByReceiverAsync(new Id()
+        {
+            Id_ = userId
+        });
+        return response;
+    }
 }
