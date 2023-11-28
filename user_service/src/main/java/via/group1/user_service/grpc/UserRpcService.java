@@ -27,7 +27,7 @@ public class UserRpcService extends UserServiceGrpc.UserServiceImplBase {
             responseObserver.onNext(userRpc);
             responseObserver.onCompleted();
         }
-        catch (NoSuchElementException e)
+        catch (NullPointerException | NoSuchElementException e)
         {
             responseObserver.onError(io.grpc.Status.NOT_FOUND.withDescription(e.getMessage()).asException());
         }
@@ -60,7 +60,7 @@ public class UserRpcService extends UserServiceGrpc.UserServiceImplBase {
             responseObserver.onNext(userListRpc);
             responseObserver.onCompleted();
         }
-        catch (NoSuchElementException e){
+        catch (NullPointerException | NoSuchElementException e){
             responseObserver.onError(io.grpc.Status.NOT_FOUND.withDescription(e.getMessage()).asException());
         }
         catch (Exception e){
