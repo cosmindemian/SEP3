@@ -9,6 +9,7 @@ import via.group1.user_service.model.interfaces.UserService;
 import via.group1.user_service.persistance.entity.User;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @GrpcService
 @RequiredArgsConstructor
@@ -20,28 +21,50 @@ public class UserRpcService extends UserServiceGrpc.UserServiceImplBase {
     @Override
     public void getUser(UserServiceOuterClass.GetUserByIdRequest request,
                         StreamObserver<UserServiceOuterClass.User> responseObserver) {
-        User user = userService.getUser(request.getId());
-        UserServiceOuterClass.User userRpc = mapper.buildUserRpc(user);
-        responseObserver.onNext(userRpc);
-        responseObserver.onCompleted();
+        try{
+            User user = userService.getUser(request.getId());
+            UserServiceOuterClass.User userRpc = mapper.buildUserRpc(user);
+            responseObserver.onNext(userRpc);
+            responseObserver.onCompleted();
+        }
+        catch (NoSuchElementException e)
+        {
+            responseObserver.onError(io.grpc.Status.NOT_FOUND.withDescription(e.getMessage()).asException());
+        }
+        catch (Exception e){
+            responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asException());
+        }
     }
 
     @Override
     public void saveUser(UserServiceOuterClass.SaveUserRequest request,
                          StreamObserver<UserServiceOuterClass.User> responseObserver) {
-        User user = mapper.parseUserRpc(request.getUser());
-        User savedUser = userService.saveUser(user);
-        UserServiceOuterClass.User userRpc = mapper.buildUserRpc(savedUser);
-        responseObserver.onNext(userRpc);
-        responseObserver.onCompleted();
+        try{
+            User user = mapper.parseUserRpc(request.getUser());
+            User savedUser = userService.saveUser(user);
+            UserServiceOuterClass.User userRpc = mapper.buildUserRpc(savedUser);
+            responseObserver.onNext(userRpc);
+            responseObserver.onCompleted();
+        }
+        catch (Exception e){
+            responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asException());
+        }
     }
 
     @Override
     public void getUserList(UserServiceOuterClass.GetUserListRequest request,
                             StreamObserver<UserServiceOuterClass.UserList> responseObserver) {
-        List<User> userList = userService.getUserList(request.getIdList());
-        UserServiceOuterClass.UserList userListRpc = mapper.buildUserList(userList);
-        responseObserver.onNext(userListRpc);
-        responseObserver.onCompleted();
+        try{
+            List<User> userList = userService.getUserList(request.getIdList());
+            UserServiceOuterClass.UserList userListRpc = mapper.buildUserList(userList);
+            responseObserver.onNext(userListRpc);
+            responseObserver.onCompleted();
+        }
+        catch (NoSuchElementException e){
+            responseObserver.onError(io.grpc.Status.NOT_FOUND.withDescription(e.getMessage()).asException());
+        }
+        catch (Exception e){
+            responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asException());
+        }
     }
 }
