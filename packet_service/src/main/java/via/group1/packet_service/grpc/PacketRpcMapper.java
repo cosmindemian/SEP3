@@ -7,6 +7,7 @@ import via.group1.packet_service.persistance.entity.Size;
 import via.group1.packet_service.persistance.entity.Status;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class PacketRpcMapper {
@@ -31,6 +32,7 @@ public class PacketRpcMapper {
         if (size.getLength() != null) builder.setSizeLength(size.getLength());
         if (size.getWidth() != null) builder.setSizeWidth(size.getWidth());
         if (size.getHeight() != null) builder.setSizeHeight(size.getHeight());
+        if (size.getWeight() != null) builder.setSizeWeight(size.getWeight());
         return builder.build();
     }
 
@@ -47,6 +49,14 @@ public class PacketRpcMapper {
         PacketServiceOuterClass.Packets.Builder builder = PacketServiceOuterClass.Packets.newBuilder();
         for (Packet packet : packets) {
             builder.addPacket(buildPacketRpc(packet));
+        }
+        return builder.build();
+    }
+
+    public PacketServiceOuterClass.Sizes buildSizesRpc(List<Size> sizes) {
+        PacketServiceOuterClass.Sizes.Builder builder = PacketServiceOuterClass.Sizes.newBuilder();
+        for (Size size : sizes) {
+            builder.addSize(buildSize(size));
         }
         return builder.build();
     }

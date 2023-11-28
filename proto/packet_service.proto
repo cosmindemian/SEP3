@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+
 option java_package = "generated";
 
 message Packet{
@@ -19,6 +21,11 @@ message Size{
   string sizeLength = 3;
   string sizeWidth = 4;
   string sizeHeight = 5;
+  string sizeWeight = 6;
+}
+
+message Sizes{
+  repeated Size size = 1;
 }
 
 message Status{
@@ -50,11 +57,17 @@ message AddPacket{
   int64 finalDestinationId = 4;
 }
 
+message IdListRpc{
+  repeated int64 id = 1;
+}
+
 service PacketService{
   rpc addPacket(AddPacket) returns (Packet);
   rpc getPacketById(GetPacketIdRpc) returns(Packet);
   rpc getPacketByTrackingNumber(GetPacketTrackingNumber) returns(Packet);
   rpc getAllPacketsBySender(Id) returns(Packets);
   rpc getAllPacketsByReceiver(Id) returns(Packets);
+  rpc getAllSizes(google.protobuf.Empty) returns (Sizes);
+  rpc getAllPacketsByReceiverIds(IdListRpc) returns(Packets);
 }
 
