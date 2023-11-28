@@ -67,6 +67,10 @@ message getAddressIdRpc{
   int64 id = 1;
 }
 
+message getLocationsIdInListRpc{
+  repeated int64 id = 1;
+}
+
 message Locations{
   repeated Location locations = 1;
 }
@@ -81,4 +85,5 @@ service LocationService{
   rpc getAddressById(getAddressIdRpc) returns(Address);
   rpc getAllLocations(google.protobuf.Empty) returns(Locations);
   rpc getAllLocationsByType(getTypeRpc) returns(Locations);
+  rpc getAllLocationsByIdIn(getLocationsIdInListRpc) returns(Locations);
 }

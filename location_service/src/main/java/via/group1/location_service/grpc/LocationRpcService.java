@@ -120,13 +120,13 @@ public class LocationRpcService extends LocationServiceGrpc.LocationServiceImplB
     }
   }
 
-  @Override public void getLocationsByIds(
-      LocationServiceOuterClass.getLocationsIdRpc request,
+  @Override public void getAllLocationsByIdIn(
+      LocationServiceOuterClass.getLocationsIdInListRpc request,
       StreamObserver<LocationServiceOuterClass.Locations> responseObserver)
   {
     try
     {
-      ArrayList<Location> locations=locationService.getAllLocationsByIdIn(request.getIdsList());
+      ArrayList<Location> locations=locationService.getAllLocationsByIdIn(request.getIdList());
       LocationServiceOuterClass.Locations locationsRpc = mapper.buildLocationsRpc(locations);
       responseObserver.onNext(locationsRpc);
       responseObserver.onCompleted();
