@@ -2,6 +2,7 @@
 using gateway.DtoGenerators;
 using gateway.Model;
 using Microsoft.AspNetCore.Mvc;
+using persistance.Exception;
 
 namespace gateway.Controllers;
 
@@ -25,6 +26,10 @@ public class PackageController : ControllerBase
         {
             var package = await packageLogic.GetPackageByTrackingNumber(id);
             return Ok(package);
+        }
+        catch (NotFoundException)
+        {
+            return NotFound();
         }
         catch (Exception e)
         {
