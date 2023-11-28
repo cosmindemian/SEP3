@@ -1,4 +1,6 @@
 ﻿@page "/PackageInfo"
+@using Client.Interfaces
+@inject IPackageService PackageService;
 
 <PageTitle>See package information</PageTitle>
 
@@ -6,55 +8,63 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col col-md-4">
-            <input type="text" class="form-control" id="packageNumber" @bind="packageNumber" placeholder="P 123 123 123">
+            <input type="text" class="form-control" id="packageNumber" @bind="packageNumber" placeholder="P 123 123 123" @bind:event="oninput">
         </div>
+
         <div class="col col-md-3 mx-0 ">
-            <button type="submit" @onclick="ShowPackageInfo" class="btn btn-primary">Track a package</button>
+            <button type="submit" @onclick="ShowPackageInfo" disabled="@(string.IsNullOrEmpty(packageNumber))" class="btn btn-primary">Track a package</button>
         </div>
+
+        @if (!string.IsNullOrEmpty(errorLabel))
+        {
+            <div class="d-flex justify-content-center mt-5">
+                <div class="alert alert-primary" role="alert">
+                    @errorLabel
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+               
+                    <img src="packageNotFoundMonkey.jpg" alt="package not found" class="pt-2 w-25 rounded">
+               
+            </div>
+            
+        }
     </div>
 
 </div>
 
-@if (errorLabel != "")
-{
-    <div class="field">
-        <label style="color: red">
-            @errorLabel
-        </label>
-    </div>
-}
 
 @if (packageInfoValid)
 {
     <div class="container w-lg-50">
-        
-    <table class="table mt-5">
-        <tbody>
-        <tr>
-            <th scope="row">Package number</th>
-            <td>123</td>
-        </tr>
-        <tr>
-            <th scope="row">Sender</th>
-            <td>Anna</td>
-        </tr>
-        <tr>
-            <th scope="row">Status</th>
-            <td>At pickup point</td>
 
-        </tr>
-        <tr>
-            <th scope="row">Current location</th>
-            <td>Horsens</td>
+        <table class="table mt-5">
+            <tbody>
+            <tr>
+                <th scope="row">Package number</th>
+                <td>@user</td>
+            </tr>
+            <tr>
+                <th scope="row">Sender</th>
+                <td>Anna</td>
+            </tr>
+            <tr>
+                <th scope="row">Status</th>
+                <td>At pickup point</td>
 
-        </tr>
-        <tr>
-            <th scope="row">Final destination</th>
-            <td>Horsens</td>
+            </tr>
+            <tr>
+                <th scope="row">Current location</th>
+                <td>Horsens</td>
 
-        </tr>
-        </tbody>
-    </table>
+            </tr>
+            <tr>
+                <th scope="row">Final destination</th>
+                <td>Horsens</td>
+
+            </tr>
+            </tbody>
+        </table>
     </div>
 }
 
@@ -63,24 +73,25 @@
 @code {
     private string packageNumber;
     private string errorLabel = "";
-    bool packageInfoValid = true;
-    private Package package;
+    bool packageInfoValid;
+    private PackageGetDTO package;
+    private string user;
+
 
     private async Task ShowPackageInfo()
     {
         try
         {
-    //get the package from the server
-            var packageNumberLong = long.Parse(packageNumber);
-    //package = await packageService.GetPackageByIdAsync(packageNumberLong);
+            package = await PackageService.GetPackageByTrackingNumberAsync(packageNumber);
             packageInfoValid = true;
             errorLabel = "";
         }
         catch (Exception e)
         {
-    //errorLabel = "g";
-            errorLabel = "There is no package with the id";
+            errorLabel = "There is no package with this tracking number: " + packageNumber;
         }
     }
+
+
 
 }

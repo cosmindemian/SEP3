@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 
 option java_package = "generated";
 
@@ -12,8 +12,8 @@ message PickUpPoint{
   int64 id = 1;
   int64 addressId = 2;
   string name = 3;
-  google.protobuf.Timestamp opening_hours = 4;
-  google.protobuf.Timestamp closing_hours= 5;
+  string opening_hours = 4;
+  string closing_hours= 5;
 }
 
 message Warehouse{
@@ -21,11 +21,32 @@ message Warehouse{
   int64 addressId = 2;
 }
 
+message PickUpPointWithAddress{
+  int64 id = 1;
+  string name = 2;
+  string opening_hours = 3;
+  string closing_hours= 4;
+  Address address = 5;
+}
+
+message WarehouseWithAddress{
+  int64 id = 1;
+  Address address = 2;
+}
+
 
 message Location{
   oneof type{
-    PickUpPoint pick_up_point = 1;
+    PickUpPoint pickUpPoint = 1;
     Warehouse warehouse = 2;
+  }
+  bool isPickUpPoint = 3;
+}
+
+message LocationWithAddress{
+  oneof type{
+    PickUpPointWithAddress pick_up_point = 1;
+    WarehouseWithAddress warehouse = 2;
   }
   bool isPickUpPoint = 3;
 }
@@ -46,7 +67,18 @@ message getAddressIdRpc{
   int64 id = 1;
 }
 
+message Locations{
+  repeated Location locations = 1;
+}
+
+message getTypeRpc{
+  string type = 1;
+}
+
 service LocationService{
   rpc getLocationById(getLocationIdRpc) returns(Location);
+  rpc getLocationWithAddressById(getLocationIdRpc) returns(LocationWithAddress);
   rpc getAddressById(getAddressIdRpc) returns(Address);
+  rpc getAllLocations(google.protobuf.Empty) returns(Locations);
+  rpc getAllLocationsByType(getTypeRpc) returns(Locations);
 }

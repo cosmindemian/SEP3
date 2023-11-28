@@ -39,12 +39,9 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="DTO\AddressGetDTO.cs" />
+        <Compile Include="DTO\GetAddressDto.cs" />
+        <Compile Include="DTO\GetLocationDto.cs" />
         <Compile Include="DTO\PackageGetDTO.cs" />
-        <Compile Include="Model\Customer.cs" />
-        <Compile Include="Model\Location\Address.cs" />
-        <Compile Include="Model\Package.cs" />
-        <Compile Include="Model\PickupPoint.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>

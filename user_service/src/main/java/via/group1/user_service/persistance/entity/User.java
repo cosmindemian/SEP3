@@ -21,8 +21,14 @@ public class User {
     private long id;
 
     private String email;
-    private String password;
     private String name;
-    private String address;
     private String phone;
+
+
+    //For data insertion
+    public User(String name, String email, String phone) {
+        this.email = email;
+        this.name = name;
+        this.phone = phone;
+    }
 }

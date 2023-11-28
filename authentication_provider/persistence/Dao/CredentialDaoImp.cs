@@ -30,7 +30,7 @@ public class CredentialDaoImp : ICredentialDao
 
     public async Task<Credential> GetCredentialAsync(string email)
     {
-        var credential = await _context.Credentials.FirstOrDefaultAsync(cr => cr.Email == email);
+        var credential = await _context.Credentials.Include(cr =>cr.Role).FirstOrDefaultAsync(cr => cr.Email == email);
         if (credential == null)
         {
             throw new NotFoundException();

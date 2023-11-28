@@ -1,0 +1,9 @@
+.idea
+CSharpShared/bin
+CSharpShared/obj
+CSharpShared/CSharpShared/bin
+CSharpShared/CSharpShared/obj
+c_proto/bin
+c_proto/obj
+c_proto/c_proto/obj
+c_proto/c_proto/.idea

@@ -1,11 +1,13 @@
 ﻿@page "/SendPackage"
+@using Client.Interfaces
+@inject IPackageService PackageService;
 
 
 <h1 class="text-center fw-bold text-uppercase">SEND a Package</h1>
 <div class="container mt-5">
     <div class=" row justify-content-center">
         <div class="col-3">
-            <label for="radio-card-1" class="radio-card">
+            <label for="radio-card-1" class="radio-card" @bind="type">
                         <div class="card-content-wrapper">
                             <span class="check-icon"></span>
                             <div class="card">
@@ -23,7 +25,7 @@
         </div>
         
         <div class="col-3">
-            <label for="radio-card-2" class="radio-card">
+            <label for="radio-card-2" class="radio-card" @bind="type">
                         <div class="card-content-wrapper">
                             <span class="check-icon"></span>
                             <div class="card">
@@ -40,7 +42,7 @@
                     </label>
         </div>
         <div class="col-3">
-            <label for="radio-card-3" class="radio-card">
+            <label for="radio-card-3" class="radio-card" @bind="type">
                         <div class="card-content-wrapper">
                             <span class="check-icon"></span>
                             <div class="card">
@@ -56,9 +58,6 @@
                         </div>
                     </label>
         </div>
-        
-
-
     </div>
 </div>
 
@@ -67,28 +66,28 @@
         <div class="col">
             <div class="mb-3">
                 <label for="receiverName" class="form-label">Receiver’s name</label>
-                <input type="text" class="form-control" id="receiverName" placeholder="Alex Bolfa" >
+                <input type="text" class="form-control" id="receiverName" placeholder="Alex Bolfa" @bind="receiverName">
                 <span id="receiverErrorLabel" class="form-text text-danger">We'll never share your email with anyone else.</span>
             </div>
         </div>
         <div class="col">
             <div class="mb-3">
                 <label for="receiverPhone" class="form-label">Receiver’s phone number</label>
-                <input type="number" class="form-control" id="receiverPhone" placeholder="69 69 69 69" >
+                <input type="tel" class="form-control" id="receiverPhone" placeholder="69 69 69 69" @bind="receiverPhoneNumber">
                 <span id="receiverPhoneErrorLabel" class="form-text text-danger">We'll never share your email with anyone else.</span>
             </div>
         </div>
         <div class="col">
             <div class="mb-3">
                 <label for="receiverEmail" class="form-label">Receiver’s email address</label>
-                <input type="number" class="form-control" id="receiverEmail" placeholder="alex@hotmail.com" >
+                <input type="text" class="form-control" id="receiverEmail" placeholder="alex@hotmail.com" @bind="receiverEmail">
                 <span id="receiverEmailErrorLabel" class="form-text text-danger">We'll never share your email with anyone else.</span>
             </div>
         </div>
         <div class="col">
             <div class="mb-3">
                 <label for="receiverPhone" class="form-label">Destination pickup point</label>
-                <select class="form-select" aria-label="Default select example">
+                <select class="form-select" aria-label="Default select example" @bind="pickupPoint">
                     <option selected>Open this select menu</option>
                     <option value="1">One</option>
                     <option value="2">Two</option>
@@ -105,5 +104,31 @@
 </div>
 
 @code {
+    private string type = "";
+    private string receiverName = "";
+    private string receiverPhoneNumber = "";
+    private string receiverEmail = "";
+    private string pickupPoint = "";
+    
+    private string resultMsg = "";
+    private string color = "";
+    
+    private async Task Create()
+    {
+        resultMsg = "";
 
+        try
+        {
+            //await PackageService.CreatePackage(new UserCreationDto(username));
+            //username = "";
+            resultMsg = "User successfully created";
+            color = "green";
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            resultMsg = e.Message;
+            color = "red";
+        }
+    }
 }

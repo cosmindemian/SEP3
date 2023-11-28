@@ -1,22 +1,22 @@
 ﻿
 public class PackageGetDTO
 {
-    public long SenderId { get; set; }
-    public double Weight { get; set; }
-    public long Id { get; set; }
-    public string Status { get; set; }
-    public string SenderName { get; set; }
-    public string ReceiverName { get; set; }
-    public AddressGetDTO ReceiverAddress { get; set; }
+    public long Id { set; get; }
+    public string PackageNumber { set; get; }
+    public string SenderName { set; get; }
+    public string PackageStatus { set; get; }
+    public string PackageType { set; get; }
+    public GetLocationDto CurrentLocation { set; get; }
+    public GetLocationDto FinalDestination { set; get; }
 
-    public PackageGetDTO(long senderId, double weight, long id, string status, string senderName, string receiverName, AddressGetDTO receiverAddress)
+    public PackageGetDTO(long id, string packageNumber, string senderName, string packageStatus, string packageType, GetLocationDto currentLocation, GetLocationDto finalDestination)
     {
-        SenderId = senderId;
-        Weight = weight;
         Id = id;
-        Status = status;
+        PackageNumber = packageNumber;
         SenderName = senderName;
-        ReceiverName = receiverName;
-        ReceiverAddress = receiverAddress;
+        PackageStatus = packageStatus;
+        PackageType = packageType;
+        CurrentLocation = currentLocation;
+        FinalDestination = finalDestination;
     }
 }
