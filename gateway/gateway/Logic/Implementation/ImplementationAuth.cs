@@ -8,12 +8,15 @@ namespace gateway.Model.Implementation;
 public class ImplementationAuth : IAuth
 {
     private readonly IAuthenticationServiceClient _authServiceClient;
+    private readonly IUserServiceClient _userServiceClient;
     
     private readonly DtoMapper _dtoMapper;
     
-    public ImplementationAuth(IAuthenticationServiceClient authServiceClient, DtoMapper dtoMapper)
+    public ImplementationAuth(IAuthenticationServiceClient authServiceClient, IUserServiceClient userServiceClient,
+        DtoMapper dtoMapper)
     {
         _authServiceClient = authServiceClient;
+        _userServiceClient = userServiceClient;
         _dtoMapper = dtoMapper;
     }
     
@@ -34,8 +37,22 @@ public class ImplementationAuth : IAuth
         }
     }
 
-    public Task<TokenDto> RegisterAsync(RegisterDto registerDto)
+    public async Task<TokenDto> RegisterAsync(RegisterDto registerDto)
     {
-        throw new NotImplementedException();
+        var user = await _userServiceClient.SaveUserAsync(registerDto.email, registerDto.name, registerDto.phone);
+        
+        try
+        {
+            var token = await _authServiceClient.RegisterAsync(registerDto.email, registerDto.password, user.Id);
+            return _dtoMapper.BuildTokenDto(token);
+        }
+        catch (RpcException e)
+        {
+            if (e.StatusCode == StatusCode.InvalidArgument)
+            {
+                throw new LoginException("Invalid arguments");
+            }
+            throw;
+        }
     }
 }
