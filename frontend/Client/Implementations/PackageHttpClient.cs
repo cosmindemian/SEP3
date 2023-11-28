@@ -19,7 +19,6 @@ namespace Client.Implementations
 
             public async Task<PackageGetDTO> GetPackageByTrackingNumberAsync(string trackingNumber)
             {
-                client.DefaultRequestHeaders.Add("Bearer", "hello");
                 HttpResponseMessage response = await client.GetAsync($"/package/{trackingNumber}");
                 string content = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
