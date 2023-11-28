@@ -107,9 +107,16 @@ public class LocationRpcService extends LocationServiceGrpc.LocationServiceImplB
       LocationServiceOuterClass.getTypeRpc request,
       StreamObserver<LocationServiceOuterClass.Locations> responseObserver)
   {
-    ArrayList<Location> locations=locationService.getAllLocationsByType(request.getType());
-    LocationServiceOuterClass.Locations locationsRpc = mapper.buildLocationsRpc(locations);
-    responseObserver.onNext(locationsRpc);
-    responseObserver.onCompleted();
+    try
+    {
+      ArrayList<Location> locations=locationService.getAllLocationsByType(request.getType());
+      LocationServiceOuterClass.Locations locationsRpc = mapper.buildLocationsRpc(locations);
+      responseObserver.onNext(locationsRpc);
+      responseObserver.onCompleted();
+    }
+    catch (Exception e)
+    {
+      responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asException());
+    }
   }
 }
