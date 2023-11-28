@@ -66,4 +66,13 @@ public class ImplementationPackage : IPackage
         var packets = await _packageServiceClient.GetPackageByReceiverAsync(userId);
         return packets.Packet.Select(_dtoMapper.BuildGetShortPackageDto);
     }
+
+    public async Task SendPackageAsync(SendPackageDto dto)
+    {
+        throw new NotImplementedException();
+        var locationRequest = _locationServiceClient.GetLocationByIdAsync(dto.FinalLocationId);
+
+        await Task.WhenAll(locationRequest);
+        
+    }
 }

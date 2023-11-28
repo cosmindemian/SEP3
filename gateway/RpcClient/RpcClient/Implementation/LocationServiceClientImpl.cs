@@ -36,4 +36,13 @@ public class LocationServiceClientImpl : ILocationServiceClient
         }
         return response;
     }
+
+    public async Task<LocationsWithAddress> GetAllPickUpPointsAsync()
+    { 
+        var response = await _client.getAllLocationsWithAddressByTypeAsync(new getTypeRpc
+        {
+            Type = "PickUpPoint"
+        });
+        return response;
+    }
 }

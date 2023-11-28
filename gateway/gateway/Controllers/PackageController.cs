@@ -12,7 +12,7 @@ namespace gateway.Controllers;
 public class PackageController : ControllerBase
 {
     private readonly IPackage packageLogic;
-    private readonly DtoGenerator _dtoGenerator ;
+    private readonly DtoGenerator _dtoGenerator;
 
     public PackageController(IPackage packageLogic)
     {
@@ -33,7 +33,7 @@ public class PackageController : ControllerBase
             return NotFound();
         }
     }
-    
+
     [HttpGet]
     [Authorize]
     public async Task<ActionResult<IEnumerable<GetShortPackageDto>>> GetAllPackagesOfUser()
@@ -50,5 +50,11 @@ public class PackageController : ControllerBase
             Console.WriteLine(e);
             return StatusCode(500, e.Message);
         }
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> SendPackageAsync(SendPackageDto dto)
+    {
+        throw new NotImplementedException();
     }
 }

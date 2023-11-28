@@ -27,33 +27,33 @@ public class DtoMapper
     public GetPackageDto BuildGetPackageDto(Packet package, LocationWithAddress currentLocation,
         LocationWithAddress finalLocation, string userName)
     {
-        var dto =  new GetPackageDto();
+        var dto = new GetPackageDto();
         dto.Id = package.Id;
         dto.CurrentLocation = BuildGetLocationDto(currentLocation);
-        dto.FinalDestination = this.BuildGetLocationDto(finalLocation);
+        dto.FinalDestination = BuildGetLocationDto(finalLocation);
         dto.PackageType = package.Size.SizeName;
         dto.PackageNumber = package.TrackingNumber;
         dto.SenderName = userName;
         dto.PackageStatus = package.Status.Status_;
         return dto;
     }
-    
+
     public GetShortPackageDto BuildGetShortPackageDto(Packet package)
     {
         return new GetShortPackageDto(package.Id, package.TrackingNumber, package.Status.Status_);
     }
-    
-    
+
+
     public LoginDto BuildLoginDto(string email, string password)
     {
         return new LoginDto(email, password);
     }
-    
+
     public RegisterDto BuildRegisterDto(string email, string password, string name, string phone)
     {
         return new RegisterDto(email, password, name, phone);
     }
-    
+
     public TokenDto BuildTokenDto(JwtToken token)
     {
         return new TokenDto(token.Token);
@@ -62,5 +62,20 @@ public class DtoMapper
     public GetUserDto GetUserDto(User user)
     {
         return new GetUserDto(user.Id, user.Email, user.Name, user.Phone);
+    }
+
+    public GetPickUpPointDto BuildGetPickUpPointDto(LocationWithAddress location)
+    {
+        if (!location.IsPickUpPoint)
+            throw new Exception("Location is not a pickup point");
+        var pickUpPoint = location.PickUpPoint;
+        return new GetPickUpPointDto
+        {
+            Address = BuildGetAddressDto(pickUpPoint.Address),
+            Id = pickUpPoint.Id,
+            Name = pickUpPoint.Name,
+            OpenTime = pickUpPoint.OpeningHours,
+            CloseTime = pickUpPoint.ClosingHours
+        };
     }
 }
