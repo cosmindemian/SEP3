@@ -20,7 +20,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<GetUserDto>> GetById([FromRoute] long id)
+    public async Task<ActionResult<GetUserDto>> GetByIdAsync([FromRoute] long id)
     {
         try
         {
