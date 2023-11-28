@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Client.Interfaces;
 using System.Text.Json;
+using Domain.DTO;
+
 namespace Client.Implementations
 {
     public class PackageHttpClient: IPackageService{
@@ -47,6 +50,23 @@ namespace Client.Implementations
                     PropertyNameCaseInsensitive = true
                 });
                 return package;
+            }
+
+            public async Task<IEnumerable<PackageBasicDto>> GetAllPackagesByUserId(long userId)
+            {
+                string uri = "/packages";
+                HttpResponseMessage response = await client.GetAsync(uri);
+                string result = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception(result);
+                }
+
+                IEnumerable<PackageBasicDto> packages = JsonSerializer.Deserialize<IEnumerable<PackageBasicDto>>(result, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+                return packages;
             }
     }
 }

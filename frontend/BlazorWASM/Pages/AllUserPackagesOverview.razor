@@ -1,0 +1,74 @@
+﻿@page "/AllUserPackagesOverview"
+@using Client.Interfaces
+@using Domain.DTO
+@inject IPackageService PackageService;
+
+<section class="container mt-4">
+    <div class="d-flex justify-content-center">
+        <h1 class="text-center display-3 text-uppercase"><b>Hello John Doe</b></h1>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-light">
+                <div class="card-body mt-2">
+                    <p><b>Email:</b>  john.doe@example.com</p>
+                    <p><b>Phone number:</b> 123 123 142</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@if (packages == null)
+{
+    <span>Loading..</span>
+}
+else if (!packages.Any())
+{
+    <span>No users to be found</span>
+}
+else
+{
+
+    <!-- Packages Overview Section -->
+    <section class="container mt-4">
+        <h2 class="mb-4">Packages Overview</h2>
+        <div class="row">
+             @foreach (PackageBasicDto package in packages)
+             {
+                 <div class="col-md-4 mb-4">
+                     <div class="card">
+                         <h5 class="card-header bg-@color">Status: @package.PackageNumber</h5>
+                         <div class="card-body">
+                             <h5 class="card-title">Tracking number: @package.PackageStatus</h5>
+                             <a href="/PackageInfo/@package.Id" class="btn btn-outline-dark btn-block mt-2">See more</a>
+                         </div>
+                     </div>
+                 </div>
+             }
+        </div>
+    </section>
+}
+
+
+@code {
+    private string color = "primary";
+    private string color2 = "danger";
+    private string color3 = "success";
+    private IEnumerable<PackageBasicDto>? packages;
+    private string msg = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        msg = "";
+        try
+        {
+            packages = await PackageService.GetAllPackagesByUserId(1);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+    }
+    
+}
