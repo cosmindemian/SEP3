@@ -121,4 +121,15 @@ import java.util.ArrayList;
     return builder.build();
   }
 
+  public LocationServiceOuterClass.LocationsWithAddress buildLocationsWithAddressRpc(ArrayList<Location> locations)
+  {
+    LocationServiceOuterClass.LocationsWithAddress.Builder builder =
+        LocationServiceOuterClass.LocationsWithAddress.newBuilder();
+    for (Location location : locations)
+    {
+      builder.addLocations(buildLocationWithAddressRpc(location));
+    }
+    return builder.build();
+  }
+
 }
