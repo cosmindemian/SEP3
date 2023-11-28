@@ -32,4 +32,13 @@ public class PackageServiceClient : IPackageServiceClient
         });
         return response;
     }
+    
+    public async Task<Packets> GetPackageByReceiversAsync(IEnumerable<long> userId)
+    {
+        var response = await _client.getAllPacketsByReceiverIdsAsync(new IdListRpc()
+        {
+            Id = {userId}
+        });
+        return response;
+    }
 }

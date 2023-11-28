@@ -40,12 +40,9 @@ public class AuthenticationProviderSchemeHandler : AuthenticationHandler<Authent
             {
                 AuthenticateResult.Fail("Invalid token");
             }
+            throw;
         }
-
-        if (authenticationEntity == null)
-        {
-            return AuthenticateResult.Fail("No idea");
-        }
+        
         var claims = new[]
         {
             new Claim("UserId", authenticationEntity.UserId.ToString()),

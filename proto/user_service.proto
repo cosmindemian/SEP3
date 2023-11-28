@@ -23,6 +23,10 @@ message GetUserByIdRequest{
     int64 id = 1;
 }
 
+message Email{
+    string email = 1;
+}
+
 message GetUserListRequest{
     repeated int64 id = 1;
 }
@@ -31,4 +35,5 @@ service UserService{
     rpc SaveUser(CreateUser) returns (User);
     rpc GetUser(GetUserByIdRequest) returns (User);
     rpc GetUserList(GetUserListRequest) returns (UserList);
+    rpc GetUsersByEmail(Email) returns (UserList);
 }

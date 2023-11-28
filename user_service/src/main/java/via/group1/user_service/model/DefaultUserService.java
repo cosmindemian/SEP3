@@ -29,4 +29,9 @@ public class DefaultUserService implements UserService {
     public List<User> getUserList(List<Long> ids) {
         return userRepository.findAllByIdIn(ids);
     }
+
+    @Override
+    public List<User> getUsersByEmail(String email) {
+        return userRepository.findAllByEmail(email);
+    }
 }

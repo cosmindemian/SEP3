@@ -24,7 +24,7 @@ public class AuthenticationServiceClientImpl : IAuthenticationServiceClient
         });
         if (!response.IsTokenValid)
             throw new AuthenticationException("Token is not valid");
-        return new AuthenticationEntity(response.UserId, response.AuthLevel, response.Email);
+        return new AuthenticationEntity(response.UserId,  response.Email, response.AuthLevel);
     }
     
     public async Task<JwtToken> LoginAsync(string email, string password)

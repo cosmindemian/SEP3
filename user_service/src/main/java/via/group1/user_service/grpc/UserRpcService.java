@@ -66,4 +66,17 @@ public class UserRpcService extends UserServiceGrpc.UserServiceImplBase {
             responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asException());
         }
     }
+
+    @Override
+    public void getUsersByEmail(UserServiceOuterClass.Email request, StreamObserver<UserServiceOuterClass.UserList> responseObserver) {
+        try{
+            List<User> userList = userService.getUsersByEmail(request.getEmail());
+            UserServiceOuterClass.UserList userListRpc = mapper.buildUserList(userList);
+            responseObserver.onNext(userListRpc);
+            responseObserver.onCompleted();
+        }
+        catch (Exception e){
+            responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asException());
+        }
+    }
 }

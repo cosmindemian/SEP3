@@ -7,7 +7,7 @@ public interface IPackage
 {
     Task<GetPackageDto> GetPackageByTrackingNumber(string trackingNumber);
     
-    Task<IEnumerable<GetShortPackageDto>> GetPackagesByReceiverAsync(long userId);
+    Task<IEnumerable<GetShortPackageDto>> GetPackagesByReceiverAsync(string email);
     
     Task SendPackageAsync(SendPackageDto dto);
 }

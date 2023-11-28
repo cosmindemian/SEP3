@@ -32,4 +32,13 @@ public class UserServiceClientImpl : IUserServiceClient
         });
         return response;
     }
+    
+    public async Task<UserList> GetUsersAsync(string email)
+    {
+        var response = await _client.GetUsersByEmailAsync(new Email()
+        {
+            Email_ = email
+        });
+        return response;
+    }
 }

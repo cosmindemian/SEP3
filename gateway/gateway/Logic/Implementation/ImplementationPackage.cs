@@ -43,6 +43,7 @@ public class ImplementationPackage : IPackage
 
             throw;
         }
+
         var userRequest = _userServiceClient.GetUserByIdAsync(package.Id);
         var currentLocationResult = _locationServiceClient
             .GetLocationByIdWithAddressAsync(package.CurrentAddressId);
@@ -58,12 +59,15 @@ public class ImplementationPackage : IPackage
         {
             throw new Exception($"Package with id {trackingNumber} not found");
         }
+
         return _dtoMapper.BuildGetPackageDto(package, currentLocation, finalLocation, user.Name);
     }
 
-    public async Task<IEnumerable<GetShortPackageDto>> GetPackagesByReceiverAsync(long userId)
+    public async Task<IEnumerable<GetShortPackageDto>> GetPackagesByReceiverAsync(string email)
     {
-        var packets = await _packageServiceClient.GetPackageByReceiverAsync(userId);
+        var users = await _userServiceClient.GetUsersAsync(email);
+        var ids = users.Users.Select(user => user.Id).ToList();
+        var packets = await _packageServiceClient.GetPackageByReceiversAsync(ids);
         return packets.Packet.Select(_dtoMapper.BuildGetShortPackageDto);
     }
 
@@ -73,6 +77,5 @@ public class ImplementationPackage : IPackage
         var locationRequest = _locationServiceClient.GetLocationByIdAsync(dto.FinalLocationId);
 
         await Task.WhenAll(locationRequest);
-        
     }
 }

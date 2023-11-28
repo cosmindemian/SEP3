@@ -12,3 +12,4 @@ Authentication/.idea
 AuthenticationProviderTest/bin
 AuthenticationProviderTest/obj
 AuthenticationProviderTest/.idea
+persistence/Config/DatabaseConfig.cs

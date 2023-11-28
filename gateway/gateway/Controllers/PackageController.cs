@@ -1,4 +1,5 @@
-﻿using gateway.DTO;
+﻿using System.Security.Claims;
+using gateway.DTO;
 using gateway.DtoGenerators;
 using gateway.Model;
 using Microsoft.AspNetCore.Authorization;
@@ -40,9 +41,8 @@ public class PackageController : ControllerBase
     {
         try
         {
-            var userId = User.Claims.First(c => c.Type == "UserId").Value;
-            long id = long.Parse(userId);
-            var packages = await packageLogic.GetPackagesByReceiverAsync(id);
+            var email = User.Claims.First(c => c.Type == ClaimTypes.Email).Value;
+            var packages = await packageLogic.GetPackagesByReceiverAsync(email);
             return Ok(packages);
         }
         catch (Exception e)
