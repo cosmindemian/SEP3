@@ -4,8 +4,8 @@ import "google/protobuf/empty.proto";
 
 option java_package = "generated";
 
-message IsPickUpPoint{
-  bool isPickUpPoint = 1;
+message Type{
+  bool type = 1;
 }
 
 message PickUpPoint{
@@ -90,5 +90,6 @@ service LocationService{
   rpc getAllLocations(google.protobuf.Empty) returns(Locations);
   rpc getAllLocationsByType(getTypeRpc) returns(Locations);
   rpc getAllLocationsByIdIn(getLocationsIdInListRpc) returns(Locations);
+  rpc getAllLocationsWithAddressByType(getTypeRpc) returns(LocationsWithAddress);
   rpc getAllLocationsWithAddressByIdIn(getLocationsIdInListRpc) returns(LocationsWithAddress);
 }
