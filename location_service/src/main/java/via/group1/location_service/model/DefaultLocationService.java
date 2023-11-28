@@ -9,6 +9,7 @@ import via.group1.location_service.persistance.entity.Warehouse;
 import via.group1.location_service.persistance.repository.LocationRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -35,6 +36,11 @@ public class DefaultLocationService implements LocationService
   @Override public ArrayList<Location> getAllLocationsByType(String type)
   {
     return (ArrayList<Location>) locationRepository.getAllByType(type).orElseThrow();
+  }
+
+  @Override public ArrayList<Location> getAllLocationsByIdIn(List<Long> id)
+  {
+    return (ArrayList<Location>) locationRepository.getAllByIdIn(id).orElseThrow();
   }
 
 }
