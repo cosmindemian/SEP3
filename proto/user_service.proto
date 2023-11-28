@@ -19,10 +19,6 @@ message UserList {
     repeated User users = 1;
 }
 
-message SaveUserRequest{
-    CreateUser user = 1;
-}
-
 message GetUserByIdRequest{
     int64 id = 1;
 }
@@ -31,9 +27,8 @@ message GetUserListRequest{
     repeated int64 id = 1;
 }
 
-// questionable
 service UserService{
-    rpc SaveUser(SaveUserRequest) returns (User);
+    rpc SaveUser(CreateUser) returns (User);
     rpc GetUser(GetUserByIdRequest) returns (User);
     rpc GetUserList(GetUserListRequest) returns (UserList);
 }
