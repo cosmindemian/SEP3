@@ -21,6 +21,7 @@ public class Size {
     private String Length;
     private String Width;
     private String Height;
+    private String Weight;
     @OneToMany(mappedBy = "size", fetch = FetchType.EAGER)
     private Set<Packet> packets;
 

@@ -7,6 +7,8 @@ import via.group1.packet_service.model.interfaces.StatusService;
 import via.group1.packet_service.persistance.entity.Size;
 import via.group1.packet_service.persistance.repository.SizeRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class DefaultSizeService implements SizeService {
@@ -15,5 +17,9 @@ public class DefaultSizeService implements SizeService {
     @Override
     public Size getDefautSize() {
         return sizeRepository.findById(1L).orElseThrow(RuntimeException::new);
+    }
+
+    public List<Size> getAllSizes() {
+        return sizeRepository.findAll();
     }
 }

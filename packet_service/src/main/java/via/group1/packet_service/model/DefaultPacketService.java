@@ -9,8 +9,10 @@ import via.group1.packet_service.persistance.entity.Packet;
 import via.group1.packet_service.persistance.entity.Size;
 import via.group1.packet_service.persistance.entity.Status;
 import via.group1.packet_service.persistance.repository.PacketRepository;
+import via.group1.packet_service.persistance.repository.SizeRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -58,14 +60,27 @@ public class DefaultPacketService implements PacketService {
         return generatedString.toUpperCase();
     }
 
+    @Override
     public ArrayList<Packet> getAllPacketsBySenderId(Long id) {
         Optional<ArrayList<Packet>> packet = packetRepository.findBySenderId(id);
         return packet.orElse(null);
     }
 
+    @Override
     public ArrayList<Packet> getAllPacketsByReceiverId(Long id) {
         Optional<ArrayList<Packet>> packet = packetRepository.findByReceiverId(id);
         return packet.orElse(null);
     }
+
+    @Override
+    public ArrayList<Size> getAllSizes() {
+        return (ArrayList<Size>) sizeService.getAllSizes();
+    }
+
+    @Override
+    public ArrayList<Packet> getAllPacketsByReceiverIds(List<Long> ids) {
+        return (ArrayList<Packet>) packetRepository.getPacketsByReceiverIdIn(ids).orElseThrow();
+    }
+
 
 }
