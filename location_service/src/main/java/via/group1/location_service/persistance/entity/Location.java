@@ -25,10 +25,15 @@ public abstract class Location
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "address_id", referencedColumnName = "id")
   private Address address;
+  private String type;
 
+  public Location(String type) {
+    this.type = type;
+  }
 
-  public Location(Address address) {
+  public Location(Address address, String type) {
     this.address = address;
+    this.type = type;
   }
 
   @Override public String toString()

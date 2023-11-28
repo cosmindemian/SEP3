@@ -22,8 +22,8 @@ import java.util.ArrayList;
     if (location instanceof PickUpPoint)
     {
       PickUpPoint pickUpPoint= (PickUpPoint) location;
-      System.out.println(pickUpPoint.getClosing_hours());
-      System.out.println(pickUpPoint.getName());
+//      System.out.println(pickUpPoint.getClosing_hours());
+//      System.out.println(pickUpPoint.getName());
       LocationServiceOuterClass.PickUpPoint builderPickUpPoint=
             LocationServiceOuterClass.PickUpPoint.newBuilder()
               .setId(pickUpPoint.getId())

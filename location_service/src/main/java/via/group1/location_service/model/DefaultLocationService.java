@@ -32,5 +32,9 @@ public class DefaultLocationService implements LocationService
     return (ArrayList<Location>) locationRepository.findAll();
   }
 
+  @Override public ArrayList<Location> getAllLocationsByType(String type)
+  {
+    return (ArrayList<Location>) locationRepository.getAllByType(type).orElseThrow();
+  }
 
 }
