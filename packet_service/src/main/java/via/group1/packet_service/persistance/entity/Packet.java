@@ -1,8 +1,10 @@
 package via.group1.packet_service.persistance.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import via.group1.packet_service.config.SqlConfig;
 import via.group1.packet_service.persistance.entity.Status;
 
@@ -11,6 +13,8 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@ToString
+@AllArgsConstructor
 @Table(schema = SqlConfig.PACKET_SCHEMA)
 public class Packet {
 
@@ -33,7 +37,6 @@ public class Packet {
     }
 
     public Packet(Long senderId, Long receiverId, Long currentLocationId, Long finalId, Long finalDestinationId) {
-
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.currentLocationId = currentLocationId;

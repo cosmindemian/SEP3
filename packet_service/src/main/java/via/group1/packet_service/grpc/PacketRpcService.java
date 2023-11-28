@@ -13,6 +13,8 @@ import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 import via.group1.packet_service.model.interfaces.PacketService;
+import via.group1.packet_service.model.interfaces.SizeService;
+import via.group1.packet_service.model.interfaces.StatusService;
 import via.group1.packet_service.persistance.entity.Packet;
 import via.group1.packet_service.persistance.entity.Size;
 
@@ -25,6 +27,8 @@ import java.util.NoSuchElementException;
 public class PacketRpcService extends PacketServiceGrpc.PacketServiceImplBase {
 
     private final PacketService packetService;
+    private final SizeService sizeService;
+    private final StatusService statusService;
     private final PacketRpcMapper mapper;
 
     @Override
@@ -32,7 +36,8 @@ public class PacketRpcService extends PacketServiceGrpc.PacketServiceImplBase {
                           StreamObserver<PacketServiceOuterClass.Packet> responseObserver) {
 
         try {
-            Packet packet = mapper.parseAddPacketRequest(request);
+            Size size=sizeService.getSizeById(request.getSizeId());
+            Packet packet = mapper.parseAddPacketRequest(request, size);
             packet = packetService.savePacket(packet);
             PacketServiceOuterClass.Packet packetRpc = mapper.buildPacketRpc(packet);
             responseObserver.onNext(packetRpc);

@@ -52,7 +52,7 @@ message GetPacketIdRpc{
 
 message AddPacket{
   int64  senderId = 1;
-  Size size = 2;
+  int64 sizeId = 2;
   int64  receiverId = 3;
   int64 finalDestinationId = 4;
 }

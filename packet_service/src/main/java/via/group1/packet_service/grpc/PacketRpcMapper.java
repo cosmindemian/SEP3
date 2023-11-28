@@ -2,6 +2,7 @@ package via.group1.packet_service.grpc;
 
 import generated.PacketServiceOuterClass;
 import org.springframework.stereotype.Component;
+import via.group1.packet_service.model.interfaces.PacketService;
 import via.group1.packet_service.persistance.entity.Packet;
 import via.group1.packet_service.persistance.entity.Size;
 import via.group1.packet_service.persistance.entity.Status;
@@ -61,11 +62,19 @@ public class PacketRpcMapper {
         return builder.build();
     }
 
-    public Packet parseAddPacketRequest(PacketServiceOuterClass.AddPacket request) {
+    public Size buildSizeFromOuterClass(PacketServiceOuterClass.Size size){
+        Size entitySize=new Size();
+
+        return entitySize;
+    }
+
+    public Packet parseAddPacketRequest(PacketServiceOuterClass.AddPacket request, Size size) {
+        System.out.println(size);
         Packet packet = new Packet();
         packet.setSenderId(request.getSenderId());
         packet.setReceiverId(request.getReceiverId());
         packet.setFinalDestinationId(request.getFinalDestinationId());
+        packet.setSize(size);
         return packet;
     }
 

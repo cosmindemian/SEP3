@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface SizeService {
     Size getDefautSize();
-
+    Size getSizeById(Long id);
     List<Size> getAllSizes();
 }

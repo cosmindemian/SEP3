@@ -19,6 +19,11 @@ public class DefaultSizeService implements SizeService {
         return sizeRepository.findById(1L).orElseThrow(RuntimeException::new);
     }
 
+    @Override
+    public Size getSizeById(Long id) {
+        return sizeRepository.findById(id).orElseThrow();
+    }
+
     public List<Size> getAllSizes() {
         return sizeRepository.findAll();
     }

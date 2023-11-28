@@ -4,6 +4,7 @@ package via.group1.packet_service.persistance.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import via.group1.packet_service.config.SqlConfig;
 
 import java.util.HashSet;
@@ -12,6 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(schema = SqlConfig.PACKET_SCHEMA)
 public class Size {
     @Id
