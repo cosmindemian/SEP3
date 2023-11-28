@@ -1,0 +1,53 @@
+﻿@page "/RegisterUser"
+<PageTitle>Register</PageTitle>
+<div class="container h-75">
+    <div class="row align-items-center">
+        <div class="me-5 col-12 col-xxl-5">
+            <div class="card window p-4">
+                <div class="card-body">
+                    <h1 class="fw-bold text-uppercase text-center">Register</h1>
+                    <div class=" mt-2">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Honzik">
+                    </div>
+                    <div class="mt-2">
+                        <label for="phoneNumber">Phone number</label>
+                        <input type="tel" class="form-control" id="phoneNumber" placeholder="69 69 69 69">
+                    </div>
+                    <div class="mt-2">
+                        <label for="email">Email address</label>
+                        <input type="email" class="form-control" id="email" placeholder="honzik@hotmail.com">
+                    </div>
+                    <div class="mt-2">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password">
+                    </div>
+                    <div class="d-grid mt-4">
+                        <button class="btn btn-primary" type="button">Register</button>
+                    </div>
+                    <p class="mt-3 text-center">Already have an account? <a href="/Login">Log in</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <img src="loginMonkey.jpg" width="600px" alt="monkey" class="rounded-3 d-none d-xxl-block">
+        </div>
+    </div>
+
+</div>
+<style>
+    .window{
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+  
+    
+</style>
+
+@code {
+
+}

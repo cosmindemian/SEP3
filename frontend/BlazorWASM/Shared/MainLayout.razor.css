@@ -1,7 +1,7 @@
 @media only screen and (min-width: 992px) {
     .login-nav-button{
         border-radius: 20px;
-        background-color: #0C4984;
+        background-color: #66CEE8;
         padding: 0 15px;
     }
     .login-nav-text{
@@ -9,6 +9,6 @@
     }
 }
 .nav-link:active{
-    color: #0C4984;
+    color: #66CEE8;
 }
 
