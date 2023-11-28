@@ -1,4 +1,4 @@
-﻿using gateway.DTO;
+﻿/*using gateway.DTO;
 using gateway.DtoGenerators;
 using gateway.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -34,4 +34,4 @@ public class AuthController: ControllerBase
         }
     }
     
-}
+}*/

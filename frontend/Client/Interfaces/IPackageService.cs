@@ -7,8 +7,7 @@ namespace Client.Interfaces
     public interface IPackageService
     {
         Task<PackageGetDTO> GetPackageByTrackingNumberAsync(string trackingNumber);
-        //Task<string> GetUser();
-        Task<PackageGetDTO> CreatePackage(PackageGetDTO dto);
+        Task<PackageCreationDto> CreatePackage(PackageCreationDto dto);
         Task<IEnumerable<PackageBasicDto>> GetAllPackagesByUserId(long userId);
     }
 }

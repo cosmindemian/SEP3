@@ -31,6 +31,7 @@ public class DtoMapper
         dto.Id = package.Id;
         dto.CurrentLocation = BuildGetLocationDto(currentLocation);
         dto.FinalDestination = this.BuildGetLocationDto(finalLocation);
+        //TODO change the hardcoded value
         dto.PackageType = "small";
         dto.PackageNumber = package.TrackingNumber;
         dto.SenderName = userName;
