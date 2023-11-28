@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import via.group1.location_service.persistance.entity.Address;
 import via.group1.location_service.persistance.entity.Location;
 import via.group1.location_service.persistance.entity.PickUpPoint;
+import via.group1.location_service.persistance.entity.Warehouse;
 import via.group1.location_service.persistance.repository.AddressRepository;
 import via.group1.location_service.persistance.repository.LocationRepository;
 
@@ -23,11 +24,16 @@ public class TestDataInsertor implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         Address address = new Address("Aalborg", "9000", "Hobrovej", "12");
-        Address address2 = new Address("Aalborg", "9000", "Hobrovej", "13");
-        Location location = new PickUpPoint(address, "AalborgPickUp", new Time(50000), new Time(50000));
-        Location location2 = new PickUpPoint(address2, "AalborgPickUp2", new Time(50000), new Time(50000));
+        Address address2 = new Address("Aarhus", "8200", "Hasselager Alle", "22");
+        Address address3 = new Address("Aalborg", "9000", "Hobrovej", "14");
+        Address address4 = new Address("Aarhus", "8200", "Hasselager Alle", "16");
+        Location location = new PickUpPoint(address, "AalborgPickUp", new Time(50000), new Time(90000));
+        Location location2 = new PickUpPoint(address2, "AarhusPickUp", new Time(50000), new Time(90000));
+        Location location3 = new Warehouse(address3);
+        Location location4 = new Warehouse(address4);
         locationRepository.save(location);
         locationRepository.save(location2);
-
+        locationRepository.save(location3);
+        locationRepository.save(location4);
     }
 }

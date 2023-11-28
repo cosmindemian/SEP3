@@ -12,6 +12,8 @@ import via.group1.location_service.persistance.entity.Address;
 import via.group1.location_service.persistance.entity.Location;
 import via.group1.location_service.persistance.entity.PickUpPoint;
 
+import java.util.ArrayList;
+
 @GrpcService
 @RequiredArgsConstructor
 public class LocationRpcService extends LocationServiceGrpc.LocationServiceImplBase
@@ -64,4 +66,13 @@ public class LocationRpcService extends LocationServiceGrpc.LocationServiceImplB
     responseObserver.onCompleted();
   }
 
+  @Override public void getAllLocationsByType(
+      LocationServiceOuterClass.getTypeRpc request,
+      StreamObserver<LocationServiceOuterClass.Locations> responseObserver)
+  {
+    ArrayList<Location> locations=locationService.getAllLocationsByType(request.getType());
+    LocationServiceOuterClass.Locations locationsRpc = mapper.buildLocationsRpc(locations);
+    responseObserver.onNext(locationsRpc);
+    responseObserver.onCompleted();
+  }
 }
