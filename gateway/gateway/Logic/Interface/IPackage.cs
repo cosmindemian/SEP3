@@ -5,7 +5,7 @@ namespace gateway.Model;
 
 public interface IPackage
 {
-    Task<GetPackageDto> GetPackageByTrackingNumber(string trackingNumber);
+    Task<GetPackageDto> GetPackageByTrackingNumberAsync(string trackingNumber);
     
     Task<IEnumerable<GetShortPackageDto>> GetPackagesByReceiverAsync(string email);
     

@@ -22,11 +22,11 @@ public class PackageController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<GetPackageDto>> GetById([FromRoute] string id)
+    public async Task<ActionResult<GetPackageDto>> GetByTrackingNumberAsync([FromRoute] string trackingNumber)
     {
         try
         {
-            var package = await packageLogic.GetPackageByTrackingNumber(id);
+            var package = await packageLogic.GetPackageByTrackingNumberAsync(trackingNumber);
             return Ok(package);
         }
         catch (NotFoundException)

@@ -27,7 +27,7 @@ public class ImplementationPackage : IPackage
         _dtoMapper = dtoMapper;
     }
 
-    public async Task<GetPackageDto> GetPackageByTrackingNumber(string trackingNumber)
+    public async Task<GetPackageDto> GetPackageByTrackingNumberAsync(string trackingNumber)
     {
         Packet package;
         try
