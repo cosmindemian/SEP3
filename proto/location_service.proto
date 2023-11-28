@@ -21,11 +21,32 @@ message Warehouse{
   int64 addressId = 2;
 }
 
+message PickUpPointWithAddress{
+  int64 id = 1;
+  string name = 2;
+  string opening_hours = 3;
+  string closing_hours= 4;
+  Address address = 5;
+}
+
+message WarehouseWithAddress{
+  int64 id = 1;
+  Address address = 2;
+}
+
 
 message Location{
   oneof type{
     PickUpPoint pick_up_point = 1;
     Warehouse warehouse = 2;
+  }
+  bool isPickUpPoint = 3;
+}
+
+message LocationWithAddress{
+  oneof type{
+    PickUpPointWithAddress pick_up_point = 1;
+    WarehouseWithAddress warehouse = 2;
   }
   bool isPickUpPoint = 3;
 }
@@ -56,6 +77,7 @@ message getTypeRpc{
 
 service LocationService{
   rpc getLocationById(getLocationIdRpc) returns(Location);
+  rpc getLocationWithAddressById(getLocationIdRpc) returns(LocationWithAddress);
   rpc getAddressById(getAddressIdRpc) returns(Address);
   rpc getAllLocations(google.protobuf.Empty) returns(Locations);
   rpc getAllLocationsByType(getTypeRpc) returns(Locations);

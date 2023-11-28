@@ -22,8 +22,8 @@ import java.util.ArrayList;
     if (location instanceof PickUpPoint)
     {
       PickUpPoint pickUpPoint= (PickUpPoint) location;
-//      System.out.println(pickUpPoint.getClosing_hours());
-//      System.out.println(pickUpPoint.getName());
+      System.out.println(pickUpPoint.getClosing_hours());
+      System.out.println(pickUpPoint.getName());
       LocationServiceOuterClass.PickUpPoint builderPickUpPoint=
             LocationServiceOuterClass.PickUpPoint.newBuilder()
               .setId(pickUpPoint.getId())
@@ -38,13 +38,62 @@ import java.util.ArrayList;
     }
     else
     {
+      LocationServiceOuterClass.Warehouse.Builder builderWarehouse=
+          LocationServiceOuterClass.Warehouse.newBuilder()
+          .setId(location.getId())
+          .setAddressId(location.getAddress().getId()
+          );
       builder
           .setIsPickUpPoint(false)
-          .setWarehouse(
-            LocationServiceOuterClass.Warehouse.newBuilder()
-              .setId(location.getId())
-              .setAddressId(location.getAddress().getId())
-              .build());
+          .setWarehouse(builderWarehouse.build());
+    }
+    return builder.build();
+  }
+
+  public LocationServiceOuterClass.LocationWithAddress buildLocationWithAddressRpc(
+      Location location)
+  {
+
+    LocationServiceOuterClass.LocationWithAddress.Builder builder =
+        LocationServiceOuterClass.LocationWithAddress.newBuilder();
+
+    if (location instanceof PickUpPoint)
+    {
+      PickUpPoint pickUpPoint= (PickUpPoint) location;
+      LocationServiceOuterClass.PickUpPointWithAddress.Builder builderPickUpPoint=
+          LocationServiceOuterClass.PickUpPointWithAddress.newBuilder()
+              .setId(pickUpPoint.getId())
+              .setName(pickUpPoint.getName())
+              .setOpeningHours(pickUpPoint.getOpening_hours().toString())
+              .setClosingHours(pickUpPoint.getClosing_hours().toString())
+              .setAddress(
+                  LocationServiceOuterClass.Address.newBuilder()
+                      .setId(pickUpPoint.getAddress().getId())
+                      .setCity(pickUpPoint.getAddress().getCity())
+                      .setZip(pickUpPoint.getAddress().getZip())
+                      .setStreet(pickUpPoint.getAddress().getStreet())
+                      .setStreetNumber(pickUpPoint.getAddress().getStreet_number())
+              );
+      builder
+          .setIsPickUpPoint(true)
+          .setPickUpPoint(builderPickUpPoint.build());
+    }
+    else
+    {
+      LocationServiceOuterClass.WarehouseWithAddress.Builder builderWarehouse=
+          LocationServiceOuterClass.WarehouseWithAddress.newBuilder()
+          .setId(location.getId())
+          .setAddress(
+              LocationServiceOuterClass.Address.newBuilder()
+                  .setId(location.getAddress().getId())
+                  .setCity(location.getAddress().getCity())
+                  .setZip(location.getAddress().getZip())
+                  .setStreet(location.getAddress().getStreet())
+                  .setStreetNumber(location.getAddress().getStreet_number())
+          );
+      builder
+          .setIsPickUpPoint(false)
+          .setWarehouse(builderWarehouse.build());
     }
     return builder.build();
   }

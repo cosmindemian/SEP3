@@ -52,4 +52,16 @@ public class LocationRpcService extends LocationServiceGrpc.LocationServiceImplB
     responseObserver.onCompleted();
   }
 
+
+
+  @Override public void getLocationWithAddressById(
+      LocationServiceOuterClass.getLocationIdRpc request,
+      StreamObserver<LocationServiceOuterClass.LocationWithAddress> responseObserver)
+  {
+    Location location = locationService.getLocation(request.getId());
+    LocationServiceOuterClass.LocationWithAddress locationRpc = mapper.buildLocationWithAddressRpc(location);
+    responseObserver.onNext(locationRpc);
+    responseObserver.onCompleted();
+  }
+
 }
