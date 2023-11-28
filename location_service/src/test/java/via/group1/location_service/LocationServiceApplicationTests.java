@@ -21,11 +21,6 @@ class LocationServiceApplicationTests {
 
 	@Autowired AddressService addressService;
 	@Autowired LocationService locationService;
-//	@Test
-//	void contextLoads() {
-//		System.out.println(addressRepository.findById(1L).get());
-//		System.out.println(locationRepository.findById(1L).get());
-//	}
 
 	@Test
 	void SavePickupPointWithNewAddress(){

@@ -69,7 +69,6 @@ public class PacketRpcMapper {
     }
 
     public Packet parseAddPacketRequest(PacketServiceOuterClass.AddPacket request, Size size) {
-        System.out.println(size);
         Packet packet = new Packet();
         packet.setSenderId(request.getSenderId());
         packet.setReceiverId(request.getReceiverId());
