@@ -1,7 +1,9 @@
 ﻿using gateway.DTO;
 using gateway.DtoGenerators;
 using gateway.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using persistance.Exception;
 
 namespace gateway.Controllers;
 
@@ -25,6 +27,28 @@ public class PackageController : ControllerBase
         {
             var package = await packageLogic.GetPackageByTrackingNumber(id);
             return Ok(package);
+        }
+        catch (NotFoundException)
+        {
+            return NotFound();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+    
+    [HttpGet]
+    [Authorize]
+    public async Task<ActionResult<IEnumerable<GetShortPackageDto>>> GetAllPackagesOfUser()
+    {
+        try
+        {
+            var userId = User.Claims.First(c => c.Type == "UserId").Value;
+            long id = long.Parse(userId);
+            var packages = await packageLogic.GetPackagesByReceiverAsync(id);
+            return Ok(packages);
         }
         catch (Exception e)
         {

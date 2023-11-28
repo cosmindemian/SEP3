@@ -4,11 +4,27 @@ option java_package = "generated";
 
 message Packet{
   int64 id = 1;
-  int64 currentAddressId = 2;
-  int64 finalAddressId = 3;
-  int64 senderId = 4;
-  int64 receiverId = 5;
-  string trackingNumber = 6;
+  Size size = 2;
+  Status status = 3;
+  int64 currentAddressId = 4;
+  int64 finalAddressId = 5;
+  int64 senderId = 6;
+  int64 receiverId = 7;
+  string trackingNumber = 8;
+}
+
+message Size{
+  int64 id = 1;
+  string sizeName = 2;
+  string sizeLength = 3;
+  string sizeWidth = 4;
+  string sizeHeight = 5;
+}
+
+message Status{
+  int64 id = 1;
+  string status = 2;
+  string statusDescription = 3;
 }
 
 message Id{
@@ -29,8 +45,9 @@ message GetPacketIdRpc{
 
 message AddPacket{
   int64  senderId = 1;
-  int64  receiverId = 2;
-  int64 finalDestinationId = 5;
+  Size size = 2;
+  int64  receiverId = 3;
+  int64 finalDestinationId = 4;
 }
 
 service PacketService{

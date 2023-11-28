@@ -11,7 +11,8 @@ public class DtoMapper
             locationWithAddress.IsPickUpPoint
         );
     }
-    
+
+
     public GetAddressDto BuildGetAddressDto(Address address)
     {
         var addressDto = new GetAddressDto

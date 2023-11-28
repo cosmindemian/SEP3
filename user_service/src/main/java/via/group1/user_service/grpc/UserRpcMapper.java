@@ -18,7 +18,7 @@ public class UserRpcMapper {
                 .build();
     }
 
-    public User parseUserRpc(UserServiceOuterClass.User user){
+    public User parseUserRpc(UserServiceOuterClass.CreateUser user){
         return User.builder()
                 .email(user.getEmail())
                 .name(user.getName())

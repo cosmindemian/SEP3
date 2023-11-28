@@ -20,7 +20,7 @@ message UserList {
 }
 
 message SaveUserRequest{
-    User user = 1;
+    CreateUser user = 1;
 }
 
 message GetUserByIdRequest{

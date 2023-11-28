@@ -20,4 +20,8 @@ public class GetPackageDto
         CurrentLocation = currentLocation;
         FinalDestination = finalDestination;
     }
+
+    public GetPackageDto()
+    {
+    }
 }

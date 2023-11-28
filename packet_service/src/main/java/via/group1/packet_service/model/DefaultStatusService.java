@@ -11,6 +11,6 @@ public class DefaultStatusService implements StatusService {
     private final StatusRepository statusRepository;
     @Override
     public Status getDefaultStatus() {
-        return statusRepository.findById(1L).orElseThrow(RuntimeException::new);
+        return statusRepository.findById(1L).orElseThrow(() -> new RuntimeException("Default status not found"));
     }
 }

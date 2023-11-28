@@ -3,3 +3,4 @@
 /packet_service/src/main/resources/application.properties
 
 authentication_provider/persistence/Config/DatabaseConfig.cs
+authentication_provider/persistence/Config/DatabaseConfig.cs

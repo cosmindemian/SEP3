@@ -6,7 +6,6 @@ public class RegisterDto
     public String password { set; get; }
     public String name { set; get; }
     public String phone { set; get; }
-    
 
     public RegisterDto(string email, string password, string name, string phone)
     {
