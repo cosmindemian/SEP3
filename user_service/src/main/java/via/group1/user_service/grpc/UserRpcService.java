@@ -3,6 +3,7 @@ package via.group1.user_service.grpc;
 import com.google.protobuf.Empty;
 import generated.UserServiceGrpc;
 import generated.UserServiceOuterClass;
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
@@ -49,6 +50,9 @@ public class UserRpcService extends UserServiceGrpc.UserServiceImplBase {
 
             responseObserver.onNext(userRpc);
             responseObserver.onCompleted();
+        }
+        catch (IllegalArgumentException e){
+            responseObserver.onError(Status.INVALID_ARGUMENT.withDescription(e.getMessage()).asException());
         }
         catch (Exception e){
             responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asException());

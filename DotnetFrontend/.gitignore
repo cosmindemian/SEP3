@@ -1,0 +1,8 @@
+﻿/DotnetFrontend/obj/
+/DotnetFrontend/bin
+/HttpClient/bin/
+/HttpClient/obj/
+/Domain/bin/
+/Domain/obj/
+/packages/
+.idea
