@@ -40,7 +40,7 @@ public class ImplementationAuth : IAuth
     public async Task<TokenDto> RegisterAsync(RegisterDto registerDto)
     {
         var user = await _userServiceClient.SaveUserAsync(registerDto.email, registerDto.name, registerDto.phone);
-        
+        var userCreated = !user.Exists;
         try
         {
             var token = await _authServiceClient.RegisterAsync(registerDto.email, registerDto.password, user.User.Id);
@@ -48,6 +48,10 @@ public class ImplementationAuth : IAuth
         }
         catch (RpcException e)
         {
+            if (userCreated)
+            {
+                _userServiceClient.DeleteUserAsync(user.User.Id);
+            }
             if (e.StatusCode == StatusCode.InvalidArgument)
             {
                 throw new LoginException("Invalid arguments");
