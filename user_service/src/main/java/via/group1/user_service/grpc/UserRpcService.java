@@ -38,11 +38,15 @@ public class UserRpcService extends UserServiceGrpc.UserServiceImplBase {
     }
 
     @Override
-    public void saveUser(UserServiceOuterClass.CreateUser request, StreamObserver<UserServiceOuterClass.User> responseObserver) {
+    public void saveUser(UserServiceOuterClass.CreateUser request, StreamObserver<UserServiceOuterClass.CreateUserWithCheck> responseObserver) {
         try{
             User user = mapper.parseUserRpc(request);
-            User savedUser = userService.saveUser(user);
-            UserServiceOuterClass.User userRpc = mapper.buildUserRpc(savedUser);
+            boolean exists = userService.checkIfUserExists(user);
+            if(!exists){
+                user = userService.saveUser(user);
+            }
+            UserServiceOuterClass.CreateUserWithCheck userRpc = mapper.buildUserWithCheck(user, exists);
+
             responseObserver.onNext(userRpc);
             responseObserver.onCompleted();
         }

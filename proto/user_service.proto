@@ -10,6 +10,11 @@ message User {
     string phone = 4;
 }
 
+message CreateUserWithCheck {
+    User user = 1;
+    bool exists = 2;
+}
+
 message CreateUser {
     string email = 1;
     string name = 2;
@@ -33,7 +38,7 @@ message GetUserListRequest{
 }
 
 service UserService{
-    rpc SaveUser(CreateUser) returns (User);
+    rpc SaveUser(CreateUser) returns (CreateUserWithCheck);
     rpc GetUser(GetUserByIdRequest) returns (User);
     rpc GetUserList(GetUserListRequest) returns (UserList);
     rpc GetUsersByEmail(Email) returns (UserList);

@@ -31,4 +31,10 @@ public class UserRpcMapper {
         return UserServiceOuterClass.UserList.newBuilder().addAllUsers(usersRpc).build();
     }
 
+    public UserServiceOuterClass.CreateUserWithCheck buildUserWithCheck(User user, boolean exists) {
+        return UserServiceOuterClass.CreateUserWithCheck.newBuilder()
+                .setUser(buildUserRpc(user))
+                .setExists(exists).build();
+    }
+
 }

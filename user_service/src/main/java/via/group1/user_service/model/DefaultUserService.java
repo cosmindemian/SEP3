@@ -40,4 +40,9 @@ public class DefaultUserService implements UserService {
     public void removeUser(Long id) {
         userRepository.deleteById(id);
     }
+
+    @Override
+    public boolean checkIfUserExists(User user){
+        return userRepository.existsUserByEmailAndNameAndPhone(user.getEmail(), user.getName(), user.getPhone());
+    }
 }
