@@ -1,6 +1,7 @@
 ﻿using gateway.DTO;
 using Grpc.Core;
 using grpc.Exception;
+using persistance.Exception;
 using RpcClient.RpcClient.Interface;
 
 namespace gateway.Model.Implementation;
@@ -48,15 +49,15 @@ public class ImplementationAuth : IAuth
         }
         catch (RpcException e)
         {
-            if (userCreated)
+            switch (e.StatusCode)
             {
-                _userServiceClient.DeleteUserAsync(user.User.Id);
+                case StatusCode.InvalidArgument:
+                    throw new LoginException("Invalid arguments");
+                case StatusCode.AlreadyExists:
+                    throw new EmailTakenException("User already exists");
+                default:
+                    throw;
             }
-            if (e.StatusCode == StatusCode.InvalidArgument)
-            {
-                throw new LoginException("Invalid arguments");
-            }
-            throw;
         }
     }
 }
