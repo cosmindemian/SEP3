@@ -3,7 +3,6 @@
 public class GetUserDto
 {
     public long id;
-
     public String email { set; get; }
     public String name { set; get; }
     public String phone { set; get; }
@@ -14,5 +13,9 @@ public class GetUserDto
         this.email = email;
         this.name = name;
         this.phone = phone;
+    }
+
+    public GetUserDto()
+    {
     }
 }

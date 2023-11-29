@@ -3,9 +3,14 @@
 public class TokenDto
 {
     public String token { get; set; }
-    
-    public TokenDto(string token)
+    public GetUserDto user { get; set; }
+    public TokenDto(string token, GetUserDto user)
     {
         this.token = token;
+        this.user = user;
+    }
+
+    public TokenDto()
+    {
     }
 }

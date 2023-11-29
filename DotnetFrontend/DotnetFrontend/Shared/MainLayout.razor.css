@@ -1,14 +1,59 @@
 @media only screen and (min-width: 992px) {
-    .login-nav-button{
+    .login-nav-button {
         border-radius: 20px;
         background-color: #66CEE8;
         padding: 0 15px;
     }
-    .login-nav-text{
+
+    .login-nav-text {
         color: white;
     }
 }
-.nav-link:active{
+
+.nav-link:active {
     color: #66CEE8;
 }
 
+@media only screen and (min-width: 992px) {
+    .logout-nav-button {
+        display: block;
+        padding: 10px;
+        width: 40px;
+        height: 40px;
+        border-radius: 13px;
+        background-color: #fca5a5;
+        margin-top: 0;
+    }
+
+    .logout-nav-button:hover {
+        background-color: #f87171;
+        cursor: pointer;
+    }
+    
+    .logout-dropdown {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .logout-nav-button {
+        display: none;
+    }
+    
+    .logout-dropdown {
+        display: block;
+        margin-left: 8px ;
+        padding: 3px 3px 3px 10px;
+        width: 150px;
+        border-radius: 8px;
+        background-color: #fca5a5;
+        margin-top: 0;
+    }
+
+    .logout-dropdown:hover {
+        background-color: #f87171;
+        cursor: pointer;
+    }
+
+}
+    

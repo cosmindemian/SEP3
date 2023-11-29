@@ -14,4 +14,8 @@ public class RegisterDto
         this.name = name;
         this.phone = phone;
     }
+
+    public RegisterDto()
+    {
+    }
 }

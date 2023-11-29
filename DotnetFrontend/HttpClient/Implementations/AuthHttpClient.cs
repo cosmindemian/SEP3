@@ -8,22 +8,37 @@ using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Client.Implementations;
 
-public class AuthClientImpl : AuthenticationStateProvider, IAuthClient
+public class AuthHttpClient : AuthenticationStateProvider, IAuthService
 {
     private HttpClient _httpClient;
     public string Jwt { get; private set; } = "";
-    
+
+    public async Task<TokenDto> RegisterAsync(RegisterDto dto)
+    {
+        var result = await _httpClient.PostAsJsonAsync("/Auth/register", dto); 
+        var content = await result.Content.ReadFromJsonAsync<TokenDto>();
+        if (content == null)
+        {
+            throw new LoginException("Register failed");
+        }
+        Jwt = content.token;
+        var claims = AuthenticationEntity.ParseTokenClaims(Jwt);
+        var user = new ClaimsPrincipal(new ClaimsIdentity(claims, "jwt"));
+        OnAuthStateChanged.Invoke(user);
+        return content;
+    }
+
     public Action<ClaimsPrincipal> OnAuthStateChanged { get; set; } = null!;
     
-    public AuthClientImpl(HttpClient httpClient)
+    public AuthHttpClient(HttpClient httpClient)
     {
         _httpClient = httpClient;
     }
     
 
-    public async Task LoginAsync(LoginDto dto)
+    public async Task<TokenDto> LoginAsync(LoginDto dto)
     {
-        var result = await _httpClient.PostAsJsonAsync("/Auth/login", dto);
+        var result = await _httpClient.PostAsJsonAsync("/Auth/login", dto); 
         var content = await result.Content.ReadFromJsonAsync<TokenDto>();
         if (content == null)
         {
@@ -33,13 +48,12 @@ public class AuthClientImpl : AuthenticationStateProvider, IAuthClient
         var claims = AuthenticationEntity.ParseTokenClaims(Jwt);
         var user = new ClaimsPrincipal(new ClaimsIdentity(claims, "jwt"));
         OnAuthStateChanged.Invoke(user);
+        return content;
     }
 
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        
-        
         return new AuthenticationState(await GetAuthAsync());
     }
     
@@ -51,5 +65,11 @@ public class AuthClientImpl : AuthenticationStateProvider, IAuthClient
         }
         ClaimsPrincipal principal = AuthenticationEntity.BuildClaimsPrincipalStatic(Jwt);
         return Task.FromResult(principal);
+    }
+
+    public void Logout()
+    {
+        Jwt = "";
+        OnAuthStateChanged.Invoke(new ClaimsPrincipal(new ClaimsIdentity()));
     }
 }
