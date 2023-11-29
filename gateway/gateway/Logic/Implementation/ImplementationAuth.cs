@@ -43,7 +43,7 @@ public class ImplementationAuth : IAuth
         
         try
         {
-            var token = await _authServiceClient.RegisterAsync(registerDto.email, registerDto.password, user.Id);
+            var token = await _authServiceClient.RegisterAsync(registerDto.email, registerDto.password, user.User.Id);
             return _dtoMapper.BuildTokenDto(token);
         }
         catch (RpcException e)

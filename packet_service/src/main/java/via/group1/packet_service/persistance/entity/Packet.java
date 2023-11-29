@@ -28,7 +28,7 @@ public class Packet {
     @ManyToOne(cascade = CascadeType.MERGE)
     private Status status;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "size_id", referencedColumnName = "id")
     private Size size;
 

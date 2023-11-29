@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface PacketService {
 
-    Packet savePacket(Packet packet);
+    Packet savePacket(Packet packet, long sizeId);
 
     Packet getPacket(Long Id);
 

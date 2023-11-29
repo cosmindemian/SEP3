@@ -25,10 +25,9 @@ public class DefaultPacketService implements PacketService {
     private final SizeService sizeService;
 
     @Override
-    public Packet savePacket(Packet packet) {
-        Status status = statusService.getStatusById(packet.getStatus().getId());
-        Size size = sizeService.getSizeById(packet.getSize().getId());
-
+    public Packet savePacket(Packet packet, long sizeId) {
+        Status status = statusService.getDefaultStatus();
+        Size size = sizeService.getSizeById(sizeId);
         status.addPacket(packet);
         size.addPacket(packet);
         String trackingNumber;
