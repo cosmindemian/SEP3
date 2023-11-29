@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\CSharpShared\CSharpShared\CSharpShared.csproj" />
+      <ProjectReference Include="..\Validators\Validators.csproj" />
     </ItemGroup>
 
 </Project>
