@@ -3,6 +3,7 @@ using Client.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using DotnetFrontend.Data;
+using Microsoft.AspNetCore.Components.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<IPackageService, PackageHttpClient>();
 builder.Services.AddScoped<ILocationService, LocationHttpClient>();
+builder.Services.AddScoped<IAuthClient, AuthClientImpl>();
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthProvider>();
 builder.Services.AddScoped(
     sp => 
         new HttpClient { 

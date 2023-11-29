@@ -35,4 +35,32 @@ public class AuthenticationEntity
         var authLevel = token.Claims.First(claim => claim.Type == ClaimTypes.Role).Value;
         return new AuthenticationEntity(userId, email, authLevel);
     }
+    
+    public static IEnumerable<Claim> ParseTokenClaims(string jwt)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.ReadJwtToken(jwt);
+        return token.Claims;
+    }
+
+    public ClaimsPrincipal BuildClaimsPrincipal(string jwt = "")
+    {
+        var claims = new[]
+        {
+            new Claim("UserId", UserId.ToString()),
+            new Claim(ClaimTypes.Role, AuthLevel),
+            new Claim(ClaimTypes.Email, Email),
+        };
+        if (jwt != "")
+        {
+            claims[4] = new Claim("jwtToken", jwt);
+        }
+        return new ClaimsPrincipal(new ClaimsIdentity(claims, "Tokens"));
+    }
+
+    public static ClaimsPrincipal BuildClaimsPrincipalStatic(string jwt)
+    {
+        return ParseToken(jwt).BuildClaimsPrincipal(jwt);
+    }
+    
 }
