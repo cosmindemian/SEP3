@@ -21,7 +21,7 @@ public class PackageController : ControllerBase
         _dtoGenerator = new DtoGenerator();
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{trackingNumber}")]
     public async Task<ActionResult<GetPackageDto>> GetByTrackingNumberAsync([FromRoute] string trackingNumber)
     {
         try

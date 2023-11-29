@@ -22,7 +22,7 @@ public class UserServiceClientImpl : IUserServiceClient
         return response;
     }
 
-    public async Task<User> SaveUserAsync(string email, string name, string phone)
+    public async Task<CreateUserWithCheck> SaveUserAsync(string email, string name, string phone)
     {
         var response = await _client.SaveUserAsync(new CreateUser()
         {
