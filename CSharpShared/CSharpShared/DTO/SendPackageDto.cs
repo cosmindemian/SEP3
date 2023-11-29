@@ -20,4 +20,8 @@ public class SendPackageDto
         Receiver = receiver;
         TypeId = typeId;
     }
+
+    public SendPackageDto()
+    {
+    }
 }
