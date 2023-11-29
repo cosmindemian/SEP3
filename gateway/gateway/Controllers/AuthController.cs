@@ -3,6 +3,7 @@ using gateway.DtoGenerators;
 using gateway.Model;
 using grpc.Exception;
 using Microsoft.AspNetCore.Mvc;
+using persistance.Exception;
 
 namespace gateway.Controllers;
 
@@ -42,7 +43,11 @@ public class AuthController: ControllerBase
         }
         catch (LoginException)
         {
-            return StatusCode(404);
+            return StatusCode(401);
+        }
+        catch (EmailTakenException)
+        {
+            return StatusCode(400, "Email already taken");
         }
     }
 }

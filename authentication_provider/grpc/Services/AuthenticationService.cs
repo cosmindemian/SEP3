@@ -49,6 +49,10 @@ public class AuthenticationService : global::AuthenticationService.Authenticatio
         {
             throw new RpcException(new StatusRpc(StatusCode.Unauthenticated, e.Message));
         }
+        catch (EmailNotValidException e)
+        {
+            throw new RpcException(new StatusRpc(StatusCode.InvalidArgument, e.Message));
+        }
         catch (System.Exception e)
         {
             Console.WriteLine(e.StackTrace);
