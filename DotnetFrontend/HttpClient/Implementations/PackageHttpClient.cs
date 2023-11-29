@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
+﻿
 using System.Net.Http.Json;
-using System.Threading.Tasks;
 using Client.Interfaces;
 using System.Text.Json;
-using Domain.DTO;
+using gateway.DTO;
 
 namespace Client.Implementations
 {
@@ -18,7 +15,7 @@ namespace Client.Implementations
                 this.client = client;
             }
 
-            public async Task<PackageGetDTO> GetPackageByTrackingNumberAsync(string trackingNumber)
+            public async Task<GetPackageDto> GetPackageByTrackingNumberAsync(string trackingNumber)
             {
                 HttpResponseMessage response = await client.GetAsync($"/package/{trackingNumber}");
                 string content = await response.Content.ReadAsStringAsync();
@@ -27,7 +24,7 @@ namespace Client.Implementations
                     throw new Exception(content);
                 }
                 //use var (packageDTO)
-                var packageDTO = JsonSerializer.Deserialize<PackageGetDTO>(content, new JsonSerializerOptions
+                var packageDTO = JsonSerializer.Deserialize<GetPackageDto>(content, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true,
                     IncludeFields = true
@@ -36,7 +33,7 @@ namespace Client.Implementations
                 return packageDTO;
             }
 
-            public async Task<PackageCreationDto> CreatePackage(PackageCreationDto dto)
+            public async Task<SendPackageDto> CreatePackage(SendPackageDto dto)
             {
                 HttpResponseMessage response = await client.PostAsJsonAsync("/createPackage", dto);
                 string result = await response.Content.ReadAsStringAsync();
@@ -45,14 +42,14 @@ namespace Client.Implementations
                     throw new Exception(result);
                 }
 
-                PackageCreationDto package = JsonSerializer.Deserialize<PackageCreationDto>(result, new JsonSerializerOptions
+                SendPackageDto package = JsonSerializer.Deserialize<SendPackageDto>(result, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });
                 return package;
             }
 
-            public async Task<IEnumerable<PackageBasicDto>> GetAllPackagesByUserId(long userId)
+            public async Task<IEnumerable<GetShortPackageDto>> GetAllPackagesByUserId(long userId)
             {
                 string uri = "/packages";
                 HttpResponseMessage response = await client.GetAsync(uri);
@@ -62,7 +59,7 @@ namespace Client.Implementations
                     throw new Exception(result);
                 }
 
-                IEnumerable<PackageBasicDto> packages = JsonSerializer.Deserialize<IEnumerable<PackageBasicDto>>(result, new JsonSerializerOptions
+                IEnumerable<GetShortPackageDto> packages = JsonSerializer.Deserialize<IEnumerable<GetShortPackageDto>>(result, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });

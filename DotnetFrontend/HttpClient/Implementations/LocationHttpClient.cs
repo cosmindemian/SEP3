@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Client.Interfaces;
-using Domain.DTO;
+using gateway.DTO;
 
 namespace Client.Implementations
 {
@@ -17,7 +17,7 @@ namespace Client.Implementations
             this.client = client;
         }
         
-        public async Task<IEnumerable<GetLocationDto>> GetAllPickupPoints()
+        public async Task<IEnumerable<GetPickUpPointDto>> GetAllPickupPoints()
         {
             string uri = "/Location/pick_up_point";
             HttpResponseMessage response = await client.GetAsync(uri);
@@ -26,7 +26,7 @@ namespace Client.Implementations
             {
                 throw new Exception(result);
             }
-            IEnumerable<GetLocationDto> pickupPoints = JsonSerializer.Deserialize<IEnumerable<GetLocationDto>>(result, new JsonSerializerOptions
+            IEnumerable<GetPickUpPointDto> pickupPoints = JsonSerializer.Deserialize<IEnumerable<GetPickUpPointDto>>(result, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
