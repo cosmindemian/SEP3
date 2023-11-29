@@ -84,25 +84,15 @@ public class ImplementationPackage : IPackage
             var locationRequest = _locationServiceClient.GetLocationByIdWithAddressAsync(dto.FinalLocationId);
             var receiverRequest = _userServiceClient.SaveUserAsync(dto.Receiver.Email, dto.Receiver.Name,
                 dto.Receiver.Phone);
-            if (dto.IsSenderRegistered)
-            {
-                var senderValidationRequest = _userServiceClient.GetUserByIdAsync(dto.SenderId!.Value);
-                await Task.WhenAll(locationRequest, receiverRequest, senderValidationRequest);
-                receiverId = receiverRequest.Result.User.Id;
-                senderId = senderValidationRequest.Result.Id;
-                receiverCreated = !receiverRequest.Result.Exists;
-                senderCreated = false;
-            }
-            else
-            {
-                var senderRequest = _userServiceClient.SaveUserAsync(dto.Sender!.Email, dto.Sender.Name,
-                    dto.Sender.Phone);
-                await Task.WhenAll(locationRequest, receiverRequest, senderRequest);
-                receiverId = receiverRequest.Result.User.Id;
-                senderId = senderRequest.Result.User.Id;
-                receiverCreated = !receiverRequest.Result.Exists;
-                senderCreated = !senderRequest.Result.Exists;
-            }
+            var senderRequest = _userServiceClient.SaveUserAsync(dto.Sender.Email, dto.Sender.Name,
+                dto.Sender.Phone);
+
+            await Task.WhenAll(locationRequest, receiverRequest, senderRequest);
+            receiverId = receiverRequest.Result.User.Id;
+            senderId = senderRequest.Result.User.Id;
+            receiverCreated = !receiverRequest.Result.Exists;
+            senderCreated = !senderRequest.Result.Exists;
+
 
             finalLocation = locationRequest.Result;
             if (!finalLocation.IsPickUpPoint)
@@ -139,12 +129,7 @@ public class ImplementationPackage : IPackage
         {
             throw new NotFoundException("Receiver not found");
         }
-
-        if (dto.IsSenderRegistered && dto.SenderId == null)
-        {
-            throw new NotFoundException("Sender id is null and sender is registered");
-        }
-
+        
         if (dto.Sender == null)
         {
             throw new NotFoundException("Sender is null and sender is not registered");
