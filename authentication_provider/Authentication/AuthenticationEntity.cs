@@ -1,3 +1,7 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+
 namespace Authentication;
 
 public class AuthenticationEntity
@@ -11,5 +15,24 @@ public class AuthenticationEntity
         UserId = userId;
         Email = email;
         AuthLevel = authLevel;
+    }
+    
+    public static AuthenticationEntity ParseToken(string jwt)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.ReadJwtToken(jwt);
+        var email = token.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
+        var userId = long.Parse(token.Claims.First(claim => claim.Type == "UserId").Value);
+        var authLevel = token.Claims.First(claim => claim.Type == ClaimTypes.Role).Value;
+        return new AuthenticationEntity(userId, email, authLevel);
+    }
+    
+    public static AuthenticationEntity ParseToken(string jwt, JwtSecurityTokenHandler tokenHandler)
+    {
+        var token = tokenHandler.ReadJwtToken(jwt);
+        var email = token.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
+        var userId = long.Parse(token.Claims.First(claim => claim.Type == "UserId").Value);
+        var authLevel = token.Claims.First(claim => claim.Type == ClaimTypes.Role).Value;
+        return new AuthenticationEntity(userId, email, authLevel);
     }
 }

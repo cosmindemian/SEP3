@@ -72,11 +72,7 @@ public class JwtLogicImpl : IJwtLogic
 
     public AuthenticationEntity ParseToken(string jwt)
     {
-        var token = _tokenHandler.ReadJwtToken(jwt);
-        var email = token.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
-        var userId = long.Parse(token.Claims.First(claim => claim.Type == "UserId").Value);
-        var authLevel = token.Claims.First(claim => claim.Type == ClaimTypes.Role).Value;
-        return new AuthenticationEntity(userId, email, authLevel);
+        return AuthenticationEntity.ParseToken(jwt, _tokenHandler);
     }
 
     public bool ValidateToken(string token)
