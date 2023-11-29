@@ -73,9 +73,86 @@ public class ImplementationPackage : IPackage
 
     public async Task SendPackageAsync(SendPackageDto dto)
     {
-        throw new NotImplementedException();
-        var locationRequest = _locationServiceClient.GetLocationByIdAsync(dto.FinalLocationId);
+        ValidatePackage(dto);
+        long receiverId = 0;
+        long senderId = 0;
+        LocationWithAddress finalLocation;
+        bool receiverCreated = false;
+        bool senderCreated = false;
+        try
+        {
+            var locationRequest = _locationServiceClient.GetLocationByIdWithAddressAsync(dto.FinalLocationId);
+            var receiverRequest = _userServiceClient.SaveUserAsync(dto.Receiver.Email, dto.Receiver.Name,
+                dto.Receiver.Phone);
+            if (dto.IsSenderRegistered)
+            {
+                var senderValidationRequest = _userServiceClient.GetUserByIdAsync(dto.SenderId!.Value);
+                await Task.WhenAll(locationRequest, receiverRequest, senderValidationRequest);
+                receiverId = receiverRequest.Result.User.Id;
+                senderId = senderValidationRequest.Result.Id;
+                receiverCreated = !receiverRequest.Result.Exists;
+                senderCreated = false;
+            }
+            else
+            {
+                var senderRequest = _userServiceClient.SaveUserAsync(dto.Sender!.Email, dto.Sender.Name,
+                    dto.Sender.Phone);
+                await Task.WhenAll(locationRequest, receiverRequest, senderRequest);
+                receiverId = receiverRequest.Result.User.Id;
+                senderId = senderRequest.Result.User.Id;
+                receiverCreated = !receiverRequest.Result.Exists;
+                senderCreated = !senderRequest.Result.Exists;
+            }
 
-        await Task.WhenAll(locationRequest);
+            finalLocation = locationRequest.Result;
+            if (!finalLocation.IsPickUpPoint)
+            {
+                throw new Exception("Final location is not a pick up point");
+            }
+
+            await _packageServiceClient.SendPacketAsync(receiverId, senderId, dto.TypeId, finalLocation.PickUpPoint.Id);
+        }
+        catch (Exception e)
+        {
+            if (senderCreated && senderId != 0)
+            {
+                _userServiceClient.DeleteUserAsync(senderId);
+            }
+
+            if (receiverId != 0 && receiverCreated)
+            {
+                _userServiceClient.DeleteUserAsync(receiverId);
+            }
+
+            throw e;
+        }
+    }
+
+    private void ValidatePackage(SendPackageDto dto)
+    {
+        if (dto.FinalLocationId == 0)
+        {
+            throw new NotFoundException("Final location not found");
+        }
+
+        if (dto.Receiver == null)
+        {
+            throw new NotFoundException("Receiver not found");
+        }
+
+        if (dto.IsSenderRegistered && dto.SenderId == null)
+        {
+            throw new NotFoundException("Sender id is null and sender is registered");
+        }
+
+        if (dto.Sender == null)
+        {
+            throw new NotFoundException("Sender is null and sender is not registered");
+        }
+
+        if (dto.TypeId == 0)
+        {
+            throw new NotFoundException("Type not found");
+        }
     }
 }

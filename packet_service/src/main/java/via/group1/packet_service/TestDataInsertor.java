@@ -38,9 +38,9 @@ public class TestDataInsertor implements ApplicationRunner {
      Packet packet = new Packet(1L,1L, 2L,  2L, 3L, status, size);
      Packet packet2 = new Packet(2L,2L, 3L,  3L, 4L, status2, size2);
      Packet packet3 = new Packet( 3L,3L, 4L, 4L, 1L, status3, size3);
-     packetService.savePacket(packet);
-     packetService.savePacket(packet2);
-     packetService.savePacket(packet3);
+     packetService.savePacket(packet, 1L);
+     packetService.savePacket(packet2, 2L);
+     packetService.savePacket(packet3, 3L);
 
     }
 }

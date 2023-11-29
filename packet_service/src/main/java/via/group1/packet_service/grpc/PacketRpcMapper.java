@@ -68,12 +68,11 @@ public class PacketRpcMapper {
         return entitySize;
     }
 
-    public Packet parseAddPacketRequest(PacketServiceOuterClass.AddPacket request, Size size) {
+    public Packet parseAddPacketRequest(PacketServiceOuterClass.AddPacket request) {
         Packet packet = new Packet();
         packet.setSenderId(request.getSenderId());
         packet.setReceiverId(request.getReceiverId());
         packet.setFinalDestinationId(request.getFinalDestinationId());
-        packet.setSize(size);
         return packet;
     }
 

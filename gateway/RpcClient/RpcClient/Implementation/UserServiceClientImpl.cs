@@ -1,4 +1,6 @@
-﻿using Grpc.Net.Client;
+﻿using Grpc.Core;
+using Grpc.Net.Client;
+using persistance.Exception;
 using RpcClient.RpcClient.Interface;
 
 namespace RpcClient.RpcClient.Implementation;
@@ -15,11 +17,23 @@ public class UserServiceClientImpl : IUserServiceClient
     
     public async Task<User> GetUserByIdAsync(long id)
     {
-        var  response = await _client.GetUserAsync(new GetUserByIdRequest()
+        try
         {
-            Id = id
-        });
-        return response;
+            var response = await _client.GetUserAsync(new GetUserByIdRequest()
+            {
+                Id = id
+            });
+            return response;
+        }
+        catch (RpcException e)
+        {
+            if (e.StatusCode == StatusCode.NotFound)
+            {
+                throw new NotFoundException();
+            }
+
+            throw;
+        }
     }
 
     public async Task<CreateUserWithCheck> SaveUserAsync(string email, string name, string phone)
@@ -40,5 +54,13 @@ public class UserServiceClientImpl : IUserServiceClient
             Email_ = email
         });
         return response;
+    }
+    
+    public async Task DeleteUserAsync(long id)
+    {
+        await _client.RemoveUserAsync(new GetUserByIdRequest()
+        {
+            Id = id
+        });
     }
 }

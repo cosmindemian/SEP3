@@ -3,6 +3,7 @@ using gateway.DTO;
 using gateway.DtoGenerators;
 using gateway.Model;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using persistance.Exception;
 
@@ -55,6 +56,14 @@ public class PackageController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> SendPackageAsync(SendPackageDto dto)
     {
-        throw new NotImplementedException();
+        try
+        {
+            await packageLogic.SendPackageAsync(dto);
+            return Ok();
+        }
+        catch (NotFoundException e)
+        {
+            return BadRequest(e.Message);
+        }
     }
 }

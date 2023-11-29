@@ -27,7 +27,6 @@ import java.util.NoSuchElementException;
 public class PacketRpcService extends PacketServiceGrpc.PacketServiceImplBase {
 
     private final PacketService packetService;
-    private final SizeService sizeService;
     private final StatusService statusService;
     private final PacketRpcMapper mapper;
 
@@ -36,9 +35,8 @@ public class PacketRpcService extends PacketServiceGrpc.PacketServiceImplBase {
                           StreamObserver<PacketServiceOuterClass.Packet> responseObserver) {
 
         try {
-            Size size=sizeService.getSizeById(request.getSizeId());
-            Packet packet = mapper.parseAddPacketRequest(request, size);
-            packet = packetService.savePacket(packet);
+            Packet packet = mapper.parseAddPacketRequest(request);
+            packet = packetService.savePacket(packet, request.getSizeId());
             PacketServiceOuterClass.Packet packetRpc = mapper.buildPacketRpc(packet);
             responseObserver.onNext(packetRpc);
             responseObserver.onCompleted();
@@ -47,7 +45,6 @@ public class PacketRpcService extends PacketServiceGrpc.PacketServiceImplBase {
             responseObserver.onError(Status.DATA_LOSS.withDescription(e.getMessage()).asException());
         }
         catch (Exception e) {
-//            e.printStackTrace();
             responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asException());
         }
     }

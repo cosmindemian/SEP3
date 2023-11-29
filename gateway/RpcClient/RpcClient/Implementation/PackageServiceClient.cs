@@ -41,4 +41,15 @@ public class PackageServiceClient : IPackageServiceClient
         });
         return response;
     }
+
+    public async Task SendPacketAsync(long receiverId, long senderId, long typeId, long finalLocationId)
+    {
+       await _client.addPacketAsync(new AddPacket()
+        {
+            FinalDestinationId = finalLocationId,
+            SenderId = senderId,
+            SizeId = typeId,
+            ReceiverId = receiverId
+        });
+    }
 }

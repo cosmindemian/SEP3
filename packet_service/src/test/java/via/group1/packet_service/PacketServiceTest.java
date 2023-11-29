@@ -16,6 +16,6 @@ public class PacketServiceTest {
     @Test
     public void savingPackageTest(){
         assertDoesNotThrow(() -> packetService.savePacket(new Packet(1L,
-                1L,1L,1L)));
+                1L,1L,1L),1L));
     }
 }
