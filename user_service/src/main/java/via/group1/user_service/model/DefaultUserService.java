@@ -8,6 +8,7 @@ import via.group1.user_service.persistance.entity.User;
 import via.group1.user_service.persistance.repository.UserRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
@@ -22,7 +23,7 @@ public class DefaultUserService implements UserService {
 
     @Override
     public User getUser(Long id) {
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
@@ -33,5 +34,10 @@ public class DefaultUserService implements UserService {
     @Override
     public List<User> getUsersByEmail(String email) {
         return userRepository.findAllByEmail(email);
+    }
+
+    @Override
+    public void removeUser(Long id) {
+        userRepository.deleteById(id);
     }
 }

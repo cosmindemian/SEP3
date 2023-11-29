@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 option java_package = "generated";
+import "google/protobuf/empty.proto";
 
 message User {
     int64 id = 1;
@@ -36,4 +37,5 @@ service UserService{
     rpc GetUser(GetUserByIdRequest) returns (User);
     rpc GetUserList(GetUserListRequest) returns (UserList);
     rpc GetUsersByEmail(Email) returns (UserList);
+    rpc RemoveUser(GetUserByIdRequest) returns (google.protobuf.Empty);
 }

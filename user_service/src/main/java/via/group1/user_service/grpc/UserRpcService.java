@@ -1,5 +1,6 @@
 package via.group1.user_service.grpc;
 
+import com.google.protobuf.Empty;
 import generated.UserServiceGrpc;
 import generated.UserServiceOuterClass;
 import io.grpc.stub.StreamObserver;
@@ -74,6 +75,21 @@ public class UserRpcService extends UserServiceGrpc.UserServiceImplBase {
             UserServiceOuterClass.UserList userListRpc = mapper.buildUserList(userList);
             responseObserver.onNext(userListRpc);
             responseObserver.onCompleted();
+        }
+        catch (Exception e){
+            responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asException());
+        }
+    }
+
+    @Override
+    public void removeUser(UserServiceOuterClass.GetUserByIdRequest request, StreamObserver<Empty> responseObserver) {
+        try{
+            userService.removeUser(request.getId());
+            responseObserver.onNext(Empty.newBuilder().build());
+            responseObserver.onCompleted();
+        }
+        catch (NullPointerException | NoSuchElementException e){
+            responseObserver.onError(io.grpc.Status.NOT_FOUND.withDescription(e.getMessage()).asException());
         }
         catch (Exception e){
             responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asException());

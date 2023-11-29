@@ -9,4 +9,5 @@ public interface UserService {
     User getUser(Long Id);
     List<User> getUserList(List<Long> ids);
     List<User> getUsersByEmail(String email);
+    void removeUser(Long id);
 }
