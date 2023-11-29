@@ -1,17 +1,19 @@
 ﻿@page "/SendPackage"
-@using Domain.DTO
 @using Client.Interfaces
+@using gateway.DTO
 @inject IPackageService PackageService;
 @inject ILocationService LocationService;
 <PageTitle>Send a package</PageTitle>
 
 <h1 class="text-center fw-bold text-uppercase">SEND a Package</h1>
-<EditForm Model="@packageCreationDto" OnValidSubmit="SendPackageAsync">
+
+<EditForm Model="@package" OnValidSubmit="SendPackageAsync">
+    
     <div class="container mt-5">
         <div class=" row justify-content-center">
             <div class="col-3">
                 <DataAnnotationsValidator/>
-                <label for="radio-card-1" class="radio-card" @bind="packageCreationDto.PackageType">
+                <label for="radio-card-1" class="radio-card" @bind="package.TypeId">
                     <div class="card-content-wrapper">
                         <span class="check-icon"></span>
                         <div class="card">
@@ -29,7 +31,7 @@
             </div>
 
             <div class="col-3">
-                <label for="radio-card-2" class="radio-card" @bind="packageCreationDto.PackageType">
+                <label for="radio-card-2" class="radio-card" @bind="package.TypeId">
                     <div class="card-content-wrapper">
                         <span class="check-icon"></span>
                         <div class="card">
@@ -46,7 +48,7 @@
                 </label>
             </div>
             <div class="col-3">
-                <label for="radio-card-3" class="radio-card" @bind="packageCreationDto.PackageType">
+                <label for="radio-card-3" class="radio-card" @bind="package.TypeId">
                     <div class="card-content-wrapper">
                         <span class="check-icon"></span>
                         <div class="card">
@@ -64,65 +66,72 @@
             </div>
         </div>
     </div>
+    
 
     <div class="container w-100 w-lg-50 mt-5">
         <div class="row row-cols-2">
             <div class="col">
                 <div class="mb-3">
                     <label for="receiverName" class="form-label">Receiver’s name</label>
-                    <input type="text" class="form-control" id="receiverName" placeholder="Alex Bolfa" @bind="packageCreationDto.ReceiverName" @bind:event="oninput">
-                    <ValidationMessage For="() => packageCreationDto.ReceiverName"/>
+                    <input type="text" class="form-control" id="receiverName" placeholder="Alex Bolfa" @bind="package.Receiver.Name" @bind:event="oninput">
+                    <ValidationMessage For="() => package.Receiver.Name"/>
                 </div>
             </div>
+            @*
             <div class="col">
                 <div class="mb-3">
                     <label for="senderName" class="form-label">Receiver’s name</label>
-                    <input type="text" class="form-control" id="senderName" placeholder="Alex Bolfa" @bind="packageCreationDto.SenderName" @bind:event="oninput">
-                    <ValidationMessage For="() => packageCreationDto.SenderName"/>
+                    <input type="text" class="form-control" id="senderName" placeholder="Alex Bolfa" @bind="package.Sender.Name" @bind:event="oninput">
+                    <ValidationMessage For="() => package.Sender.Name"/>
                 </div>
             </div>
+            *@
             <div class="col">
                 <div class="mb-3">
                     <label for="receiverEmail" class="form-label">Receiver’s email address</label>
-                    <input type="text" class="form-control" id="receiverEmail" placeholder="alex@hotmail.com" @bind="packageCreationDto.ReceiverEmail" @bind:event="oninput">
-                    <ValidationMessage For="() => packageCreationDto.ReceiverEmail"/>
+                    <input type="text" class="form-control" id="receiverEmail" placeholder="alex@hotmail.com" @bind="package.Receiver.Email" @bind:event="oninput">
+                    <ValidationMessage For="() => package.Receiver.Email"/>
                 </div>
             </div>
             <div class="col">
                 <div class="mb-3">
                     <label for="receiverPhone" class="form-label">Receiver’s phone number</label>
-                    <input type="tel" class="form-control" id="receiverPhone" placeholder="13 67 67 87" @bind="packageCreationDto.ReceiverPhoneNumber" @bind:event="oninput">
-                    <ValidationMessage For="() => packageCreationDto.ReceiverPhoneNumber"/>
+                    <input type="tel" class="form-control" id="receiverPhone" placeholder="13 67 67 87" @bind="package.Receiver.Phone" @bind:event="oninput">
+                    <ValidationMessage For="() => package.Receiver.Phone"/>
                 </div>
             </div>
+
             <div class="col-12">
                 <div class="mb-3">
                     <label class="form-label">Destination pickup point</label>
                     <select class="form-select" @bind="type">
-                        @if (locations!= null)
-                                {
-                        @foreach (var pickupPoint in locations)
+                        @if (locations != null)
                         {
-                            <option value="@pickupPoint.Address.City">@pickupPoint.Address.City @pickupPoint.Address.Street</option>
+                            @foreach (var pickupPoint in locations)
+                            {
+                                <option value="@pickupPoint.Id">@pickupPoint.Address.City @pickupPoint.Address.Street @pickupPoint.Address.BuildingNumber</option>
+                            }
                         }
-                                    }
                     </select>
 
                 </div>
-            </div> 
+
+            </div>
+
         </div>
+        
         <div class="text-center mt-5">
             <button type="submit" class="btn btn-primary">Send a package</button>
         </div>
     </div>
+    
 </EditForm>
 
-@code {
-    public PackageCreationDto packageCreationDto = new PackageCreationDto();
-    private string type = "";
-    private IEnumerable<GetLocationDto>? locations;
 
-    private GetLocationDto funni;
+@code {
+    public  SendPackageDto package = new SendPackageDto();
+    private string type = "";
+    private IEnumerable<GetPickUpPointDto>? locations = new List<GetPickUpPointDto>();
 
     private string errorMsgForPickupPoints = "";
     private string resultMsg = "";
@@ -133,7 +142,7 @@
         resultMsg = "";
         try
         {
-            await PackageService.CreatePackage(packageCreationDto);
+            await PackageService.CreatePackage(package);
             resultMsg = "User successfully created";
             color = "green";
         }

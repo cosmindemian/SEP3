@@ -1,5 +1,6 @@
 ﻿@page "/PackageInfo"
 @using Client.Interfaces
+@using gateway.DTO
 @inject IPackageService PackageService;
 
 <PageTitle>See package information</PageTitle>
@@ -73,7 +74,7 @@
     private string packageNumber;
     private string errorLabel = "";
     bool packageInfoValid;
-    private PackageGetDTO package;
+    private GetPackageDto package;
     private string user;
 
 
