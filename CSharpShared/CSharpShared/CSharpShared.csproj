@@ -10,4 +10,9 @@
       <ProjectReference Include="..\c_proto\c_proto.csproj" />
     </ItemGroup>
 
+
+    <ItemGroup>
+      <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    </ItemGroup>
+
 </Project>

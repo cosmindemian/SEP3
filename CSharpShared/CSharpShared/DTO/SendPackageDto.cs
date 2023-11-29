@@ -5,12 +5,12 @@ namespace gateway.DTO;
 public class SendPackageDto
 {
     // Id of pickup point
-    [Required (ErrorMessage = "Selecting a final destination is required")]
+    //[Required (ErrorMessage = "Selecting a final destination is required")]
     public long FinalLocationId { get; set; }
     public UserDto Sender { get; set; }
     public UserDto Receiver { get; set; }
     //Id of chosen size
-    [Required (ErrorMessage = "Package type is required")]
+    //[Required (ErrorMessage = "Package type is required")]
     public long TypeId { get; set;}
 
     public SendPackageDto(long finalLocationId, UserDto sender, UserDto receiver, long typeId)
@@ -21,6 +21,13 @@ public class SendPackageDto
         TypeId = typeId;
     }
 
+    /*public SendPackageDto()
+    {
+        FinalLocationId = 1;
+        Sender = new UserDto();
+        Receiver =new UserDto();
+        TypeId = 1;
+    }*/
     public SendPackageDto()
     {
     }

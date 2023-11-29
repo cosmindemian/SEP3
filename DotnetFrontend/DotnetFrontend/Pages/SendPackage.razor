@@ -1,4 +1,5 @@
 ﻿@page "/SendPackage"
+@inject NavigationManager NavManager
 @using Client.Interfaces
 @using gateway.DTO
 @inject IPackageService PackageService;
@@ -7,18 +8,18 @@
 
 <h1 class="text-center fw-bold text-uppercase">SEND a Package</h1>
 
-<EditForm Model="@package" OnValidSubmit="SendPackageAsync">
-    
+<EditForm Model="_packageValidator" OnValidSubmit="SendPackageAsync" >
+
     <div class="container mt-5">
         <div class=" row justify-content-center">
             <div class="col-3">
                 <DataAnnotationsValidator/>
-                <label for="radio-card-1" class="radio-card" @bind="package.TypeId">
+                <label for="radio-card-1" class="radio-card" @bind="_packageValidator.PackageType">
                     <div class="card-content-wrapper">
                         <span class="check-icon"></span>
                         <div class="card">
                             <div class="card-header">
-                                <input type="radio" name="radio-card" id="radio-card-1" checked/>
+                                <input type="radio" name="radio-card" id="radio-card-1" value="1" checked/>
                                 <span>Type 1</span>
                             </div>
                             <div class="card-body bg-light">
@@ -31,12 +32,12 @@
             </div>
 
             <div class="col-3">
-                <label for="radio-card-2" class="radio-card" @bind="package.TypeId">
+                <label for="radio-card-2" class="radio-card" @bind="_packageValidator.PackageType">
                     <div class="card-content-wrapper">
                         <span class="check-icon"></span>
                         <div class="card">
                             <div class="card-header">
-                                <input type="radio" name="radio-card" id="radio-card-2"/>
+                                <input type="radio" name="radio-card" id="radio-card-2" value="2"/>
                                 <span>Type 2</span>
                             </div>
                             <div class="card-body bg-light">
@@ -48,12 +49,12 @@
                 </label>
             </div>
             <div class="col-3">
-                <label for="radio-card-3" class="radio-card" @bind="package.TypeId">
+                <label for="radio-card-3" class="radio-card" @bind="_packageValidator.PackageType">
                     <div class="card-content-wrapper">
                         <span class="check-icon"></span>
                         <div class="card">
                             <div class="card-header">
-                                <input type="radio" name="radio-card" id="radio-card-3"/>
+                                <input type="radio" name="radio-card" id="radio-card-3" value="3"/>
                                 <span>Type 3</span>
                             </div>
                             <div class="card-body bg-light">
@@ -66,45 +67,59 @@
             </div>
         </div>
     </div>
-    
+
 
     <div class="container w-100 w-lg-50 mt-5">
+
         <div class="row row-cols-2">
             <div class="col">
                 <div class="mb-3">
                     <label for="receiverName" class="form-label">Receiver’s name</label>
-                    <input type="text" class="form-control" id="receiverName" placeholder="Alex Bolfa" @bind="package.Receiver.Name" @bind:event="oninput">
-                    <ValidationMessage For="() => package.Receiver.Name"/>
+                    <input type="text" class="form-control" id="receiverName" placeholder="Alex Bolfic" @bind="_packageValidator.ReceiverName" @bind:event="oninput"/>
+                    <ValidationMessage For="() => _packageValidator.ReceiverName"/>
                 </div>
             </div>
-            @*
+        
+            
             <div class="col">
                 <div class="mb-3">
-                    <label for="senderName" class="form-label">Receiver’s name</label>
-                    <input type="text" class="form-control" id="senderName" placeholder="Alex Bolfa" @bind="package.Sender.Name" @bind:event="oninput">
-                    <ValidationMessage For="() => package.Sender.Name"/>
+                    <label for="senderName" class="form-label">Sender’s name</label>
+                    <input type="text" class="form-control" id="senderName" placeholder="Alex Bolfa" @bind="_packageValidator.SenderName" @bind:event="oninput">
+                    <ValidationMessage For="() => _packageValidator.SenderName"/>
                 </div>
             </div>
-            *@
             <div class="col">
                 <div class="mb-3">
                     <label for="receiverEmail" class="form-label">Receiver’s email address</label>
-                    <input type="text" class="form-control" id="receiverEmail" placeholder="alex@hotmail.com" @bind="package.Receiver.Email" @bind:event="oninput">
-                    <ValidationMessage For="() => package.Receiver.Email"/>
+                    <input type="text" class="form-control" id="receiverEmail" placeholder="alex@hotmail.com" @bind="_packageValidator.ReceiverEmail" @bind:event="oninput">
+                    <ValidationMessage For="() => _packageValidator.ReceiverEmail"/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="senderEmail" class="form-label">Sender’s email address</label>
+                    <input type="text" class="form-control" id="senderEmail" placeholder="alex@hotmail.com" @bind="_packageValidator.SenderEmail" @bind:event="oninput">
+                    <ValidationMessage For="() => _packageValidator.SenderEmail"/>
                 </div>
             </div>
             <div class="col">
                 <div class="mb-3">
                     <label for="receiverPhone" class="form-label">Receiver’s phone number</label>
-                    <input type="tel" class="form-control" id="receiverPhone" placeholder="13 67 67 87" @bind="package.Receiver.Phone" @bind:event="oninput">
-                    <ValidationMessage For="() => package.Receiver.Phone"/>
+                    <input type="tel" class="form-control" id="receiverPhone" placeholder="13 67 67 87" @bind="_packageValidator.ReceiverPhoneNumber" @bind:event="oninput">
+                    <ValidationMessage For="() => _packageValidator.ReceiverPhoneNumber"/>
                 </div>
             </div>
-
+            <div class="col">
+                <div class="mb-3">
+                    <label for="senderPhone" class="form-label">Sender’s phone number</label>
+                    <input type="tel" class="form-control" id="senderPhone" placeholder="13 67 67 87" @bind="_packageValidator.SenderPhoneNumber" @bind:event="oninput">
+                    <ValidationMessage For="() => _packageValidator.SenderPhoneNumber"/>
+                </div>
+            </div>
             <div class="col-12">
                 <div class="mb-3">
                     <label class="form-label">Destination pickup point</label>
-                    <select class="form-select" @bind="type">
+                    <select class="form-select" @bind="pickupPoint">
                         @if (locations != null)
                         {
                             @foreach (var pickupPoint in locations)
@@ -113,38 +128,49 @@
                             }
                         }
                     </select>
-
                 </div>
-
             </div>
+              
+        </div>
 
-        </div>
-        
         <div class="text-center mt-5">
-            <button type="submit" class="btn btn-primary">Send a package</button>
+           
+            <button type="submit" class="btn btn-primary" >Send a package @resultMsg</button>
         </div>
+       
     </div>
-    
+
+
 </EditForm>
 
 
 @code {
-    public  SendPackageDto package = new SendPackageDto();
-    private string type = "";
+    private PackageValidator _packageValidator = new PackageValidator();
+    private string pickupPoint = "";
     private IEnumerable<GetPickUpPointDto>? locations = new List<GetPickUpPointDto>();
-
     private string errorMsgForPickupPoints = "";
+    private string randomString = "";
     private string resultMsg = "";
     private string color = "";
+    
 
     private async Task SendPackageAsync()
     {
-        resultMsg = "";
+        resultMsg = "hovno";
         try
         {
-            await PackageService.CreatePackage(package);
+            UserDto sender = new UserDto(_packageValidator.SenderPhoneNumber, _packageValidator.SenderEmail, _packageValidator.SenderName);
+            UserDto receiver = new UserDto(_packageValidator.ReceiverPhoneNumber, _packageValidator.ReceiverEmail, _packageValidator.ReceiverName);
+            SendPackageDto sendPackageDto = new SendPackageDto(1,  sender, receiver: receiver, 1);
+            Console.WriteLine( _packageValidator.ReceiverName);
+            
+            //sendPackageDto.TypeId = long.Parse(_packageValidator.PackageType) ;
+            //sendPackageDto.FinalLocationId = _packageValidator.FinalDestinationId;
+            await PackageService.CreatePackage(sendPackageDto);
             resultMsg = "User successfully created";
+            Console.WriteLine(sendPackageDto);
             color = "green";
+            //avManager.NavigateTo("/LogIn");
         }
         catch (Exception e)
         {
@@ -167,7 +193,4 @@
             errorMsgForPickupPoints = e.Message;
         }
     }
-
-
-
 }
