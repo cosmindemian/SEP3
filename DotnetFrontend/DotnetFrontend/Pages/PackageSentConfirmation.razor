@@ -6,7 +6,7 @@
 <PageTitle>Package confirmation</PageTitle>
 @if (package == null)
     {
-        <label>Loading page...</label>
+        <label class="text-center">Loading page...</label>
     }
 else
 {
@@ -27,15 +27,13 @@ else
             <tr>
                 <th scope="row">Status</th>
                 <td>@package.PackageStatus</td>
-
             </tr>
             <tr>
-                <th scope="row">Current location</th>
-                <td>@package.CurrentLocation.Address.City</td>
-
+                <th scope="row">Final street and house number</th>
+                <td>@package.FinalDestination.Address.Street  @package.FinalDestination.Address.BuildingNumber</td>
             </tr>
             <tr>
-                <th scope="row">Final destination</th>
+                <th scope="row">Final city</th>
                 <td>@package.FinalDestination.Address.City</td>
 
             </tr>
@@ -49,7 +47,6 @@ else
 @code {
     [Parameter]
     public string TrackingNumber { get; set; }
-
     private string packageNumber;
     private string errorLabel = "";
     private GetPackageDto package;
@@ -62,6 +59,7 @@ else
         try
         {
             package = await PackageService.GetPackageByTrackingNumberAsync(TrackingNumber);
+            Console.WriteLine(package);
             errorLabel = "";
         }
         catch (Exception e)
