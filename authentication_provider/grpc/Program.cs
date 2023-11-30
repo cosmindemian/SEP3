@@ -1,5 +1,4 @@
 using System.Text;
-using grpc.Config;
 using grpc.Logic;
 using grpc.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -32,6 +31,8 @@ builder.Services.AddScoped<IRoleDao, RoleDaoImpl>();
 builder.Services.AddScoped<IJwtLogic, JwtLogicImpl>();
 builder.Services.AddScoped<ICredentialLogic, CredentialLogicImpl>();
 builder.Services.AddScoped<ICredentialDao, CredentialDaoImp>();
+builder.Services.AddScoped<IEmailVerificationDao, EmailVerificationDaoImpl>();
+builder.Services.AddScoped<EmailLogicImpl>();
 builder.Services.AddScoped<PostgresContext>();
 builder.Services.AddSingleton<DatabaseConfig>();
 builder.Services.AddGrpc();

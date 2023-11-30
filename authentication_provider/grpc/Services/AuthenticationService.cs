@@ -1,3 +1,5 @@
+using CSharpShared.Exception;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using grpc.Exception;
 using grpc.Logic;
@@ -45,7 +47,10 @@ public class AuthenticationService : global::AuthenticationService.Authenticatio
         {
             credential = await _credentialLogic.LoginAsync(request.Email, request.Password);
         }
-        //Todo: add email not verified exception
+        catch (EmailNotVerifiedException e)
+        {
+            throw new RpcException(new StatusRpc(StatusCode.PermissionDenied, e.Message));
+        }
         catch (LoginException e)
         {
             throw new RpcException(new StatusRpc(StatusCode.Unauthenticated, e.Message));
@@ -79,6 +84,24 @@ public class AuthenticationService : global::AuthenticationService.Authenticatio
         catch (NotFoundException e)
         {
             throw new RpcException(new StatusRpc(StatusCode.Unauthenticated, e.Message));
+        }
+        catch (System.Exception e)
+        {
+            Console.WriteLine(e.StackTrace);
+            throw new RpcException(new StatusRpc(StatusCode.Internal, e.Message));
+        }
+    }
+
+    public async override Task<Empty> verifyEmail(VerifyEmailRequest request, ServerCallContext context)
+    {
+        try
+        {
+            await _credentialLogic.VerifyUserAsync(request.EmailCode);
+            return new Empty();
+        }
+        catch (InvalidEmailTokenException e)
+        {
+            throw new RpcException(new StatusRpc(StatusCode.NotFound, e.Message));
         }
         catch (System.Exception e)
         {

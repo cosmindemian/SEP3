@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Mail;
+using CSharpShared.Exception;
 using grpc.Exception;
 using persistance.Dao;
 using persistance.Entity;
@@ -11,19 +12,25 @@ namespace grpc.Logic;
 public class CredentialLogicImpl : ICredentialLogic
 {
     private readonly ICredentialDao _credentialDao;
+    private readonly IEmailVerificationDao _emailVerificationDao;
     private readonly IRoleDao _roleDao;
-
-    public CredentialLogicImpl(ICredentialDao credentialDao, IRoleDao roleDao)
+    private readonly EmailLogicImpl _emailLogicImpl;
+    public CredentialLogicImpl(ICredentialDao credentialDao, IRoleDao roleDao, IEmailVerificationDao emailVerificationDao,
+        EmailLogicImpl emailLogicImpl)
     {
+        _emailVerificationDao = emailVerificationDao;
         _credentialDao = credentialDao;
         _roleDao = roleDao;
+        _emailLogicImpl = emailLogicImpl;
     }
 
     public async Task<Credential> RegisterAsync(string email, string password, long userId)
     {
         password = BCrypt.Net.BCrypt.HashPassword(password);
-        //Todo: add email validation
-        return await _credentialDao.AddCredentialAsync(email, password, userId, _roleDao.GetDefaultRole(), false);
+        var credential = await _credentialDao.AddCredentialAsync(email, password, userId, _roleDao.GetDefaultRole(), false
+            , new EmailVerificationCode());
+         _emailLogicImpl.SendVerificationLinkEmail(credential.Email, credential.EmailVerificationCode.Code);
+         return credential;
     }
 
     public async Task<Credential> LoginAsync(string email, string password)
@@ -32,6 +39,10 @@ public class CredentialLogicImpl : ICredentialLogic
         try
         {
             existing = await _credentialDao.GetCredentialAsync(email);
+            if (!existing.IsVerified)
+            {
+                throw new EmailNotVerifiedException();
+            }
         }
         catch (NotFoundException e)
         {
@@ -49,36 +60,9 @@ public class CredentialLogicImpl : ICredentialLogic
         return await _credentialDao.GetCredentialAsync(email);
     }
 
-    private void SendVerificationLinkEmail(string recipientEmail, string code)
+    public async Task VerifyUserAsync(string code)
     {
-        var scheme = "http";
-        var host = "localhost";
-        var port = 5104;
-        var verifyUrl = scheme + "://" + host + ":" + port + "/ActivateAccount/" + code;
-        var toMail = new MailAddress(recipientEmail);
-
-        var fromEmail = new MailAddress("cheekyprimateverify@gmail.com");
-        var fromEmailPassword = "hlyx xnpy vlny kfpf";
-
-        string subject = "Your account is successfully created";
-        string body = "<br/><br/>We are excited to tell you that your account is" +
-                      " successfully created. Please click on the below link to verify your account" +
-                      " <br/><br/><a href='" + verifyUrl + "'>" + verifyUrl + "</a> ";
-
-        var smtp = new SmtpClient
-        {
-            Host = "smtp.gmail.com",
-            Port = 587,
-            EnableSsl = true,
-            DeliveryMethod = SmtpDeliveryMethod.Network,
-            UseDefaultCredentials = false,
-            Credentials = new NetworkCredential(fromEmail.Address, fromEmailPassword)
-        };
-
-        using var message = new MailMessage(fromEmail, toMail);
-        message.Subject = subject;
-        message.Body = body;
-        message.IsBodyHtml = true;
-        smtp.Send(message);
+        var emailVerificationCode = await _emailVerificationDao.GetEmailVerificationCodeByCodeAsync(code);
+        await _credentialDao.SetIsVerifiedAsync(emailVerificationCode.CredentialId, true);
     }
 }

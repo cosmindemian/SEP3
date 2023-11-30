@@ -4,5 +4,6 @@
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::D2CB2AB2-E0B8-4E01-8B03-A8545E62D59E::net7.0::AuthenticationProviderTest.JwtLogicTest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::D2CB2AB2-E0B8-4E01-8B03-A8545E62D59E::net7.0::AuthenticationProviderTest.CredentialLogicTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::D2CB2AB2-E0B8-4E01-8B03-A8545E62D59E::net7.0::AuthenticationProviderTest.EmailLogicTest.sendEmailTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

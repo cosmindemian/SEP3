@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+
 message LoginRequest {
   string email = 1;
   string password = 2;
@@ -22,8 +24,13 @@ message VerifyTokenResponse{
   bool isTokenValid = 4;
 }
 
+message VerifyEmailRequest{
+  string emailCode = 1;
+}
+
 service AuthenticationService{
   rpc login(LoginRequest) returns (JwtToken);
   rpc register(RegisterRequest) returns (JwtToken);
   rpc verifyToken(JwtToken) returns (VerifyTokenResponse);
+  rpc verifyEmail(VerifyEmailRequest) returns (google.protobuf.Empty);
 }
