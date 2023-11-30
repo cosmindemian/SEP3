@@ -1,4 +1,5 @@
-﻿using Grpc.Core;
+﻿using CSharpShared.Exception;
+using Grpc.Core;
 using Grpc.Net.Client;
 using persistance.Exception;
 using RpcClient.RpcClient.Interface;
@@ -38,13 +39,26 @@ public class UserServiceClientImpl : IUserServiceClient
 
     public async Task<CreateUserWithCheck> SaveUserAsync(string email, string name, string phone)
     {
-        var response = await _client.SaveUserAsync(new CreateUser()
+        try
         {
-            Email = email,
-            Name = name,
-            Phone = phone
-        });
-        return response;
+
+            var response = await _client.SaveUserAsync(new CreateUser()
+            {
+                Email = email,
+                Name = name,
+                Phone = phone
+            });
+            return response;
+        }
+        catch(RpcException e)
+        {
+            if (e.StatusCode == StatusCode.InvalidArgument)
+            {
+                throw new InvalidArgumentsException("Invalid input data");
+            }
+
+            throw;
+        }
     }
     
     public async Task<UserList> GetUsersAsync(string email)

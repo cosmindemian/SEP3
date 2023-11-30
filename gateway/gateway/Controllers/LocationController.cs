@@ -30,7 +30,7 @@ public class LocationController :ControllerBase
         catch (Exception e)
         {
             var error = _exceptionHandler.Handle(e);
-            return StatusCode(error.StatusCode, error.Message);
+            return StatusCode(error.StatusCode, error);
         }
     }
     
