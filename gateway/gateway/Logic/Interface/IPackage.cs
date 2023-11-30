@@ -1,5 +1,4 @@
 ﻿using gateway.DTO;
-using RpcClient.Model;
 
 namespace gateway.Model;
 

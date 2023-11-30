@@ -13,6 +13,7 @@ public class ImplementationUser
         _userServiceClient = userServiceClient;
     }
 
+    //Todo: Implement
     public async Task<User> GetUserByIdAsync(long id)
     {
         var userRequest = await _userServiceClient.GetUserByIdAsync(id);

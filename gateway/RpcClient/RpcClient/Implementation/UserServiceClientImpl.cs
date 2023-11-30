@@ -29,7 +29,7 @@ public class UserServiceClientImpl : IUserServiceClient
         {
             if (e.StatusCode == StatusCode.NotFound)
             {
-                throw new NotFoundException();
+                throw new NotFoundException("User not found");
             }
 
             throw;

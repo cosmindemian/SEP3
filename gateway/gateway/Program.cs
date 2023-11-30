@@ -1,10 +1,10 @@
+using CSharpShared.Exception;
 using gateway.AuhtenticationScheme;
 using gateway.DTO;
 using gateway.Model;
 using gateway.Model.Implementation;
 using gateway.RpcClient;
 using gateway.RpcClient.Interface;
-using RpcClient.Model;
 using RpcClient.RpcClient.Implementation;
 using RpcClient.RpcClient.Interface;
 
@@ -25,7 +25,7 @@ builder.Services.AddScoped<IUserServiceClient, UserServiceClientImpl>();
 builder.Services.AddScoped<DtoMapper>();
 builder.Services.AddScoped<IAuth, ImplementationAuth>();
 builder.Services.AddScoped<ILocationServiceLogic, LocationServiceImpl>();
-
+builder.Services.AddScoped<ExceptionHandler>();
 
 // Add authentication. Every request will be authenticated using the AuthenticationProviderSchemeHandler
 builder.Services.AddAuthentication().AddScheme<AuthenticationProviderOptions, AuthenticationProviderSchemeHandler>(

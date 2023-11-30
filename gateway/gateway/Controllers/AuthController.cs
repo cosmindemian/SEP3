@@ -1,9 +1,7 @@
-﻿using gateway.DTO;
-using gateway.DtoGenerators;
+﻿using CSharpShared.Exception;
+using gateway.DTO;
 using gateway.Model;
-using grpc.Exception;
 using Microsoft.AspNetCore.Mvc;
-using persistance.Exception;
 
 namespace gateway.Controllers;
 
@@ -12,10 +10,12 @@ namespace gateway.Controllers;
 public class AuthController: ControllerBase
 {
     private readonly IAuth authLogic;
+    private readonly ExceptionHandler _exceptionHandler;
 
-    public AuthController(IAuth authLogic)
+    public AuthController(IAuth authLogic, ExceptionHandler exceptionHandler)
     {
         this.authLogic = authLogic;
+        _exceptionHandler = exceptionHandler;
     }
 
 
@@ -27,9 +27,10 @@ public class AuthController: ControllerBase
             var dto = await authLogic.LoginAsync(userLoginDto);
             return Ok(dto);
         }
-        catch (LoginException)
+        catch (Exception e)
         {
-            return StatusCode(401);
+            var error = _exceptionHandler.Handle(e);
+            return StatusCode(error.StatusCode, error.Message);
         }
     }
     
@@ -41,13 +42,10 @@ public class AuthController: ControllerBase
             var dto = await authLogic.RegisterAsync(userRegisterDto);
             return Ok(dto);
         }
-        catch (LoginException)
+        catch (Exception e)
         {
-            return StatusCode(401);
-        }
-        catch (EmailTakenException)
-        {
-            return StatusCode(400, "Email already taken");
+           var error = _exceptionHandler.Handle(e);
+           return StatusCode(error.StatusCode, error.Message);
         }
     }
 }

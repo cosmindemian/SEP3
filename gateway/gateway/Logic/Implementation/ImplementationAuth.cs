@@ -11,9 +11,9 @@ public class ImplementationAuth : IAuth
 {
     private readonly IAuthenticationServiceClient _authServiceClient;
     private readonly IUserServiceClient _userServiceClient;
-    
+
     private readonly DtoMapper _dtoMapper;
-    
+
     public ImplementationAuth(IAuthenticationServiceClient authServiceClient, IUserServiceClient userServiceClient,
         DtoMapper dtoMapper)
     {
@@ -21,7 +21,7 @@ public class ImplementationAuth : IAuth
         _userServiceClient = userServiceClient;
         _dtoMapper = dtoMapper;
     }
-    
+
     public async Task<TokenDto> LoginAsync(LoginDto loginDto)
     {
         try
@@ -36,6 +36,7 @@ public class ImplementationAuth : IAuth
             {
                 throw new LoginException("Invalid credentials");
             }
+
             throw;
         }
     }
@@ -49,22 +50,14 @@ public class ImplementationAuth : IAuth
             var token = await _authServiceClient.RegisterAsync(registerDto.email, registerDto.password, user.User.Id);
             return _dtoMapper.BuildTokenDto(token, user.User);
         }
-        catch (RpcException e)
+        catch (Exception e)
         {
-            switch (e.StatusCode)
-            {
-                case StatusCode.InvalidArgument:
-                    throw new LoginException("Invalid arguments");
-                case StatusCode.AlreadyExists:
-                    throw new EmailTakenException("User already exists");
-                default:
-                    throw;
-            }
-
             if (userCreated)
             {
                 _userServiceClient.DeleteUserAsync(user.User.Id);
             }
+
+            throw;
         }
     }
 }
