@@ -54,9 +54,9 @@ public class DtoMapper
         return new RegisterDto(email, password, name, phone);
     }
 
-    public TokenDto BuildTokenDto(JwtToken token)
+    public TokenDto BuildTokenDto(JwtToken token, User user)
     {
-        return new TokenDto(token.Token);
+        return new TokenDto(token.Token, GetUserDto(user));
     }
 
     public GetUserDto GetUserDto(User user)

@@ -1,4 +1,5 @@
-﻿using gateway.DTO;
+﻿using Authentication;
+using gateway.DTO;
 using Grpc.Core;
 using grpc.Exception;
 using persistance.Exception;
@@ -26,7 +27,8 @@ public class ImplementationAuth : IAuth
         try
         {
             var token = await _authServiceClient.LoginAsync(loginDto.email, loginDto.password);
-            return _dtoMapper.BuildTokenDto(token);
+            var user = await _userServiceClient.GetUserByIdAsync(AuthenticationEntity.ParseToken(token.Token).UserId);
+            return _dtoMapper.BuildTokenDto(token, user);
         }
         catch (RpcException e)
         {
@@ -45,7 +47,7 @@ public class ImplementationAuth : IAuth
         try
         {
             var token = await _authServiceClient.RegisterAsync(registerDto.email, registerDto.password, user.User.Id);
-            return _dtoMapper.BuildTokenDto(token);
+            return _dtoMapper.BuildTokenDto(token, user.User);
         }
         catch (RpcException e)
         {
@@ -57,6 +59,11 @@ public class ImplementationAuth : IAuth
                     throw new EmailTakenException("User already exists");
                 default:
                     throw;
+            }
+
+            if (userCreated)
+            {
+                _userServiceClient.DeleteUserAsync(user.User.Id);
             }
         }
     }
