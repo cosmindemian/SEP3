@@ -1,6 +1,7 @@
 ﻿@page "/LogIn"
 @using Client.Interfaces
 @using gateway.DTO
+@using grpc.Exception
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @inject IAuthService AuthService
 @inject NavigationManager NavManager
@@ -22,6 +23,12 @@
                     </div>
                     <div class="d-grid mt-4">
                         <button class="btn btn-primary" type="button" @onclick="Login">Log in</button>
+                        @if (!string.IsNullOrEmpty(errorMessage))
+                        {
+                            <div class="alert alert-danger mt-2" role="alert">
+                                @errorMessage
+                            </div>
+                        }
                     </div>
                     <p class="mt-3 text-center">Do not have an account? <a href="/RegisterUser">Register</a></p>
                 </div>
@@ -50,14 +57,37 @@
 @code {
     private string username = "";
     private string password = "";
+    private string errorMessage = "";
 
     private async void Login()
     {
-        var dto = new LoginDto(username, password);
-        var user = await AuthService.LoginAsync(dto);
-        // Creating global context and storing it in session storage
-        GlobalContext globalContext = new GlobalContext(user);
-        await ProtectedSessionStorage.SetAsync("globalContext", globalContext);
+        try
+        {
+            if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password))
+            {
+                errorMessage = "Please fill in all fields.";
+                return;
+            }
+            var dto = new LoginDto(username, password);
+            var user = await AuthService.LoginAsync(dto);
+    // Creating global context and storing it in session storage
+            GlobalContext globalContext = new GlobalContext(user);
+            await ProtectedSessionStorage.SetAsync("globalContext", globalContext);
+        }
+        catch (LoginException e)
+        {
+            errorMessage = "The email or password is incorrect.";
+            StateHasChanged();
+            return;
+        }
+        catch (Exception e)
+        {
+            errorMessage = "Something went wrong. Please try again later.";
+            StateHasChanged();
+            return;
+        }
+
+        errorMessage = "";
         NavManager.NavigateTo("/AllUserPackagesOverview");
     }
 
