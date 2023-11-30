@@ -4,7 +4,6 @@ using Authentication;
 using Client.Interfaces;
 using CSharpShared.Exception;
 using gateway.DTO;
-using Grpc.Core;
 using grpc.Exception;
 using Microsoft.AspNetCore.Components.Authorization;
 
