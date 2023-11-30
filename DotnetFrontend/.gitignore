@@ -4,5 +4,7 @@
 /HttpClient/obj/
 /Domain/bin/
 /Domain/obj/
+/Validators/bin/
+/Validators/obj/
 /packages/
 .idea
