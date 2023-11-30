@@ -9,6 +9,7 @@ public class Credential
     public string Email { set; get; }
     public Role Role { set; get; }
     public long UserId { set; get; }
+    public bool IsVerified { set; get; }
 
     private Credential(long id, string password, string email, Role role, long userId)
     {
@@ -19,12 +20,13 @@ public class Credential
         UserId = userId;
     }
 
-    public Credential(string password, string email, long userId, Role role)
+    public Credential(string password, string email, long userId, Role role, bool isVerified)
     {
         Password = password;
         Email = email;
         Role = role;
         UserId = userId;
+        IsVerified = isVerified;
     }
 
     public Credential(string password, string email)

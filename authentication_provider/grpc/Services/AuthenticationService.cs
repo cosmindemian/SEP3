@@ -45,6 +45,7 @@ public class AuthenticationService : global::AuthenticationService.Authenticatio
         {
             credential = await _credentialLogic.LoginAsync(request.Email, request.Password);
         }
+        //Todo: add email not verified exception
         catch (LoginException e)
         {
             throw new RpcException(new StatusRpc(StatusCode.Unauthenticated, e.Message));
@@ -77,7 +78,7 @@ public class AuthenticationService : global::AuthenticationService.Authenticatio
         }
         catch (NotFoundException e)
         {
-            throw new RpcException(new StatusRpc(StatusCode.Unauthenticated, "User not found"));
+            throw new RpcException(new StatusRpc(StatusCode.Unauthenticated, e.Message));
         }
         catch (System.Exception e)
         {
