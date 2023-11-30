@@ -35,14 +35,14 @@ namespace Client.Implementations
 
             public async Task<SendPackageDto> CreatePackage(SendPackageDto dto)
             {
-                HttpResponseMessage response = await client.PostAsJsonAsync("/createPackage", dto);
+                HttpResponseMessage response = await client.PostAsJsonAsync("/Package", dto);
                 string result = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new Exception(result);
                 }
 
-                SendPackageDto package = JsonSerializer.Deserialize<SendPackageDto>(result, new JsonSerializerOptions
+                var package = JsonSerializer.Deserialize<SendPackageDto>(result, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });

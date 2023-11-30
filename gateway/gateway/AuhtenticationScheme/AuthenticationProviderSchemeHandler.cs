@@ -11,7 +11,7 @@ namespace gateway.AuhtenticationScheme;
 public class AuthenticationProviderSchemeHandler : AuthenticationHandler<AuthenticationProviderOptions>
 {
     private readonly IAuthenticationServiceClient _authenticationClient;
-
+    
     public AuthenticationProviderSchemeHandler(
         IOptionsMonitor<AuthenticationProviderOptions> options,
         ILoggerFactory logger,
@@ -21,6 +21,7 @@ public class AuthenticationProviderSchemeHandler : AuthenticationHandler<Authent
     {
         _authenticationClient = authenticationServiceClient;
     }
+    
 
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
@@ -42,7 +43,6 @@ public class AuthenticationProviderSchemeHandler : AuthenticationHandler<Authent
             }
             throw;
         }
-        
         var claims = new[]
         {
             new Claim("UserId", authenticationEntity.UserId.ToString()),
