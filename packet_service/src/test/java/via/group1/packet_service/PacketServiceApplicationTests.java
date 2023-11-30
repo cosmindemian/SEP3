@@ -45,8 +45,9 @@ class PacketServiceApplicationTests {
 
     @Test
     void gettingPacketTest() {
+        Packet packet = packetService.getPacket(1L);
         assertDoesNotThrow(() -> packetService.getPacket(1L));
-
+        assertDoesNotThrow( () -> packetService.getPacket(packet.getTrackingNumber()));
     }
 
     @Test
@@ -84,8 +85,6 @@ class PacketServiceApplicationTests {
 
     @Test
     void savingPacketTestRpc() {
-
-
         PacketServiceOuterClass.AddPacket request = PacketServiceOuterClass.AddPacket.newBuilder().setSenderId(1L)
                 .setSizeId(1L)
                 .setReceiverId(1L)
@@ -95,6 +94,90 @@ class PacketServiceApplicationTests {
         rpcService.addPacket(request, responseObserver);
         try {
             PacketServiceOuterClass.Packet response = responseObserver.firstValue().get();
+            System.out.println(response);
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    void gettingPacketByIdTestRpc() {
+        PacketServiceOuterClass.GetPacketIdRpc request = PacketServiceOuterClass.GetPacketIdRpc.newBuilder().setId(1L)
+                .build();
+        StreamRecorder<PacketServiceOuterClass.Packet> responseObserver = StreamRecorder.create();
+        rpcService.getPacketById(request, responseObserver);
+        try {
+            PacketServiceOuterClass.Packet response = responseObserver.firstValue().get();
+            System.out.println(response);
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    void gettingPacketByTrackingNumberTestRpc() {
+        Packet packet = packetService.getPacket(1L);
+        PacketServiceOuterClass.GetPacketTrackingNumber request = PacketServiceOuterClass.GetPacketTrackingNumber
+                 .newBuilder().setTrackingNumber(packet.getTrackingNumber()).build();
+        StreamRecorder<PacketServiceOuterClass.Packet> responseObserver = StreamRecorder.create();
+        rpcService.getPacketByTrackingNumber(request, responseObserver);
+        try {
+            PacketServiceOuterClass.Packet response = responseObserver.firstValue().get();
+            System.out.println(response);
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    void gettingAllPacketsBySenderTestRpc() {
+        PacketServiceOuterClass.Id request = PacketServiceOuterClass.Id
+                .newBuilder().setId(1L).build();
+        StreamRecorder<PacketServiceOuterClass.Packets> responseObserver = StreamRecorder.create();
+        rpcService.getAllPacketsBySender(request, responseObserver);
+        try {
+            PacketServiceOuterClass.Packets response = responseObserver.firstValue().get();
+            System.out.println(response);
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    void gettingAllPacketsByReceiverTestRpc() {
+        PacketServiceOuterClass.Id request = PacketServiceOuterClass.Id
+                .newBuilder().setId(2L).build();
+        StreamRecorder<PacketServiceOuterClass.Packets> responseObserver = StreamRecorder.create();
+        rpcService.getAllPacketsByReceiver(request, responseObserver);
+        try {
+            PacketServiceOuterClass.Packets response = responseObserver.firstValue().get();
+            System.out.println(response);
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    void gettingAllPacketsByReceiverIdsTestRpc() {
+        PacketServiceOuterClass.IdListRpc request = PacketServiceOuterClass.IdListRpc
+                .newBuilder().addId(1L).addId(2L).addId(3L).build();
+        StreamRecorder<PacketServiceOuterClass.Packets> responseObserver = StreamRecorder.create();
+        rpcService.getAllPacketsByReceiverIds(request, responseObserver);
+        try {
+            PacketServiceOuterClass.Packets response = responseObserver.firstValue().get();
+            System.out.println(response);
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    void gettingAllSizesTestRpc() {
+        com.google.protobuf.Empty request = com.google.protobuf.Empty.newBuilder().build();
+        StreamRecorder<PacketServiceOuterClass.Sizes> responseObserver = StreamRecorder.create();
+        rpcService.getAllSizes(request, responseObserver);
+        try {
+            PacketServiceOuterClass.Sizes response = responseObserver.firstValue().get();
             System.out.println(response);
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);

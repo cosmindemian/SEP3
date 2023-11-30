@@ -80,20 +80,6 @@ public class PacketRpcService extends PacketServiceGrpc.PacketServiceImplBase {
     }
 
     @Override
-    public void getAllSizes(Empty request, StreamObserver<PacketServiceOuterClass.Sizes> responseObserver) {
-        try {
-            ArrayList<Size> sizes = packetService.getAllSizes();
-            PacketServiceOuterClass.Sizes sizesRpc = mapper.buildSizesRpc(sizes);
-            responseObserver.onNext(sizesRpc);
-            responseObserver.onCompleted();
-        } catch (NoSuchElementException e) {
-            responseObserver.onError(Status.NOT_FOUND.withDescription(e.getMessage()).asException());
-        } catch (Exception e) {
-            responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asException());
-        }
-    }
-
-    @Override
     public void getAllPacketsBySender(PacketServiceOuterClass.Id request, StreamObserver<PacketServiceOuterClass.Packets> responseObserver) {
         try {
             ArrayList<Packet> packets = packetService.getAllPacketsBySenderId(request.getId());
@@ -112,6 +98,20 @@ public class PacketRpcService extends PacketServiceGrpc.PacketServiceImplBase {
             PacketServiceOuterClass.Packets packetsRpc = mapper.buildPacketsRpc(packets);
             responseObserver.onNext(packetsRpc);
             responseObserver.onCompleted();
+        } catch (Exception e) {
+            responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asException());
+        }
+    }
+
+    @Override
+    public void getAllSizes(Empty request, StreamObserver<PacketServiceOuterClass.Sizes> responseObserver) {
+        try {
+            ArrayList<Size> sizes = packetService.getAllSizes();
+            PacketServiceOuterClass.Sizes sizesRpc = mapper.buildSizesRpc(sizes);
+            responseObserver.onNext(sizesRpc);
+            responseObserver.onCompleted();
+        } catch (NoSuchElementException e) {
+            responseObserver.onError(Status.NOT_FOUND.withDescription(e.getMessage()).asException());
         } catch (Exception e) {
             responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asException());
         }
