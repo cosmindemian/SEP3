@@ -1,5 +1,6 @@
 using Client.Implementations;
 using Client.Interfaces;
+using CSharpShared.Exception;
 using DotnetFrontend.Context;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -16,13 +17,13 @@ builder.Services.AddScoped<ILocationService, LocationHttpClient>();
 builder.Services.AddScoped<IAuthService, AuthHttpClient>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthProvider>();
 builder.Services.AddScoped<GlobalContext>();
+builder.Services.AddScoped<ExceptionHandler>();
 builder.Services.AddScoped(
     sp => 
         new HttpClient { 
             BaseAddress = new Uri("http://localhost:5106") 
         }
 );
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

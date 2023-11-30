@@ -2,7 +2,9 @@ using System.Net.Http.Json;
 using System.Security.Claims;
 using Authentication;
 using Client.Interfaces;
+using CSharpShared.Exception;
 using gateway.DTO;
+using Grpc.Core;
 using grpc.Exception;
 using Microsoft.AspNetCore.Components.Authorization;
 
@@ -11,11 +13,23 @@ namespace Client.Implementations;
 public class AuthHttpClient : AuthenticationStateProvider, IAuthService
 {
     private HttpClient _httpClient;
+    private ExceptionHandler _exceptionHandler;
     public string Jwt { get; private set; } = "";
+
+    public AuthHttpClient(HttpClient httpClient, ExceptionHandler exceptionHandler)
+    {
+        _httpClient = httpClient;
+        _exceptionHandler = exceptionHandler;
+    }
 
     public async Task<TokenDto> RegisterAsync(RegisterDto dto)
     {
-        var result = await _httpClient.PostAsJsonAsync("/Auth/register", dto); 
+        var result = await _httpClient.PostAsJsonAsync("/Auth/register", dto);
+        if (!result.IsSuccessStatusCode)
+        {
+            var errorContent = await result.Content.ReadFromJsonAsync<ApiException>();
+            _exceptionHandler.Throw(errorContent);
+        }
         var content = await result.Content.ReadFromJsonAsync<TokenDto>();
         if (content == null)
         {
@@ -39,11 +53,12 @@ public class AuthHttpClient : AuthenticationStateProvider, IAuthService
     public async Task<TokenDto> LoginAsync(LoginDto dto)
     {
         var result = await _httpClient.PostAsJsonAsync("/Auth/login", dto); 
-        var content = await result.Content.ReadFromJsonAsync<TokenDto>();
-        if (content == null)
+        if (!result.IsSuccessStatusCode)
         {
-            throw new LoginException("Login failed");
+            var errorContent = await result.Content.ReadFromJsonAsync<ApiException>();
+            _exceptionHandler.Throw(errorContent);
         }
+        var content = await result.Content.ReadFromJsonAsync<TokenDto>();
         Jwt = content.token;
         var claims = AuthenticationEntity.ParseTokenClaims(Jwt);
         var user = new ClaimsPrincipal(new ClaimsIdentity(claims, "jwt"));

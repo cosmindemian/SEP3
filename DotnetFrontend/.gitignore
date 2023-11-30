@@ -3,6 +3,8 @@
 /DotnetFrontend/Validators/bin/
 /DotnetFrontend/Validators/obj/
 /DotnetFrontend/Validators/.idea
+DotnetFrontend/Validators/bin
+DotnetFrontend/Validators/obj
 /HttpClient/bin/
 /HttpClient/obj/
 /Domain/bin/
