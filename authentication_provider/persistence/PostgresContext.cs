@@ -1,3 +1,4 @@
+
 using Microsoft.EntityFrameworkCore;
 using persistance.Config;
 using persistance.Entity;
@@ -7,6 +8,7 @@ namespace persistance;
 public class PostgresContext : DbContext
 {
     public DbSet<Credential> Credentials { set; get; }
+    public DbSet<EmailVerificationCode> EmailVerificationCodes { set; get; }
     public DbSet<Role> Roles { set; get; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -26,5 +28,11 @@ public class PostgresContext : DbContext
         modelBuilder.Entity<Role>() //sets the name of Role as unique
             .HasIndex(r => r.Name)
             .IsUnique();
+        modelBuilder.Entity<Credential>()
+            .HasOne(e=>e.EmailVerificationCode)
+            .WithOne(e => e.Credential)
+            .HasForeignKey<EmailVerificationCode>( e=> e.CredentialId)
+            .IsRequired(false);
+            
     }
 }

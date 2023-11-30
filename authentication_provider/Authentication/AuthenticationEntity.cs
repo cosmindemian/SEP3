@@ -1,4 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 
@@ -61,6 +63,36 @@ public class AuthenticationEntity
     public static ClaimsPrincipal BuildClaimsPrincipalStatic(string jwt)
     {
         return ParseToken(jwt).BuildClaimsPrincipal(jwt);
+    }
+    
+    static string GenerateVerificationCode()
+    {
+        Random random = new Random();
+        return random.Next(100000, 999999).ToString();
+    }
+    
+    static void SendVerificationEmail(string recipientEmail, string code)
+    {
+        try
+        {
+            MailMessage mail = new MailMessage();
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
+            mail.From = new MailAddress("cheekyprimateverify@gmail.com");
+            mail.To.Add("markg546@gmail.com");
+            mail.Subject = "Email Verification";
+            mail.Body = "Your verification code is: " + code;
+            smtpClient.Port = 587;
+            smtpClient.UseDefaultCredentials = false;
+            smtpClient.Credentials = new NetworkCredential("cheekyprimateverify@gmail.com", "hlyx xnpy vlny kfpf");
+            smtpClient.EnableSsl = true;
+            smtpClient.Send(mail);
+
+            Console.WriteLine("Verification email sent.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error sending verification email: " + ex.Message);
+        }
     }
     
 }

@@ -9,4 +9,5 @@ public interface ICredentialLogic
     public Task<Credential> LoginAsync(string email, string password);
     
     public Task<Credential> GetCredentialAsync(string email);
+    Task VerifyUserAsync(string code);
 }
