@@ -54,4 +54,5 @@ public class Packet {
         this.status = status;
         this.size = size;
     }
+
 }
