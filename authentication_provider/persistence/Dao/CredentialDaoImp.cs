@@ -14,9 +14,9 @@ public class CredentialDaoImp : ICredentialDao
         _context = context;
     }
 
-    public async Task<Credential> AddCredentialAsync(string email, string password, long userId, Role role)
+    public async Task<Credential> AddCredentialAsync(string email, string password, long userId, Role role, bool isVerified)
     {
-        var credential = new Credential(password, email, userId, role);
+        var credential = new Credential(password, email, userId, role, isVerified);
         var existing = await _context.Credentials.FirstOrDefaultAsync(cr => cr.Email == credential.Email);
         if (existing != null)
         {
