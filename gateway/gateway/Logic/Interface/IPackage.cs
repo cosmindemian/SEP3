@@ -8,5 +8,5 @@ public interface IPackage
     
     Task<IEnumerable<GetShortPackageDto>> GetPackagesByReceiverAsync(string email);
     
-    Task SendPackageAsync(SendPackageDto dto);
+    Task<SendPackageReturnDto> SendPackageAsync(SendPackageDto dto);
 }

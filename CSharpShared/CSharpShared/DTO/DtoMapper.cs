@@ -78,4 +78,16 @@ public class DtoMapper
             CloseTime = pickUpPoint.ClosingHours
         };
     }
+    
+    public SendPackageReturnDto BuildSendPackageReturnDto(Packet packet, LocationWithAddress finalLocation, User sender, User receiver)
+    {
+        return new SendPackageReturnDto(packet.Id, packet.TrackingNumber, sender.Name, packet.Status.Status_,
+            packet.Size.SizeName, BuildUserDto(receiver), BuildUserDto(sender), 
+            BuildGetLocationDto(finalLocation));
+    }
+    
+    public UserDto BuildUserDto(User user)
+    {
+        return new UserDto(user.Phone, user.Email, user.Name);
+    }
 }

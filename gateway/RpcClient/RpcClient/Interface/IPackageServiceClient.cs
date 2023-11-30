@@ -9,5 +9,5 @@ public interface IPackageServiceClient
     Task<Packets> GetPackageByReceiverAsync(long userId);
 
     Task<Packets> GetPackageByReceiversAsync(IEnumerable<long> userId);
-    Task SendPacketAsync(long receiverId, long senderId, long typeId, long finalLocationId);
+    Task<Packet> SendPacketAsync(long receiverId, long senderId, long typeId, long finalLocationId);
 }

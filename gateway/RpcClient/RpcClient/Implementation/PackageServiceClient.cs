@@ -67,9 +67,9 @@ public class PackageServiceClient : IPackageServiceClient
         return response;
     }
 
-    public async Task SendPacketAsync(long receiverId, long senderId, long typeId, long finalLocationId)
+    public async Task<Packet> SendPacketAsync(long receiverId, long senderId, long typeId, long finalLocationId)
     {
-        await _client.addPacketAsync(new AddPacket()
+       return await _client.addPacketAsync(new AddPacket()
         {
             FinalDestinationId = finalLocationId,
             SenderId = senderId,

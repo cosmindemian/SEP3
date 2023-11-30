@@ -59,7 +59,7 @@ public class ImplementationPackage : IPackage
         return packets.Packet.Select(_dtoMapper.BuildGetShortPackageDto);
     }
 
-    public async Task SendPackageAsync(SendPackageDto dto)
+    public async Task<SendPackageReturnDto> SendPackageAsync(SendPackageDto dto)
     {
         ValidatePackage(dto);
         long receiverId = 0;
@@ -88,7 +88,11 @@ public class ImplementationPackage : IPackage
                 throw new InvalidArgumentsException("Final location is not a pick up point");
             }
 
-            await _packageServiceClient.SendPacketAsync(receiverId, senderId, dto.TypeId, finalLocation.PickUpPoint.Id);
+            var packet = await _packageServiceClient.SendPacketAsync(receiverId, senderId, dto.TypeId,
+                finalLocation.PickUpPoint.Id);
+            
+             return _dtoMapper.BuildSendPackageReturnDto(packet, finalLocation,senderRequest.Result.User,
+                receiverRequest.Result.User);
         }
         catch (Exception e)
         {

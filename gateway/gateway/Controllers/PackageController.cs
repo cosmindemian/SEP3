@@ -54,12 +54,12 @@ public class PackageController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> SendPackageAsync(SendPackageDto dto)
+    public async Task<ActionResult<SendPackageReturnDto>> SendPackageAsync(SendPackageDto dto)
     {
         try
         {
-            await packageLogic.SendPackageAsync(dto);
-            return Ok();
+            var returnDto = await packageLogic.SendPackageAsync(dto);
+            return Ok(returnDto);
         }
         catch (Exception e)
         {
