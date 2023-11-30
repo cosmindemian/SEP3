@@ -6,9 +6,9 @@ namespace Client.Implementations;
 
 public class CustomAuthProvider: AuthenticationStateProvider
 {
-    private readonly IAuthClient authService;
+    private readonly IAuthService authService;
 
-    public CustomAuthProvider(IAuthClient authService)
+    public CustomAuthProvider(IAuthService authService)
     {
         this.authService = authService;
         authService.OnAuthStateChanged += AuthStateChanged;

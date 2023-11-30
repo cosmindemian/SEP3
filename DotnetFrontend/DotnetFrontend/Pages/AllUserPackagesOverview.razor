@@ -1,19 +1,30 @@
 ﻿@page "/AllUserPackagesOverview"
+@attribute [Authorize]
 @using Client.Interfaces
 @using gateway.DTO
+@using Google.Protobuf.WellKnownTypes
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @inject IPackageService PackageService;
+@inject ProtectedSessionStorage protectedSessionStorage
+
 <PageTitle>My profile</PageTitle>
 
 <section class="container mt-4">
     <div class="d-flex justify-content-center">
-        <h1 class="text-center display-3 text-uppercase"><b>Hello John Doe</b></h1>
+        <h1 class="text-center display-3 text-uppercase">
+            <b>Hello @name</b>
+        </h1>
     </div>
     <div class="row">
         <div class="col-12">
             <div class="card bg-light">
                 <div class="card-body mt-2">
-                    <p><b>Email:</b>  john.doe@example.com</p>
-                    <p><b>Phone number:</b> 123 123 142</p>
+                    <p>
+                        <b>Email:</b> @_email
+                    </p>
+                    <p>
+                        <b>Phone number:</b> @_phoneNumber
+                    </p>
                 </div>
             </div>
         </div>
@@ -25,7 +36,7 @@
 }
 else if (!packages.Any())
 {
-    <span>No users to be found</span>
+    <span>No packages to be found</span>
 }
 else
 {
@@ -33,18 +44,18 @@ else
     <section class="container mt-4">
         <h2 class="mb-4">Packages Overview</h2>
         <div class="row">
-             @foreach (GetShortPackageDto package in packages)
-             {
-                 <div class="col-md-4 mb-4">
-                     <div class="card">
-                         <h5 class="card-header bg-@color">Status: @package.TrackingNumber</h5>
-                         <div class="card-body">
-                             <h5 class="card-title">Tracking number: @package.Status</h5>
-                             <a href="/PackageInfo/@package.Id" class="btn btn-outline-dark btn-block mt-2">See more</a>
-                         </div>
-                     </div>
-                 </div>
-             }
+            @foreach (GetShortPackageDto package in packages)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <h5 class="card-header bg-@color">Status: @package.TrackingNumber</h5>
+                        <div class="card-body">
+                            <h5 class="card-title">Tracking number: @package.Status</h5>
+                            <a href="/PackageInfo/@package.Id" class="btn btn-outline-dark btn-block mt-2">See more</a>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </section>
 }
@@ -56,13 +67,26 @@ else
     private string color3 = "success";
     private IEnumerable<GetShortPackageDto>? packages;
     private string msg = "";
+    string name = "";
+    string _email = "";
+    string _phoneNumber = "";
 
     protected override async Task OnInitializedAsync()
     {
+    // Accessing the global context
+        var globalContext = (await protectedSessionStorage.GetAsync<GlobalContext>("globalContext")).Value;
+        if (globalContext == null || globalContext.UserContext == null)
+        {
+            throw new Exception("Global context is null");
+        }
+        // setting the values from the global context
+        name = globalContext.UserContext.Name;
+        _email = globalContext.UserContext.Email;
+        _phoneNumber = globalContext.UserContext.Phone;
         msg = "";
         try
         {
-            packages = await PackageService.GetAllPackagesByUserId(1);
+    //packages = await PackageService.GetAllPackagesByUserId(1);
         }
         catch (Exception e)
         {
@@ -70,5 +94,5 @@ else
             msg = e.Message;
         }
     }
-    
+
 }
