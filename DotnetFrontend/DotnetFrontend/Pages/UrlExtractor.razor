@@ -1,0 +1,21 @@
+﻿@page "/VerifyEmail"
+@using System.Text.RegularExpressions
+@using System.Collections.Specialized
+@inject NavigationManager NavigationManager
+<h3>UrlExtractor</h3>
+
+
+@code {
+
+    protected override void OnInitialized()
+
+    {
+        string currentUrl = NavigationManager.Uri;
+        Uri uri = new Uri(currentUrl);
+        string query = uri.Query;
+        NameValueCollection queryParameters = System.Web.HttpUtility.ParseQueryString(query);
+        string tokenValue = queryParameters.Get("token");
+        Console.WriteLine("Token value: " + tokenValue);
+    }
+
+}
