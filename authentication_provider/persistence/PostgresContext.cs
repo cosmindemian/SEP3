@@ -1,6 +1,5 @@
 using grpc.Config;
 using Microsoft.EntityFrameworkCore;
-using persistance.Config;
 using persistance.Entity;
 
 namespace persistance;
