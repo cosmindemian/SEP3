@@ -1,5 +1,7 @@
+using CSharpShared.Exception;
 using gateway.DTO;
 using gateway.Model;
+using grpc.Exception;
 using Microsoft.AspNetCore.Mvc;
 
 namespace gateway.Controllers;
@@ -9,10 +11,11 @@ namespace gateway.Controllers;
 public class LocationController :ControllerBase
 {
     private readonly ILocationServiceLogic _locationServiceLogic;
-
-    public LocationController(ILocationServiceLogic locationServiceLogic)
+    private readonly ExceptionHandler _exceptionHandler;
+    public LocationController(ILocationServiceLogic locationServiceLogic, ExceptionHandler exceptionHandler)
     {
         _locationServiceLogic = locationServiceLogic;
+        _exceptionHandler = exceptionHandler;
     }
 
     [HttpGet]
@@ -26,8 +29,8 @@ public class LocationController :ControllerBase
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            return StatusCode(500, e.Message);
+            var error = _exceptionHandler.Handle(e);
+            return StatusCode(error.StatusCode, error);
         }
     }
     

@@ -1,10 +1,12 @@
 ﻿/DotnetFrontend/obj/
 /DotnetFrontend/bin
+/DotnetFrontend/Validators/bin/
+/DotnetFrontend/Validators/obj/
+/DotnetFrontend/Validators/.idea
+DotnetFrontend/Validators/obj
 /HttpClient/bin/
 /HttpClient/obj/
 /Domain/bin/
 /Domain/obj/
-/Validators/bin/
-/Validators/obj/
 /packages/
 .idea

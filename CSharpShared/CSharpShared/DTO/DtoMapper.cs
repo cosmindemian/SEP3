@@ -24,12 +24,12 @@ public class DtoMapper
         return addressDto;
     }
 
-    public GetPackageDto BuildGetPackageDto(Packet package, LocationWithAddress currentLocation,
+    public GetPackageDto BuildGetPackageDto(Packet package, LocationWithAddress? currentLocation,
         LocationWithAddress finalLocation, string userName)
     {
         var dto = new GetPackageDto();
         dto.Id = package.Id;
-        dto.CurrentLocation = BuildGetLocationDto(currentLocation);
+        dto.CurrentLocation = currentLocation == null ? null : BuildGetLocationDto(currentLocation);
         dto.FinalDestination = BuildGetLocationDto(finalLocation);
         dto.PackageType = package.Size.SizeName;
         dto.PackageNumber = package.TrackingNumber;
@@ -77,5 +77,17 @@ public class DtoMapper
             OpenTime = pickUpPoint.OpeningHours,
             CloseTime = pickUpPoint.ClosingHours
         };
+    }
+    
+    public SendPackageReturnDto BuildSendPackageReturnDto(Packet packet, LocationWithAddress finalLocation, User sender, User receiver)
+    {
+        return new SendPackageReturnDto(packet.Id, packet.TrackingNumber, sender.Name, packet.Status.Status_,
+            packet.Size.SizeName, BuildUserDto(receiver), BuildUserDto(sender), 
+            BuildGetLocationDto(finalLocation));
+    }
+    
+    public UserDto BuildUserDto(User user)
+    {
+        return new UserDto(user.Phone, user.Email, user.Name);
     }
 }

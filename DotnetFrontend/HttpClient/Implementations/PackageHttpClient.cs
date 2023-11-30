@@ -33,7 +33,7 @@ namespace Client.Implementations
                 return packageDTO;
             }
 
-            public async Task<SendPackageDto> CreatePackage(SendPackageDto dto)
+            public async Task<SendPackageReturnDto> CreatePackage(SendPackageDto dto)
             {
                 HttpResponseMessage response = await client.PostAsJsonAsync("/Package", dto);
                 string result = await response.Content.ReadAsStringAsync();
@@ -42,7 +42,7 @@ namespace Client.Implementations
                     throw new Exception(result);
                 }
 
-                var package = JsonSerializer.Deserialize<SendPackageDto>(result, new JsonSerializerOptions
+                var package = JsonSerializer.Deserialize<SendPackageReturnDto>(result, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });

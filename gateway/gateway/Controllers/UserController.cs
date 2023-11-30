@@ -1,5 +1,4 @@
 ﻿using gateway.DTO;
-using gateway.DtoGenerators;
 using gateway.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +17,8 @@ public class UserController : ControllerBase
         this.userLogic = userLogic;
         _dtoMapper = dtoMapper;
     }
-
+    // This method is not used in the current version of the project
+    /*
     [HttpGet("{id}")]
     public async Task<ActionResult<GetUserDto>> GetByIdAsync([FromRoute] long id)
     {
@@ -33,5 +33,5 @@ public class UserController : ControllerBase
             Console.WriteLine(e);
             return StatusCode(500, e.Message);
         }
-    }
+    }*/
 }

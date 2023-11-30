@@ -1,0 +1,71 @@
+@page "/PackageSentConfirmation/{trackingNumber}"
+@using gateway.DTO
+@using Client.Interfaces
+@inject IPackageService PackageService;
+
+<PageTitle>Package confirmation</PageTitle>
+@if (package == null)
+    {
+        <label class="text-center">Loading page...</label>
+    }
+else
+{
+    <h1 class="text-center fw-bold text-uppercase">Package <b class="text-primary">@package.PackageNumber</b>  has been created</h1>
+    <p class="text-center">Information about package:</p>
+    <div class="container w-lg-50">
+
+        <table class="table mt-5">
+            <tbody>
+            <tr>
+                <th scope="row">Package number</th>
+                <td>@package.PackageNumber</td>
+            </tr>
+            <tr>
+                <th scope="row">Sender</th>
+                <td>@package.SenderName</td>
+            </tr>
+            <tr>
+                <th scope="row">Status</th>
+                <td>@package.PackageStatus</td>
+            </tr>
+            <tr>
+                <th scope="row">Final street and house number</th>
+                <td>@package.FinalDestination.Address.Street  @package.FinalDestination.Address.BuildingNumber</td>
+            </tr>
+            <tr>
+                <th scope="row">Final city</th>
+                <td>@package.FinalDestination.Address.City</td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+}
+
+
+@code {
+    [Parameter]
+    public string TrackingNumber { get; set; }
+    private string packageNumber;
+    private string errorLabel = "";
+    private GetPackageDto package;
+    private string user;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine(TrackingNumber);
+        try
+        {
+            package = await PackageService.GetPackageByTrackingNumberAsync(TrackingNumber);
+            Console.WriteLine(package);
+            errorLabel = "";
+        }
+        catch (Exception e)
+        {
+            errorLabel = "There is no package with this tracking number: " + packageNumber;
+        }
+    }
+
+}

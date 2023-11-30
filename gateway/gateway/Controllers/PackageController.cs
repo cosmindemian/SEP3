@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
+using CSharpShared.Exception;
 using gateway.DTO;
-using gateway.DtoGenerators;
 using gateway.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -14,12 +14,11 @@ namespace gateway.Controllers;
 public class PackageController : ControllerBase
 {
     private readonly IPackage packageLogic;
-    private readonly DtoGenerator _dtoGenerator;
-
-    public PackageController(IPackage packageLogic)
+    private readonly ExceptionHandler _exceptionHandler;
+    public PackageController(IPackage packageLogic, ExceptionHandler exceptionHandler)
     {
+        _exceptionHandler = exceptionHandler;
         this.packageLogic = packageLogic;
-        _dtoGenerator = new DtoGenerator();
     }
 
     [HttpGet("{trackingNumber}")]
@@ -30,9 +29,10 @@ public class PackageController : ControllerBase
             var package = await packageLogic.GetPackageByTrackingNumberAsync(trackingNumber);
             return Ok(package);
         }
-        catch (NotFoundException)
+        catch (Exception e)
         {
-            return NotFound();
+            var error = _exceptionHandler.Handle(e);
+            return StatusCode(error.StatusCode, error);
         }
     }
 
@@ -48,22 +48,23 @@ public class PackageController : ControllerBase
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            return StatusCode(500, e.Message);
+            var error = _exceptionHandler.Handle(e);
+            return StatusCode(error.StatusCode, error);
         }
     }
 
     [HttpPost]
-    public async Task<ActionResult> SendPackageAsync(SendPackageDto dto)
+    public async Task<ActionResult<SendPackageReturnDto>> SendPackageAsync(SendPackageDto dto)
     {
         try
         {
-            await packageLogic.SendPackageAsync(dto);
-            return Ok();
+            var returnDto = await packageLogic.SendPackageAsync(dto);
+            return Ok(returnDto);
         }
-        catch (NotFoundException e)
+        catch (Exception e)
         {
-            return BadRequest(e.Message);
+            var error = _exceptionHandler.Handle(e);
+            return StatusCode(error.StatusCode, error);
         }
     }
 }

@@ -1,8 +1,7 @@
-﻿using gateway.DTO;
+﻿using CSharpShared.Exception;
+using gateway.DTO;
 using gateway.RpcClient.Interface;
-using Grpc.Core;
 using persistance.Exception;
-using RpcClient.Model;
 using RpcClient.RpcClient.Interface;
 
 
@@ -30,34 +29,36 @@ public class ImplementationPackage : IPackage
     public async Task<GetPackageDto> GetPackageByTrackingNumberAsync(string trackingNumber)
     {
         Packet package;
-        try
-        {
-            package = await _packageServiceClient.GetPackageByTrackingNumberAsync(trackingNumber);
-        }
-        catch (RpcException e)
-        {
-            if (e.Status.StatusCode == StatusCode.NotFound)
-            {
-                throw new NotFoundException();
-            }
 
-            throw;
-        }
+        package = await _packageServiceClient.GetPackageByTrackingNumberAsync(trackingNumber);
 
-        var userRequest = _userServiceClient.GetUserByIdAsync(package.Id);
-        var currentLocationResult = _locationServiceClient
-            .GetLocationByIdWithAddressAsync(package.CurrentAddressId);
+        var userRequest = _userServiceClient.GetUserByIdAsync(package.SenderId);
+        Task<LocationWithAddress>? currentLocationResult = null;
+        if (package.CurrentAddressId != 0)
+        currentLocationResult = _locationServiceClient
+            .GetLocationByIdWithAddressAsync(package.CurrentAddressId);            
+        
+
         var finalLocationResult = _locationServiceClient
             .GetLocationByIdWithAddressAsync(package.FinalAddressId);
-        await Task.WhenAll(userRequest, currentLocationResult, finalLocationResult);
 
+        
+        if (currentLocationResult != null)
+        {
+            await Task.WhenAll(userRequest, currentLocationResult, finalLocationResult);   
+        }
+        else
+        {
+            await Task.WhenAll(userRequest, finalLocationResult);
+        }
+
+        LocationWithAddress? currentLocation = currentLocationResult == null ? null : currentLocationResult.Result;
         var user = userRequest.Result;
-        var currentLocation = currentLocationResult.Result;
         var finalLocation = finalLocationResult.Result;
 
         if (package == null)
         {
-            throw new Exception($"Package with id {trackingNumber} not found");
+            throw new NotFoundException($"Package with id {trackingNumber} not found");
         }
 
         return _dtoMapper.BuildGetPackageDto(package, currentLocation, finalLocation, user.Name);
@@ -71,7 +72,7 @@ public class ImplementationPackage : IPackage
         return packets.Packet.Select(_dtoMapper.BuildGetShortPackageDto);
     }
 
-    public async Task SendPackageAsync(SendPackageDto dto)
+    public async Task<SendPackageReturnDto> SendPackageAsync(SendPackageDto dto)
     {
         ValidatePackage(dto);
         long receiverId = 0;
@@ -97,10 +98,14 @@ public class ImplementationPackage : IPackage
             finalLocation = locationRequest.Result;
             if (!finalLocation.IsPickUpPoint)
             {
-                throw new Exception("Final location is not a pick up point");
+                throw new InvalidArgumentsException("Final location is not a pick up point");
             }
 
-            await _packageServiceClient.SendPacketAsync(receiverId, senderId, dto.TypeId, finalLocation.PickUpPoint.Id);
+            var packet = await _packageServiceClient.SendPacketAsync(receiverId, senderId, dto.TypeId,
+                finalLocation.PickUpPoint.Id);
+            
+             return _dtoMapper.BuildSendPackageReturnDto(packet, finalLocation,senderRequest.Result.User,
+                receiverRequest.Result.User);
         }
         catch (Exception e)
         {
@@ -114,7 +119,7 @@ public class ImplementationPackage : IPackage
                 _userServiceClient.DeleteUserAsync(receiverId);
             }
 
-            throw e;
+            throw;
         }
     }
 
@@ -129,7 +134,7 @@ public class ImplementationPackage : IPackage
         {
             throw new NotFoundException("Receiver not found");
         }
-        
+
         if (dto.Sender == null)
         {
             throw new NotFoundException("Sender is null and sender is not registered");

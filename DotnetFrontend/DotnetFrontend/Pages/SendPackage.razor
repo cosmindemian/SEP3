@@ -2,8 +2,10 @@
 @inject NavigationManager NavManager
 @using Client.Interfaces
 @using gateway.DTO
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @inject IPackageService PackageService;
 @inject ILocationService LocationService;
+@inject ProtectedSessionStorage protectedSessionStorage
 <PageTitle>Send a package</PageTitle>
 
 <h1 class="text-center fw-bold text-uppercase">SEND a Package</h1>
@@ -14,12 +16,12 @@
         <div class=" row justify-content-center">
             <div class="col-3">
                 <DataAnnotationsValidator/>
-                <label for="radio-card-1" class="radio-card" @bind="_packageValidator.PackageType">
+                <label for="radio-card-1" class="radio-card">
                     <div class="card-content-wrapper">
                         <span class="check-icon"></span>
                         <div class="card">
                             <div class="card-header">
-                                <input type="radio" name="radio-card" id="radio-card-1" value="1" checked/>
+                                <input type="radio" name="radio-card" id="radio-card-1" checked @onchange="@(() => _packageValidator.PackageType = "1")"/>
                                 <span>Type 1</span>
                             </div>
                             <div class="card-body bg-light">
@@ -32,12 +34,12 @@
             </div>
 
             <div class="col-3">
-                <label for="radio-card-2" class="radio-card" @bind="_packageValidator.PackageType">
+                <label for="radio-card-2" class="radio-card">
                     <div class="card-content-wrapper">
                         <span class="check-icon"></span>
                         <div class="card">
                             <div class="card-header">
-                                <input type="radio" name="radio-card" id="radio-card-2" value="2"/>
+                                <input type="radio" name="radio-card" id="radio-card-2" @onchange="@(() => _packageValidator.PackageType = "2")"/>
                                 <span>Type 2</span>
                             </div>
                             <div class="card-body bg-light">
@@ -49,12 +51,12 @@
                 </label>
             </div>
             <div class="col-3">
-                <label for="radio-card-3" class="radio-card" @bind="_packageValidator.PackageType">
+                <label for="radio-card-3" class="radio-card" >
                     <div class="card-content-wrapper">
                         <span class="check-icon"></span>
                         <div class="card">
                             <div class="card-header">
-                                <input type="radio" name="radio-card" id="radio-card-3" value="3"/>
+                                <input type="radio" name="radio-card" id="radio-card-3" @onchange="@(() => _packageValidator.PackageType = "3")"/>
                                 <span>Type 3</span>
                             </div>
                             <div class="card-body bg-light">
@@ -128,6 +130,11 @@
                             }
                         }
                     </select>
+                    @if (locations == null)
+                    {
+                        errorMsgForPickupPoints = "No pickup points were found";
+                        <pickupPoint>@errorMsgForPickupPoints</pickupPoint>
+                    }
                 </div>
             </div>
               
@@ -135,13 +142,15 @@
 
         <div class="text-center mt-5">
            
-            <button type="submit" class="btn btn-primary" >Send a package @resultMsg</button>
+            <button type="submit" class="btn btn-primary" >Send a package</button>
         </div>
        
     </div>
+   
 
 
 </EditForm>
+
 
 
 @code {
@@ -150,32 +159,29 @@
     private IEnumerable<GetPickUpPointDto>? locations = new List<GetPickUpPointDto>();
     private string errorMsgForPickupPoints = "";
     private string randomString = "";
-    private string resultMsg = "";
+    //private string resultMsg = "";
     private string color = "";
+    private SendPackageReturnDto packageWithAllInfo;
+
+   
     
 
     private async Task SendPackageAsync()
     {
-        resultMsg = "hovno";
         try
         {
             UserDto sender = new UserDto(_packageValidator.SenderPhoneNumber, _packageValidator.SenderEmail, _packageValidator.SenderName);
             UserDto receiver = new UserDto(_packageValidator.ReceiverPhoneNumber, _packageValidator.ReceiverEmail, _packageValidator.ReceiverName);
-            SendPackageDto sendPackageDto = new SendPackageDto(1,  sender, receiver: receiver, 1);
-            Console.WriteLine( _packageValidator.ReceiverName);
+            SendPackageDto sendPackageDto = new SendPackageDto(long.Parse(pickupPoint),  sender, receiver: receiver, long.Parse(_packageValidator.PackageType) );
             
-            //sendPackageDto.TypeId = long.Parse(_packageValidator.PackageType) ;
-            //sendPackageDto.FinalLocationId = _packageValidator.FinalDestinationId;
-            await PackageService.CreatePackage(sendPackageDto);
-            resultMsg = "User successfully created";
-            Console.WriteLine(sendPackageDto);
-            color = "green";
-            //avManager.NavigateTo("/LogIn");
+            packageWithAllInfo = await PackageService.CreatePackage(sendPackageDto);
+            string packageTrackingNumber = packageWithAllInfo.PackageNumber;
+            NavManager.NavigateTo("/PackageSentConfirmation/" + packageTrackingNumber);
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            resultMsg = e.Message;
+            //resultMsg = e.Message;
             color = "red";
         }
     }
@@ -184,8 +190,19 @@
     {
         try
         {
+            pickupPoint = "1";
+            _packageValidator.PackageType = "1";
             errorMsgForPickupPoints = "";
             locations = await LocationService.GetAllPickupPoints();
+            var globalContext = (await protectedSessionStorage.GetAsync<GlobalContext>("globalContext")).Value;
+            if (globalContext != null || globalContext.UserContext != null)
+            {
+                _packageValidator.SenderEmail = globalContext.UserContext.Email;
+                _packageValidator.SenderName = globalContext.UserContext.Name;
+                _packageValidator.SenderPhoneNumber = globalContext.UserContext.Phone;
+            }
+    // setting the values from the global context
+            
         }
         catch (Exception e)
         {

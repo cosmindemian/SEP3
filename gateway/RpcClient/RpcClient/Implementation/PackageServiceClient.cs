@@ -1,6 +1,7 @@
 ﻿using gateway.RpcClient.Interface;
+using Grpc.Core;
 using Grpc.Net.Client;
-using RpcClient.Model;
+using persistance.Exception;
 using RpcClient.RpcClient;
 
 namespace gateway.RpcClient;
@@ -17,34 +18,58 @@ public class PackageServiceClient : IPackageServiceClient
 
     public async Task<Packet> GetPackageByTrackingNumberAsync(string packageNumber)
     {
-      var  response = await _client.getPacketByTrackingNumberAsync(new GetPacketTrackingNumber
+        try
         {
-            TrackingNumber = packageNumber
-        });
-      return response;
+            var response = await _client.getPacketByTrackingNumberAsync(new GetPacketTrackingNumber
+            {
+                TrackingNumber = packageNumber
+            });
+            return response;
+        }
+        catch (RpcException e)
+        {
+            if (e.Status.StatusCode == StatusCode.NotFound)
+            {
+                throw new NotFoundException();
+            }
+
+            throw;
+        }
     }
-    
+
     public async Task<Packets> GetPackageByReceiverAsync(long userId)
     {
-        var response = await _client.getAllPacketsByReceiverAsync(new Id()
+        try
         {
-            Id_ = userId
-        });
-        return response;
+            var response = await _client.getAllPacketsByReceiverAsync(new Id()
+            {
+                Id_ = userId
+            });
+            return response;
+        }
+        catch (RpcException e)
+        {
+            if (e.StatusCode == StatusCode.NotFound)
+            {
+                throw new NotFoundException();
+            }
+
+            throw;
+        }
     }
-    
+
     public async Task<Packets> GetPackageByReceiversAsync(IEnumerable<long> userId)
     {
         var response = await _client.getAllPacketsByReceiverIdsAsync(new IdListRpc()
         {
-            Id = {userId}
+            Id = { userId }
         });
         return response;
     }
 
-    public async Task SendPacketAsync(long receiverId, long senderId, long typeId, long finalLocationId)
+    public async Task<Packet> SendPacketAsync(long receiverId, long senderId, long typeId, long finalLocationId)
     {
-       await _client.addPacketAsync(new AddPacket()
+       return await _client.addPacketAsync(new AddPacket()
         {
             FinalDestinationId = finalLocationId,
             SenderId = senderId,
