@@ -32,15 +32,28 @@ public class ImplementationPackage : IPackage
 
         package = await _packageServiceClient.GetPackageByTrackingNumberAsync(trackingNumber);
 
-        var userRequest = _userServiceClient.GetUserByIdAsync(package.Id);
-        var currentLocationResult = _locationServiceClient
-            .GetLocationByIdWithAddressAsync(package.CurrentAddressId);
+        var userRequest = _userServiceClient.GetUserByIdAsync(package.SenderId);
+        Task<LocationWithAddress>? currentLocationResult = null;
+        if (package.CurrentAddressId != 0)
+        currentLocationResult = _locationServiceClient
+            .GetLocationByIdWithAddressAsync(package.CurrentAddressId);            
+        
+
         var finalLocationResult = _locationServiceClient
             .GetLocationByIdWithAddressAsync(package.FinalAddressId);
-        await Task.WhenAll(userRequest, currentLocationResult, finalLocationResult);
 
+        
+        if (currentLocationResult != null)
+        {
+            await Task.WhenAll(userRequest, currentLocationResult, finalLocationResult);   
+        }
+        else
+        {
+            await Task.WhenAll(userRequest, finalLocationResult);
+        }
+
+        LocationWithAddress? currentLocation = currentLocationResult == null ? null : currentLocationResult.Result;
         var user = userRequest.Result;
-        var currentLocation = currentLocationResult.Result;
         var finalLocation = finalLocationResult.Result;
 
         if (package == null)

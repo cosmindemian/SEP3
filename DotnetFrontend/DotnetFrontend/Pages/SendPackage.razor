@@ -142,7 +142,7 @@
 
         <div class="text-center mt-5">
            
-            <button type="submit" class="btn btn-primary" >Send a package @resultMsg</button>
+            <button type="submit" class="btn btn-primary" >Send a package</button>
         </div>
        
     </div>
@@ -150,7 +150,7 @@
 
 
 </EditForm>
- <button onclick="@SeePackageInfo">click meee</button>
+
 
 
 @code {
@@ -159,14 +159,11 @@
     private IEnumerable<GetPickUpPointDto>? locations = new List<GetPickUpPointDto>();
     private string errorMsgForPickupPoints = "";
     private string randomString = "";
-    private string resultMsg = "";
+    //private string resultMsg = "";
     private string color = "";
+    private SendPackageReturnDto packageWithAllInfo;
 
-    private void SeePackageInfo()
-    {
-        string packageTrackingNumber = "NFQOZVXBBH";
-        NavManager.NavigateTo("/PackageSentConfirmation/" + packageTrackingNumber);
-    }
+   
     
 
     private async Task SendPackageAsync()
@@ -177,17 +174,14 @@
             UserDto receiver = new UserDto(_packageValidator.ReceiverPhoneNumber, _packageValidator.ReceiverEmail, _packageValidator.ReceiverName);
             SendPackageDto sendPackageDto = new SendPackageDto(long.Parse(pickupPoint),  sender, receiver: receiver, long.Parse(_packageValidator.PackageType) );
             
-            await PackageService.CreatePackage(sendPackageDto);
-            string packageTrackingNumber = "NFQOZVXBBH";
-            resultMsg = "User successfully created";
-            color = "green";
-            
+            packageWithAllInfo = await PackageService.CreatePackage(sendPackageDto);
+            string packageTrackingNumber = packageWithAllInfo.PackageNumber;
             NavManager.NavigateTo("/PackageSentConfirmation/" + packageTrackingNumber);
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            resultMsg = e.Message;
+            //resultMsg = e.Message;
             color = "red";
         }
     }

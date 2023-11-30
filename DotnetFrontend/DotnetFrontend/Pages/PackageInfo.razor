@@ -55,7 +55,15 @@
             </tr>
             <tr>
                 <th scope="row">Current location</th>
-                <td>@package.CurrentLocation.Address.City</td>
+                @if (package.CurrentLocation == null)
+                {
+                    <td>Package have not been sent yet</td>
+                }
+                else
+                {
+                    <td>@package.CurrentLocation.Address.City</td>
+                }
+                
 
             </tr>
             <tr>

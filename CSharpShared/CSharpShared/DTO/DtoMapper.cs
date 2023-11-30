@@ -24,12 +24,12 @@ public class DtoMapper
         return addressDto;
     }
 
-    public GetPackageDto BuildGetPackageDto(Packet package, LocationWithAddress currentLocation,
+    public GetPackageDto BuildGetPackageDto(Packet package, LocationWithAddress? currentLocation,
         LocationWithAddress finalLocation, string userName)
     {
         var dto = new GetPackageDto();
         dto.Id = package.Id;
-        dto.CurrentLocation = BuildGetLocationDto(currentLocation);
+        dto.CurrentLocation = currentLocation == null ? null : BuildGetLocationDto(currentLocation);
         dto.FinalDestination = BuildGetLocationDto(finalLocation);
         dto.PackageType = package.Size.SizeName;
         dto.PackageNumber = package.TrackingNumber;
