@@ -65,4 +65,9 @@ public class AuthenticationServiceClientImpl : IAuthenticationServiceClient
             }
         }
     }
+
+    public Task VerifyEmailAsync(string code)
+    {
+        throw new NotImplementedException();
+    }
 }

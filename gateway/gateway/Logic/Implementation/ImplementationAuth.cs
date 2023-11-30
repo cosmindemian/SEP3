@@ -60,4 +60,9 @@ public class ImplementationAuth : IAuth
             throw;
         }
     }
+
+    public async Task VerifyEmailAsync(EmailTokenDto dto)
+    {
+        await _authServiceClient.VerifyEmailAsync(dto.Token);
+    }
 }

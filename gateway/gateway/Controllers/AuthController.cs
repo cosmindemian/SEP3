@@ -48,4 +48,11 @@ public class AuthController: ControllerBase
            return StatusCode(error.StatusCode, error);
         }
     }
+
+    [HttpPost, Route("verify_email")]
+    public async Task<ActionResult> VerifyEmailAsync([FromBody] EmailTokenDto dto)
+    {
+
+        return Ok();
+    }
 }

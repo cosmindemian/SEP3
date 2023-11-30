@@ -6,4 +6,5 @@ public interface IAuth
 {
     Task<TokenDto> LoginAsync(LoginDto loginDto);
     Task<TokenDto> RegisterAsync(RegisterDto registerDto);
+    Task VerifyEmailAsync(EmailTokenDto dto);
 }
