@@ -6,16 +6,20 @@
 
 
 @code {
+    private bool extractionDone = false;
 
-    protected override void OnInitialized()
-
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        string currentUrl = NavigationManager.Uri;
-        Uri uri = new Uri(currentUrl);
-        string query = uri.Query;
-        NameValueCollection queryParameters = System.Web.HttpUtility.ParseQueryString(query);
-        string tokenValue = queryParameters.Get("token");
-        Console.WriteLine("Token value: " + tokenValue);
-    }
+        if (firstRender && !extractionDone)
+        {
+            string currentUrl = NavigationManager.Uri;
+            Uri uri = new Uri(currentUrl);
+            string query = uri.Query;
+            NameValueCollection queryParameters = System.Web.HttpUtility.ParseQueryString(query);
+            string tokenValue = queryParameters.Get("token");
+            Console.WriteLine("Token value: " + tokenValue);
 
+            extractionDone = true;
+        }
+    }
 }
