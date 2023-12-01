@@ -77,4 +77,13 @@ public class PackageServiceClient : IPackageServiceClient
             ReceiverId = receiverId
         });
     }
+
+    public async Task<Packets> GetPackagesBySenderIds(List<long> ids)
+    {
+        var response = await _client.getAllPacketsByUserIdsAsync(new IdListRpc()
+        {
+            Id = { ids }
+        });
+        return response;
+    }
 }

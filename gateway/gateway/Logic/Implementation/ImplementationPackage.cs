@@ -64,11 +64,11 @@ public class ImplementationPackage : IPackage
         return _dtoMapper.BuildGetPackageDto(package, currentLocation, finalLocation, user.Name);
     }
 
-    public async Task<IEnumerable<GetShortPackageDto>> GetPackagesByReceiverAsync(string email)
+    public async Task<IEnumerable<GetShortPackageDto>> GetPackagesByUserAsync(string email)
     {
         var users = await _userServiceClient.GetUsersAsync(email);
         var ids = users.Users.Select(user => user.Id).ToList();
-        var packets = await _packageServiceClient.GetPackageByReceiversAsync(ids);
+        var packets = await _packageServiceClient.GetPackagesBySenderIds(ids);
         return packets.Packet.Select(_dtoMapper.BuildGetShortPackageDto);
     }
 

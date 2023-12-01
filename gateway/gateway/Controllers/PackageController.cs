@@ -43,7 +43,7 @@ public class PackageController : ControllerBase
         try
         {
             var email = User.Claims.First(c => c.Type == ClaimTypes.Email).Value;
-            var packages = await packageLogic.GetPackagesByReceiverAsync(email);
+            var packages = await packageLogic.GetPackagesByUserAsync(email);
             return Ok(packages);
         }
         catch (Exception e)
