@@ -39,8 +39,8 @@ public class AuthController: ControllerBase
     {
         try
         {
-            var dto = await authLogic.RegisterAsync(userRegisterDto);
-            return Ok(dto);
+            await authLogic.RegisterAsync(userRegisterDto);
+            return Ok();
         }
         catch (Exception e)
         {

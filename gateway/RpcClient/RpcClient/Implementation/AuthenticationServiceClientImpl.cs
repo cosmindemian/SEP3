@@ -1,5 +1,6 @@
 using System.Security.Authentication;
 using Authentication;
+using CSharpShared.Exception;
 using Grpc.Core;
 using grpc.Exception;
 using Grpc.Net.Client;
@@ -40,24 +41,23 @@ public class AuthenticationServiceClientImpl : IAuthenticationServiceClient
         return response;
     }
 
-    public async Task<JwtToken> RegisterAsync(string email, string password, long userId)
+    public async Task RegisterAsync(string email, string password, long userId)
     {
         try
         {
-            var response = await _client.registerAsync(new RegisterRequest
+            await _client.registerAsync(new RegisterRequest
             {
                 Email = email,
                 Password = password,
                 UserId = userId
             });
-            return response;
         }
         catch (RpcException e)
         {
             switch (e.StatusCode)
             {
                 case StatusCode.InvalidArgument:
-                    throw new LoginException("Invalid arguments");
+                    throw new InvalidArgumentsException("Invalid arguments");
                 case StatusCode.AlreadyExists:
                     throw new EmailTakenException("User already exists");
                 default:
