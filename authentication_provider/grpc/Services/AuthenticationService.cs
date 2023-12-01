@@ -20,7 +20,7 @@ public class AuthenticationService : global::AuthenticationService.Authenticatio
         _jwtLogic = jwtLogic;
     }
 
-    public override async Task<JwtToken> register(RegisterRequest request, ServerCallContext context)
+    public override async Task<Empty> register(RegisterRequest request, ServerCallContext context)
     {
         Credential credential;
         try
@@ -37,7 +37,7 @@ public class AuthenticationService : global::AuthenticationService.Authenticatio
             throw new RpcException(new StatusRpc(StatusCode.Internal, e.Message));
         }
 
-        return new JwtToken { Token = _jwtLogic.GenerateJwt(credential.Email, credential.Role, credential.UserId) };
+        return new Empty();
     }
 
     public override async Task<JwtToken> login(LoginRequest request, ServerCallContext context)
