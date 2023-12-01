@@ -1,5 +1,5 @@
 using System.Text;
-using grpc.Config;
+using persistance.Config;
 using grpc.Logic;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
