@@ -39,7 +39,7 @@
                             <ValidationMessage For="() => _userValidator.Password"/>
                         </div>
                         <div class="d-grid mt-4">
-                            <button class="btn btn-primary" type="button" @onclick="RegisterAsync">Register</button>
+                            <button class="btn btn-primary" type="submit" >Register</button>
                         </div>
                         <p class="mt-3 text-center">Already have an account? <a href="/Login">Log in</a></p>
                         @if (_errorMessage != "")
@@ -81,12 +81,13 @@
     private UserValidator _userValidator = new UserValidator();
     private string _errorMessage = "";
     private bool _isRegistered = false;
+    private RegisterDto RegisterDto;
 
-    private async void RegisterAsync()
+    private async Task RegisterAsync()
     {
-        var dto = new RegisterDto(_userValidator.Name, _userValidator.PhoneNumber, _userValidator.Email, _userValidator.Password);
         try
         {
+            RegisterDto dto = new RegisterDto(_userValidator.Email, _userValidator.Password, _userValidator.Name, _userValidator.PhoneNumber);
             await service.RegisterAsync(dto);
             _isRegistered = true;
             _errorMessage = "";
@@ -95,6 +96,7 @@
         }
         catch (InvalidArgumentsException e)
         {
+            Console.WriteLine(e.GetBaseException());
             _errorMessage = "You have inserted invalid input data.";
             StateHasChanged();
         }
