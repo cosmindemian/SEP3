@@ -6,7 +6,7 @@ namespace Client.Interfaces;
 public interface IAuthService
 {
     Task<TokenDto> LoginAsync(LoginDto dto);
-    Task<TokenDto> RegisterAsync(RegisterDto dto);
+    Task RegisterAsync(RegisterDto dto);
     
      Action<ClaimsPrincipal> OnAuthStateChanged { get; set; }
     

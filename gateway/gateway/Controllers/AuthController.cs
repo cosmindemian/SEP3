@@ -39,8 +39,8 @@ public class AuthController: ControllerBase
     {
         try
         {
-            var dto = await authLogic.RegisterAsync(userRegisterDto);
-            return Ok(dto);
+            await authLogic.RegisterAsync(userRegisterDto);
+            return Ok();
         }
         catch (Exception e)
         {
@@ -52,7 +52,15 @@ public class AuthController: ControllerBase
     [HttpPost, Route("verify_email")]
     public async Task<ActionResult> VerifyEmailAsync([FromBody] EmailTokenDto dto)
     {
-
-        return Ok();
+        try 
+        {
+            await authLogic.VerifyEmailAsync(dto);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            var error = _exceptionHandler.Handle(e);
+            return StatusCode(error.StatusCode, error);
+        }
     }
 }
