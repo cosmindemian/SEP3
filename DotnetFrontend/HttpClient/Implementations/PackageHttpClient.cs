@@ -1,4 +1,5 @@
 ﻿
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Client.Interfaces;
 using System.Text.Json;
@@ -49,10 +50,12 @@ namespace Client.Implementations
                 return package;
             }
 
-            public async Task<IEnumerable<GetShortPackageDto>> GetAllPackagesByUserId(long userId)
+            public async Task<IEnumerable<GetShortPackageDto>> GetAllPackagesByUserId(string token)
             {
-                string uri = "/packages";
-                HttpResponseMessage response = await client.GetAsync(uri);
+                string uri = "/package";
+                var request = new HttpRequestMessage(HttpMethod.Get, uri);
+                client.DefaultRequestHeaders.Add("Bearer", token);
+                HttpResponseMessage response = await client.SendAsync(request);
                 string result = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
                 {
