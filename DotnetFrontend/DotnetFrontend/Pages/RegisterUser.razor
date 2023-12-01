@@ -45,7 +45,12 @@
                                 @_errorMessage
                             </div>
                         }
-                    </div>
+                    @if (_isRegistered)
+                    {
+                        <div class="alert alert-success" role="alert">
+                            You have successfully registered. Now you have to verify your email address.
+                        </div>
+                    }</div>
                 </div>
             </div>
             <div class="col">
@@ -84,18 +89,27 @@
         try
         {
             await service.RegisterAsync(dto);
+            _isRegistered = true;
+            _errorMessage = "";
+            StateHasChanged();
+
         }
         catch (InvalidArgumentsException e)
         {
             _errorMessage = "You have inserted invalid input data.";
+            StateHasChanged();
         }
         catch (EmailTakenException e)
         {
             _errorMessage = "Email is already taken.";
+            StateHasChanged();
+
         }
         catch (Exception e)
         {
             _errorMessage = "Something went wrong. Please try again later.";
+            StateHasChanged();
+
             throw;
         }
     }
