@@ -13,4 +13,6 @@ public interface IAuthService
      Task<ClaimsPrincipal> GetAuthAsync();
     
     void Logout();
+    
+    Task VerifyEmailAsync(EmailTokenDto dto);
 }

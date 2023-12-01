@@ -70,6 +70,16 @@ public class AuthHttpClient : AuthenticationStateProvider, IAuthService
         ClaimsPrincipal principal = AuthenticationEntity.BuildClaimsPrincipalStatic(Jwt);
         return Task.FromResult(principal);
     }
+    
+    public async Task VerifyEmailAsync(EmailTokenDto dto)
+    {
+        var result = await _httpClient.PostAsJsonAsync("/Auth/verify_email", dto);
+        if (!result.IsSuccessStatusCode)
+        {
+            var errorContent = await result.Content.ReadFromJsonAsync<ApiException>();
+            _exceptionHandler.Throw(errorContent);
+        }
+    }
 
     public void Logout()
     {

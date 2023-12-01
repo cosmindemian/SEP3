@@ -34,12 +34,29 @@ public class AuthenticationServiceClientImpl : IAuthenticationServiceClient
 
     public async Task<JwtToken> LoginAsync(string email, string password)
     {
-        var response = await _client.loginAsync(new LoginRequest
+        try
         {
-            Email = email,
-            Password = password
-        });
-        return response;
+            var response = await _client.loginAsync(new LoginRequest
+            {
+                Email = email,
+                Password = password
+            });
+            return response;
+        }
+        catch (RpcException e)
+        {
+            switch (e.StatusCode)
+            {
+                case StatusCode.PermissionDenied:
+                    throw new EmailNotVerifiedException();
+                case StatusCode.Unauthenticated:
+                    throw new LoginException("Wrong credentials");
+                case StatusCode.InvalidArgument:
+                    throw new InvalidArgumentsException("Email invalid");
+                default:
+                    throw;
+            }
+        }
     }
 
     public async Task RegisterAsync(string email, string password, long userId)
@@ -57,6 +74,8 @@ public class AuthenticationServiceClientImpl : IAuthenticationServiceClient
         {
             switch (e.StatusCode)
             {
+                case StatusCode.PermissionDenied:
+                    throw new EmailNotVerifiedException();
                 case StatusCode.InvalidArgument:
                     throw new InvalidArgumentsException("Invalid arguments");
                 case StatusCode.AlreadyExists:
@@ -70,7 +89,7 @@ public class AuthenticationServiceClientImpl : IAuthenticationServiceClient
     public async Task VerifyEmailAsync(string code)
     {
         try
-        { 
+        {
             await _client.verifyEmailAsync(new VerifyEmailRequest
             {
                 EmailCode = code
@@ -81,9 +100,7 @@ public class AuthenticationServiceClientImpl : IAuthenticationServiceClient
             switch (e.StatusCode)
             {
                 case StatusCode.NotFound:
-                    throw new LoginException("Verify code not found");
-                case StatusCode.Internal:
-                    throw new EmailTakenException("Internal error");
+                    throw new InvalidEmailTokenException();
                 default:
                     throw;
             }
