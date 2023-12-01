@@ -1,25 +1,63 @@
-﻿@page "/VerifyEmail"
+﻿@page "/ActivateAccount"
 @using System.Text.RegularExpressions
+@inject Client.Interfaces.IAuthService AuthService
 @using System.Collections.Specialized
+@using gateway.DTO
 @inject NavigationManager NavigationManager
-<h3>UrlExtractor</h3>
+
+@if (extractionDone)
+{
+<div class="alert alert-success">
+    <h1>Verification done</h1>
+    <p>You can now log in</p>
+</div>
+}
+@if (!extractionDone)
+{
+    <div class="alert alert-info">
+        <h1>Verification in progress</h1>
+        <p>Please wait...</p>
+    </div>
+}
+@if (!extractionDone && error)
+{
+    <div class="alert alert-danger">
+        <h1>Verification failed</h1>
+        <p>Something went wrong, try again later</p>
+    </div>
+}
 
 
 @code {
     private bool extractionDone = false;
+    private bool error = false;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender && !extractionDone)
         {
+            try
+            {
             string currentUrl = NavigationManager.Uri;
             Uri uri = new Uri(currentUrl);
             string query = uri.Query;
             NameValueCollection queryParameters = System.Web.HttpUtility.ParseQueryString(query);
-            string tokenValue = queryParameters.Get("token");
-            Console.WriteLine("Token value: " + tokenValue);
-
+            string? tokenValue = queryParameters.Get("token");
+            if (tokenValue == null)
+            {
+                NavigationManager.NavigateTo("/");
+            }
+            var dto = new EmailTokenDto(tokenValue!);
+            await AuthService.VerifyEmailAsync(dto);
             extractionDone = true;
+                StateHasChanged();
+            }
+            catch (Exception)
+            {
+                error = true;
+                StateHasChanged();
+            }
         }
     }
+
 }

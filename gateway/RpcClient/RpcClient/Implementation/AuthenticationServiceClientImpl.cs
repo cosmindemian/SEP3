@@ -100,9 +100,7 @@ public class AuthenticationServiceClientImpl : IAuthenticationServiceClient
             switch (e.StatusCode)
             {
                 case StatusCode.NotFound:
-                    throw new LoginException("Verify code not found");
-                case StatusCode.Internal:
-                    throw new EmailTakenException("Internal error");
+                    throw new InvalidEmailTokenException();
                 default:
                     throw;
             }
