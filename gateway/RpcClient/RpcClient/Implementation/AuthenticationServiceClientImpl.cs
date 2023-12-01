@@ -1,6 +1,7 @@
 using System.Security.Authentication;
 using Authentication;
 using CSharpShared.Exception;
+using gateway.DTO;
 using Grpc.Core;
 using grpc.Exception;
 using Grpc.Net.Client;
@@ -66,8 +67,26 @@ public class AuthenticationServiceClientImpl : IAuthenticationServiceClient
         }
     }
 
-    public Task VerifyEmailAsync(string code)
+    public async Task VerifyEmailAsync(string code)
     {
-        throw new NotImplementedException();
+        try
+        { 
+            await _client.verifyEmailAsync(new VerifyEmailRequest
+            {
+                EmailCode = code
+            });
+        }
+        catch (RpcException e)
+        {
+            switch (e.StatusCode)
+            {
+                case StatusCode.NotFound:
+                    throw new LoginException("Verify code not found");
+                case StatusCode.Internal:
+                    throw new EmailTakenException("Internal error");
+                default:
+                    throw;
+            }
+        }
     }
 }
