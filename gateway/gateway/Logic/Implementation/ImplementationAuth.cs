@@ -41,14 +41,13 @@ public class ImplementationAuth : IAuth
         }
     }
 
-    public async Task<TokenDto> RegisterAsync(RegisterDto registerDto)
+    public async Task RegisterAsync(RegisterDto registerDto)
     {
         var user = await _userServiceClient.SaveUserAsync(registerDto.email, registerDto.name, registerDto.phone);
         var userCreated = !user.Exists;
         try
         {
-            var token = await _authServiceClient.RegisterAsync(registerDto.email, registerDto.password, user.User.Id);
-            return _dtoMapper.BuildTokenDto(token, user.User);
+            await _authServiceClient.RegisterAsync(registerDto.email, registerDto.password, user.User.Id);
         }
         catch (Exception e)
         {

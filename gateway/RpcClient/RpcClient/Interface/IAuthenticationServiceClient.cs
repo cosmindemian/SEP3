@@ -6,6 +6,6 @@ public interface IAuthenticationServiceClient
 {
    Task<AuthenticationEntity> VerifyTokenAsync(string token);
    Task<JwtToken> LoginAsync(string email, string password);
-   Task<JwtToken> RegisterAsync(string email, string password, long userId);
+   Task RegisterAsync(string email, string password, long userId);
    Task VerifyEmailAsync(string code);
 }

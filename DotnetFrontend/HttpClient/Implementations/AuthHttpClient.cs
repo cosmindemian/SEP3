@@ -21,7 +21,7 @@ public class AuthHttpClient : AuthenticationStateProvider, IAuthService
         _exceptionHandler = exceptionHandler;
     }
 
-    public async Task<TokenDto> RegisterAsync(RegisterDto dto)
+    public async Task RegisterAsync(RegisterDto dto)
     {
         var result = await _httpClient.PostAsJsonAsync("/Auth/register", dto);
         if (!result.IsSuccessStatusCode)
@@ -29,16 +29,6 @@ public class AuthHttpClient : AuthenticationStateProvider, IAuthService
             var errorContent = await result.Content.ReadFromJsonAsync<ApiException>();
             _exceptionHandler.Throw(errorContent);
         }
-        var content = await result.Content.ReadFromJsonAsync<TokenDto>();
-        if (content == null)
-        {
-            throw new LoginException("Register failed");
-        }
-        Jwt = content.token;
-        var claims = AuthenticationEntity.ParseTokenClaims(Jwt);
-        var user = new ClaimsPrincipal(new ClaimsIdentity(claims, "jwt"));
-        OnAuthStateChanged.Invoke(user);
-        return content;
     }
 
     public Action<ClaimsPrincipal> OnAuthStateChanged { get; set; } = null!;
