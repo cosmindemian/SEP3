@@ -40,11 +40,9 @@ public class PacketRpcService extends PacketServiceGrpc.PacketServiceImplBase {
             PacketServiceOuterClass.Packet packetRpc = mapper.buildPacketRpc(packet);
             responseObserver.onNext(packetRpc);
             responseObserver.onCompleted();
-        }
-        catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             responseObserver.onError(Status.DATA_LOSS.withDescription(e.getMessage()).asException());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asException());
         }
     }
@@ -120,12 +118,24 @@ public class PacketRpcService extends PacketServiceGrpc.PacketServiceImplBase {
     @Override
     public void getAllPacketsByReceiverIds(PacketServiceOuterClass.IdListRpc request, StreamObserver<PacketServiceOuterClass.Packets> responseObserver) {
         try {
-            ArrayList<Packet> packets = packetService.getAllPacketsByReceiverIds( request.getIdList());
+            ArrayList<Packet> packets = packetService.getAllPacketsByReceiverIds(request.getIdList());
             PacketServiceOuterClass.Packets packetsRpc = mapper.buildPacketsRpc(packets);
             responseObserver.onNext(packetsRpc);
             responseObserver.onCompleted();
         } catch (NoSuchElementException e) {
             responseObserver.onError(Status.NOT_FOUND.withDescription(e.getMessage()).asException());
+        } catch (Exception e) {
+            responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asException());
+        }
+    }
+
+    @Override
+    public void getAllPacketsByUserIds(PacketServiceOuterClass.IdListRpc request, StreamObserver<PacketServiceOuterClass.Packets> responseObserver) {
+        try {
+            ArrayList<Packet> packets = packetService.getAllPacketsByUserIds(request.getIdList());
+            PacketServiceOuterClass.Packets packetsRpc = mapper.buildPacketsRpc(packets);
+            responseObserver.onNext(packetsRpc);
+            responseObserver.onCompleted();
         } catch (Exception e) {
             responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asException());
         }

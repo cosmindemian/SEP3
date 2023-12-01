@@ -69,5 +69,6 @@ service PacketService{
   rpc getAllPacketsByReceiver(Id) returns(Packets);
   rpc getAllSizes(google.protobuf.Empty) returns (Sizes);
   rpc getAllPacketsByReceiverIds(IdListRpc) returns(Packets);
+  rpc getAllPacketsByUserIds(IdListRpc) returns(Packets);
 }
 

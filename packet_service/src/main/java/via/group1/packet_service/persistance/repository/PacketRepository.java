@@ -11,10 +11,8 @@ import java.util.Optional;
 @Repository
 public interface PacketRepository extends JpaRepository<Packet, Long> {
     Optional<Packet> findByTrackingNumber(String trackingNumber);
-
     Optional<ArrayList<Packet>> findBySenderId(Long senderId);
-
+    ArrayList<Packet> findAllBySenderIdIsInOrReceiverIdIsIn(List<Long> ids, List<Long> ids2);
     Optional<ArrayList<Packet>> findByReceiverId(Long receiverId);
-
     Optional<ArrayList<Packet>> getPacketsByReceiverIdIn(List<Long> ids);
 }

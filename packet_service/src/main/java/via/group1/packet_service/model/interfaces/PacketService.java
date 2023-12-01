@@ -21,4 +21,5 @@ public interface PacketService {
     ArrayList<Size> getAllSizes();
 
     ArrayList<Packet> getAllPacketsByReceiverIds(List<Long> ids);
+    ArrayList<Packet> getAllPacketsByUserIds(List<Long> ids);
 }

@@ -81,5 +81,8 @@ public class DefaultPacketService implements PacketService {
         return (ArrayList<Packet>) packetRepository.getPacketsByReceiverIdIn(ids).orElseThrow();
     }
 
-
+    @Override
+    public ArrayList<Packet> getAllPacketsByUserIds(List<Long> ids) {
+        return packetRepository.findAllBySenderIdIsInOrReceiverIdIsIn(ids, ids);
+    }
 }
