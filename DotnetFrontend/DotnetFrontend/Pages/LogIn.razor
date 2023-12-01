@@ -1,5 +1,6 @@
 ﻿@page "/LogIn"
 @using Client.Interfaces
+@using CSharpShared.Exception
 @using gateway.DTO
 @using grpc.Exception
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
@@ -70,9 +71,10 @@
             }
             var dto = new LoginDto(username, password);
             var user = await AuthService.LoginAsync(dto);
-    // Creating global context and storing it in session storage
             GlobalContext globalContext = new GlobalContext(user);
             await ProtectedSessionStorage.SetAsync("globalContext", globalContext);
+            errorMessage = "";
+            NavManager.NavigateTo("/AllUserPackagesOverview");
         }
         catch (LoginException e)
         {
@@ -80,15 +82,17 @@
             StateHasChanged();
             return;
         }
+        catch (EmailNotVerifiedException e)
+        {
+            errorMessage = "Your email is not verified. Please check your email.";
+            StateHasChanged();
+        }
         catch (Exception e)
         {
             errorMessage = "Something went wrong. Please try again later.";
             StateHasChanged();
             return;
         }
-
-        errorMessage = "";
-        NavManager.NavigateTo("/AllUserPackagesOverview");
     }
 
 }
