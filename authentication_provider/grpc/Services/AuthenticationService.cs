@@ -22,7 +22,7 @@ public class AuthenticationService : global::AuthenticationService.Authenticatio
 
     public override async Task<JwtToken> register(RegisterRequest request, ServerCallContext context)
     {
-        Credential credential;
+            Credential credential;
         try
         {
             credential = await _credentialLogic.RegisterAsync(request.Email, request.Password, request.UserId);
@@ -33,7 +33,9 @@ public class AuthenticationService : global::AuthenticationService.Authenticatio
         }
         catch (System.Exception e)
         {
+            Console.WriteLine(e.Data);
             Console.WriteLine(e.StackTrace);
+            Console.WriteLine(e.Message);
             throw new RpcException(new StatusRpc(StatusCode.Internal, e.Message));
         }
 
