@@ -1,9 +1,9 @@
 using System.Text;
+using grpc.Config;
 using grpc.Logic;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using persistance;
-using persistance.Config;
 using persistance.Dao;
 
 var builder = WebApplication.CreateBuilder(args);
