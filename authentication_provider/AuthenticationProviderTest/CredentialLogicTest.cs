@@ -14,9 +14,10 @@ public class CredentialLogicTest
     public CredentialLogicTest()
     {
         PostgresContext = new PostgresContext();
+        var emailVerificationDao = new EmailVerificationDaoImpl(PostgresContext);
         var credentialDao = new CredentialDaoImp(PostgresContext);
         var roleDao = new RoleDaoImpl(PostgresContext);
-        _credentialLogic = new CredentialLogicImpl(credentialDao, roleDao);
+        _credentialLogic = new CredentialLogicImpl(credentialDao, roleDao, emailVerificationDao, new EmailLogicImpl());
     }
 
     [Fact]

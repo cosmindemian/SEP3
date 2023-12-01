@@ -14,9 +14,10 @@ public class CredentialDaoImp : ICredentialDao
         _context = context;
     }
 
-    public async Task<Credential> AddCredentialAsync(string email, string password, long userId, Role role)
+    public async Task<Credential> AddCredentialAsync(string email, string password, long userId, Role role,
+        bool isVerified, EmailVerificationCode emailCode)
     {
-        var credential = new Credential(password, email, userId, role);
+        var credential = new Credential(password, email, userId, role, isVerified, emailCode);
         var existing = await _context.Credentials.FirstOrDefaultAsync(cr => cr.Email == credential.Email);
         if (existing != null)
         {
@@ -37,5 +38,17 @@ public class CredentialDaoImp : ICredentialDao
         }
 
         return credential;
+    }
+    
+    public async Task SetIsVerifiedAsync(long id, bool isVerified)
+    {
+        var credential = await _context.Credentials.FirstOrDefaultAsync(cr => cr.Id == id);
+        if (credential == null)
+        {
+            throw new NotFoundException();
+        }
+
+        credential.IsVerified = isVerified;
+        await _context.SaveChangesAsync();
     }
 }

@@ -34,6 +34,9 @@ namespace persistance.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
@@ -54,6 +57,29 @@ namespace persistance.Migrations
                     b.ToTable("Credentials", "authentication_provider");
                 });
 
+            modelBuilder.Entity("persistance.Entity.EmailVerificationCode", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("CredentialId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CredentialId")
+                        .IsUnique();
+
+                    b.ToTable("EmailVerificationCodes", "authentication_provider");
+                });
+
             modelBuilder.Entity("persistance.Entity.Role", b =>
                 {
                     b.Property<long>("Id")
@@ -68,6 +94,9 @@ namespace persistance.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Roles", "authentication_provider");
                 });
 
@@ -80,6 +109,20 @@ namespace persistance.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("persistance.Entity.EmailVerificationCode", b =>
+                {
+                    b.HasOne("persistance.Entity.Credential", "Credential")
+                        .WithOne("EmailVerificationCode")
+                        .HasForeignKey("persistance.Entity.EmailVerificationCode", "CredentialId");
+
+                    b.Navigation("Credential");
+                });
+
+            modelBuilder.Entity("persistance.Entity.Credential", b =>
+                {
+                    b.Navigation("EmailVerificationCode");
                 });
 #pragma warning restore 612, 618
         }
