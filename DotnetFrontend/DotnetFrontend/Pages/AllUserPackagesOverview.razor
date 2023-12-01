@@ -78,20 +78,25 @@ else
         {
             throw new Exception("Global context is null");
         }
-        // setting the values from the global context
-        name = globalContext.UserContext.Name;
-        _email = globalContext.UserContext.Email;
-        _phoneNumber = globalContext.UserContext.Phone;
-        msg = "";
-        try
+        else
         {
-          packages = await PackageService.GetAllPackagesByUserId(1);
+            // setting the values from the global context
+            name = globalContext.UserContext.Name;
+            _email = globalContext.UserContext.Email;
+            _phoneNumber = globalContext.UserContext.Phone;
+            msg = "";
+            try
+            {
+                packages = await PackageService.GetAllPackagesByUserId(globalContext.Jwt);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                msg = e.Message;
+            }  
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            msg = e.Message;
-        }
+        
+        
     }
 
 }

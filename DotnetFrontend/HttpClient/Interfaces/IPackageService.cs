@@ -8,6 +8,6 @@ namespace Client.Interfaces
     {
         Task<GetPackageDto> GetPackageByTrackingNumberAsync(string trackingNumber);
         Task<SendPackageReturnDto> CreatePackage(SendPackageDto dto);
-        Task<IEnumerable<GetShortPackageDto>> GetAllPackagesByUserId(long userId);
+        Task<IEnumerable<GetShortPackageDto>> GetAllPackagesByUserId(string token);
     }
 }
