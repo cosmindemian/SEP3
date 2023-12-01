@@ -11,9 +11,11 @@ public class ExceptionHandler
     public const string NotFoundType = "NotFound";
     public const string InvalidArgumentsType = "InvalidArguments";
     public const string EmailNotVerifiedType = "EmailNotVerified";
-    
+
     public ApiException Handle(System.Exception exception)
     {
+        Console.WriteLine(exception.StackTrace);
+        Console.WriteLine(exception.Data);
         return exception switch
         {
             InvalidArgumentsException => new ApiException(400, InvalidArgumentsType, exception.Message),
@@ -24,7 +26,7 @@ public class ExceptionHandler
             _ => new ApiException(500, InternalServerType, exception.Message)
         };
     }
-    
+
     public void Throw(ApiException exception)
     {
         switch (exception.Type)

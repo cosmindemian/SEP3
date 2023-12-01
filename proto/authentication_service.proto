@@ -30,7 +30,7 @@ message VerifyEmailRequest{
 
 service AuthenticationService{
   rpc login(LoginRequest) returns (JwtToken);
-  rpc register(RegisterRequest) returns (JwtToken);
+  rpc register(RegisterRequest) returns (google.protobuf.Empty);
   rpc verifyToken(JwtToken) returns (VerifyTokenResponse);
   rpc verifyEmail(VerifyEmailRequest) returns (google.protobuf.Empty);
 }
