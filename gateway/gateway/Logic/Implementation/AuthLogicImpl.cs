@@ -7,14 +7,14 @@ using RpcClient.RpcClient.Interface;
 
 namespace gateway.Model.Implementation;
 
-public class ImplementationAuth : IAuth
+public class AuthLogicImpl : IAuth
 {
     private readonly IAuthenticationServiceClient _authServiceClient;
     private readonly IUserServiceClient _userServiceClient;
 
     private readonly DtoMapper _dtoMapper;
 
-    public ImplementationAuth(IAuthenticationServiceClient authServiceClient, IUserServiceClient userServiceClient,
+    public AuthLogicImpl(IAuthenticationServiceClient authServiceClient, IUserServiceClient userServiceClient,
         DtoMapper dtoMapper)
     {
         _authServiceClient = authServiceClient;

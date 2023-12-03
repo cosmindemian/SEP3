@@ -7,7 +7,7 @@ using RpcClient.RpcClient.Interface;
 
 namespace gateway.Model.Implementation;
 
-public class ImplementationPackage : IPackage
+public class PackageLogicImpl : IPackage
 {
     private readonly IPackageServiceClient _packageServiceClient;
 
@@ -17,7 +17,7 @@ public class ImplementationPackage : IPackage
 
     private readonly DtoMapper _dtoMapper;
 
-    public ImplementationPackage(IPackageServiceClient packageServiceClient,
+    public PackageLogicImpl(IPackageServiceClient packageServiceClient,
         ILocationServiceClient locationServiceClient, IUserServiceClient userServiceClient, DtoMapper dtoMapper)
     {
         _packageServiceClient = packageServiceClient;

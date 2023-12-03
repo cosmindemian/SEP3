@@ -17,13 +17,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IAuthenticationServiceClient, AuthenticationServiceClientImpl>();
-builder.Services.AddScoped<IPackage, ImplementationPackage>();
+builder.Services.AddScoped<IPackage, PackageLogicImpl>();
 builder.Services.AddScoped<ILocationServiceClient, LocationServiceClientImpl>();
 builder.Services.AddScoped<IAuthenticationServiceClient, AuthenticationServiceClientImpl>();
 builder.Services.AddScoped<IPackageServiceClient, PackageServiceClient>();
 builder.Services.AddScoped<IUserServiceClient, UserServiceClientImpl>();
 builder.Services.AddScoped<DtoMapper>();
-builder.Services.AddScoped<IAuth, ImplementationAuth>();
+builder.Services.AddScoped<IAuth, AuthLogicImpl>();
 builder.Services.AddScoped<ILocationServiceLogic, LocationServiceImpl>();
 builder.Services.AddScoped<ExceptionHandler>();
 
