@@ -15,3 +15,6 @@ RpcClient/.idea
 RpcClient/.vs
 Model/.idea
 Model/.vs
+GatewayTest/bin
+GatewayTest/obj
+GatewayTest/.idea
