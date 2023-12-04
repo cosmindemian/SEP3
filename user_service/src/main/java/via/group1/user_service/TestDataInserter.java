@@ -16,8 +16,8 @@ public class TestDataInserter implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        User user = new User("Ahmad", "ahmad@geez.com", "12345678");
-        User user2 = new User("Ahmad2", "ahamd2@geez.com", "12345678");
+        User user = new User("Ahmad_Sender", "ahmad@geez.com", "12345678");
+        User user2 = new User("Ahmad_Receiver", "ahamd2@geez.com", "12345678");
         userRepository.save(user);
         userRepository.save(user2);
     }

@@ -36,10 +36,10 @@ public class TestDataInsertor implements ApplicationRunner {
         statusRepository.save(status);
         statusRepository.save(status2);
         statusRepository.save(status3);
-        Packet packet = new Packet(1L, 1L, 2L, 2L, 3L, status, size, "Test");
-        Packet packet2 = new Packet(2L, 1L, 2L, 3L, 4L, status2, size2);
-        Packet packet3 = new Packet(3L, 2L, 3L, 4L, 2L, status3, size3);
-        Packet packet4 = new Packet(4L, 3L, 4L, 5L, 1L, status3, size3);
+        Packet packet = new Packet(1L, 2L, 2L, 3L, status, size, "Test");
+        Packet packet2 = new Packet(1L, 2L, 3L, 4L, status2, size2);
+        Packet packet3 = new Packet(2L, 3L, 4L, 2L, status3, size3);
+        Packet packet4 = new Packet(3L, 4L, 5L, 1L, status3, size3);
         packetRepository.save(packet);
         packetService.savePacket(packet2, 2L);
         packetService.savePacket(packet3, 3L);

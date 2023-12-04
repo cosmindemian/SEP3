@@ -34,15 +34,29 @@ public class Packet {
 
     @Column(nullable = false, unique = true)
     private String trackingNumber;
+
     public Packet() {
 
     }
 
-    public Packet(Long senderId, Long receiverId, Long currentLocationId, Long finalDestinationId) {
+    public Packet(Long senderId, Long receiverId, Long currentLocationId, Long finalDestinationId, Status status, Size size, String trackingNumber) {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.currentLocationId = currentLocationId;
         this.finalDestinationId = finalDestinationId;
+        this.status = status;
+        this.size = size;
+        this.trackingNumber = trackingNumber;
+    }
+
+
+    public Packet(Long senderId, Long receiverId, Long currentLocationId, Long finalDestinationId, Status status, Size size) {
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.currentLocationId = currentLocationId;
+        this.finalDestinationId = finalDestinationId;
+        this.status = status;
+        this.size = size;
     }
 
     public Packet(Long id,Long senderId, Long receiverId, Long currentLocationId, Long finalDestinationId, Status status, Size size) {
