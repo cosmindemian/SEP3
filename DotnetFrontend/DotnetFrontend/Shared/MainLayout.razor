@@ -3,6 +3,7 @@
 @using System.Security.Claims
 @inherits LayoutComponentBase
 @inject IAuthService AuthService
+@inject NavigationManager navManager
 <div>
     <main>
         <nav class=" navbar navbar-expand-lg m-5 navbar-light">
@@ -31,8 +32,9 @@
                                     <b>My profile</b>
                                 </NavLink>
                             </li>
-                            <img src="logOut.svg" class="logout-nav-button" @onclick="@AuthService.Logout"/>
-                            <b class="logout-dropdown" @onclick="@AuthService.Logout">Log Out</b>
+                            
+                            <img src="logOut.svg" class="logout-nav-button" @onclick="LogOut"/>
+                            <b class="logout-dropdown" @onclick="LogOut">Log Out</b>
                         </Authorized>
                         <NotAuthorized>
                             <li class="nav-item login-nav-button mx-3">
@@ -62,4 +64,9 @@
         collapseNavMenu = !collapseNavMenu;
     }
 
+    private void LogOut()
+    {
+        navManager.NavigateTo("/");
+        AuthService.Logout();
+    }
 }
