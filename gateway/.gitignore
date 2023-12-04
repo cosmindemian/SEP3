@@ -18,3 +18,6 @@ Model/.vs
 GatewayTest/bin
 GatewayTest/obj
 GatewayTest/.idea
+/gateway/Logger/bin/
+/gateway/Logger/obj/
+/gateway/gateway/log.txt

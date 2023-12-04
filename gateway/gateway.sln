@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "c_proto", "..\CSharpShared\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GatewayTest", "GatewayTest\GatewayTest.csproj", "{CD2C3F42-7AD7-4136-90A3-DE6E106872C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "Logger\Logger.csproj", "{80A5AF26-622B-42D0-9B80-FD328BFDB4A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,5 +45,9 @@ Global
 		{CD2C3F42-7AD7-4136-90A3-DE6E106872C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD2C3F42-7AD7-4136-90A3-DE6E106872C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD2C3F42-7AD7-4136-90A3-DE6E106872C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80A5AF26-622B-42D0-9B80-FD328BFDB4A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80A5AF26-622B-42D0-9B80-FD328BFDB4A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80A5AF26-622B-42D0-9B80-FD328BFDB4A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80A5AF26-622B-42D0-9B80-FD328BFDB4A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

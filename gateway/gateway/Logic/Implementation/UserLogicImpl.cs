@@ -7,6 +7,7 @@ public class UserLogicImpl
 {
     private readonly IUserServiceClient _userServiceClient;
     private readonly DtoMapper _dtoMapper;
+    private readonly Logger.Logger _logger = Logger.Logger.Instance;
 
     public UserLogicImpl(IUserServiceClient userServiceClient)
     {
@@ -20,6 +21,7 @@ public class UserLogicImpl
         
         var user = userRequest;
 
+        _logger.Log($"UserLogicImpl: GetUserByIdAsync of {user} not implemented");
         throw new NotImplementedException();
     }
     

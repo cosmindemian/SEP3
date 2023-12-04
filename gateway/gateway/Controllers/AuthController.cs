@@ -11,6 +11,7 @@ public class AuthController: ControllerBase
 {
     private readonly IAuth authLogic;
     private readonly ExceptionHandler _exceptionHandler;
+    private readonly Logger.Logger _logger= Logger.Logger.Instance;
 
     public AuthController(IAuth authLogic, ExceptionHandler exceptionHandler)
     {
@@ -25,6 +26,7 @@ public class AuthController: ControllerBase
         try
         {
             var dto = await authLogic.LoginAsync(userLoginDto);
+            _logger.Log($"AuthController: Login of {userLoginDto} successful");
             return Ok(dto);
         }
         catch (Exception e)
@@ -40,6 +42,7 @@ public class AuthController: ControllerBase
         try
         {
             await authLogic.RegisterAsync(userRegisterDto);
+            _logger.Log($"AuthController: Registration of {userRegisterDto} successful");
             return Ok();
         }
         catch (Exception e)
@@ -55,6 +58,7 @@ public class AuthController: ControllerBase
         try 
         {
             await authLogic.VerifyEmailAsync(dto);
+            _logger.Log($"AuthController: Email verification of {dto} successful");
             return Ok();
         }
         catch (Exception e)
