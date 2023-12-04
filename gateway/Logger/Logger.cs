@@ -8,7 +8,7 @@ public class Logger
 
     private Logger()
     {
-        logFilePath = "../../../log.txt";
+        logFilePath = @"..\..\log.txt";
     }
 
     public static Logger Instance
