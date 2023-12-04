@@ -23,12 +23,19 @@ public class AuthenticationServiceClientImpl : IAuthenticationServiceClient
 
     public async Task<AuthenticationEntity> VerifyTokenAsync(string token)
     {
-        var response = await _client.verifyTokenAsync(new JwtToken
+        VerifyTokenResponse response;
+        try
         {
-            Token = token
-        });
-        if (!response.IsTokenValid)
+            response = await _client.verifyTokenAsync(new JwtToken
+            {
+                Token = token
+            });
+        }
+        catch (RpcException e)
+        {
             throw new AuthenticationException("Token is not valid");
+        }
+        
         return new AuthenticationEntity(response.UserId, response.Email, response.AuthLevel);
     }
 

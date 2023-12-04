@@ -35,13 +35,9 @@ public class AuthenticationProviderSchemeHandler : AuthenticationHandler<Authent
         {
             authenticationEntity = await _authenticationClient.VerifyTokenAsync(token);
         }
-        catch(RpcException e)
+        catch(Exception e)
         {
-            if (e.StatusCode== StatusCode.Unauthenticated)
-            {
-                AuthenticateResult.Fail("Invalid token");
-            }
-            throw;
+               return AuthenticateResult.Fail("Invalid token");
         }
         var claims = new[]
         {

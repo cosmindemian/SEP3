@@ -54,7 +54,7 @@ namespace Client.Implementations
             {
                 string uri = "/package";
                 var request = new HttpRequestMessage(HttpMethod.Get, uri);
-                client.DefaultRequestHeaders.Add("Bearer", token);
+                request.Headers.Add("Bearer", new []{token});
                 HttpResponseMessage response = await client.SendAsync(request);
                 string result = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
