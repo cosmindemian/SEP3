@@ -50,7 +50,7 @@ namespace Client.Implementations
                 return package;
             }
 
-            public async Task<IEnumerable<GetShortPackageDto>> GetAllPackagesByUserId(string token)
+            public async Task<GetAllPackagesByUserDto> GetAllPackagesByUserId(string token)
             {
                 string uri = "/package";
                 var request = new HttpRequestMessage(HttpMethod.Get, uri);
@@ -62,7 +62,7 @@ namespace Client.Implementations
                     throw new Exception(result);
                 }
 
-                IEnumerable<GetShortPackageDto> packages = JsonSerializer.Deserialize<IEnumerable<GetShortPackageDto>>(result, new JsonSerializerOptions
+                GetAllPackagesByUserDto packages = JsonSerializer.Deserialize<GetAllPackagesByUserDto>(result, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });

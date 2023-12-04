@@ -64,12 +64,21 @@ public class PackageLogicImpl : IPackage
         return _dtoMapper.BuildGetPackageDto(package, currentLocation, finalLocation, user.Name);
     }
 
-    public async Task<IEnumerable<GetShortPackageDto>> GetPackagesByUserAsync(string email)
+    public async Task<GetAllPackagesByUserDto> GetPackagesByUserAsync(string email)
     {
         var users = await _userServiceClient.GetUsersAsync(email);
-        var ids = users.Users.Select(user => user.Id).ToList();
-        var packets = await _packageServiceClient.GetPackagesBySenderIds(ids);
-        return packets.Packet.Select(_dtoMapper.BuildGetShortPackageDto);
+        var ids = users.Users.Select(user => user.Id).ToList(); // ids of the logged in user
+        var packets = await _packageServiceClient.GetPackagesByUserIds(ids);
+        var receivedPackets = packets.Packet.Where(packet => ids.Contains(packet.ReceiverId));
+        var sentPackets = packets.Packet.Where(packet => ids.Contains(packet.SenderId));
+        
+        
+        var dto = new GetAllPackagesByUserDto()
+        {
+            ReceivedPackages = receivedPackets.Select(_dtoMapper.BuildGetShortPackageDto),
+            SendPackages = sentPackets.Select(_dtoMapper.BuildGetShortPackageDto)
+        };
+    return dto;
     }
 
     public async Task<SendPackageReturnDto> SendPackageAsync(SendPackageDto dto)

@@ -42,7 +42,20 @@ public class DtoMapper
     {
         return new GetShortPackageDto(package.Id, package.TrackingNumber, package.Status.Status_);
     }
-
+    
+    
+    public GetAllPackagesByUserDto BuildGetAllPackagesByUserDto(IEnumerable<Packet>packets)
+    {
+        var dto = new GetAllPackagesByUserDto()
+        {
+            ReceivedPackages = packets.Select(BuildGetShortPackageDto),
+            SendPackages = packets.Select(BuildGetShortPackageDto)
+        };
+       
+       
+        return dto;
+    }
+    
 
     public LoginDto BuildLoginDto(string email, string password)
     {
