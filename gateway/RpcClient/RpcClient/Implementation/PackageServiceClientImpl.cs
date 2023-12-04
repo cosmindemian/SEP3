@@ -78,7 +78,7 @@ public class PackageServiceClientImpl : IPackageServiceClient
         });
     }
 
-    public async Task<Packets> GetPackagesBySenderIds(List<long> ids)
+    public async Task<Packets> GetPackagesByUserIds(List<long> ids)
     {
         var response = await _client.getAllPacketsByUserIdsAsync(new IdListRpc()
         {

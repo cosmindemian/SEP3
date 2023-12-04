@@ -1,7 +1,9 @@
 ﻿@page "/PackageInfo"
 @using Client.Interfaces
 @using gateway.DTO
+@using System.Collections.Specialized
 @inject IPackageService PackageService;
+@inject NavigationManager NavigationManager
 
 <PageTitle>See package information</PageTitle>
 
@@ -9,7 +11,7 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col col-md-4">
-            <input type="text" class="form-control" id="packageNumber" @bind="packageNumber" placeholder="P 123 123 123" @bind:event="oninput">
+            <input type="text" class="form-control" id="packageNumber" @bind="packageNumber"  placeholder="P 123 123 123" @bind:event="oninput">
         </div>
 
         <div class="col col-md-3 mx-0 ">
@@ -49,6 +51,10 @@
                 <td>@package.SenderName</td>
             </tr>
             <tr>
+                <th scope="row">Receiver</th>
+                <td>@package.ReceiverName</td>
+            </tr>
+            <tr>
                 <th scope="row">Status</th>
                 <td>@package.PackageStatus</td>
 
@@ -79,7 +85,7 @@
 
 
 @code {
-    private string packageNumber;
+    private string? packageNumber;
     private string errorLabel = "";
     bool packageInfoValid;
     private GetPackageDto package;
@@ -98,6 +104,19 @@
         catch (Exception e)
         {
             errorLabel = "There is no package with this tracking number: " + packageNumber;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        string currentUrl = NavigationManager.Uri;
+        Uri uri = new Uri(currentUrl);
+        string query = uri.Query;
+        NameValueCollection queryParameters = System.Web.HttpUtility.ParseQueryString(query);
+        packageNumber = queryParameters.Get("package");
+        if (packageNumber != null)
+        {
+            await ShowPackageInfo(); 
         }
     }
 

@@ -32,7 +32,8 @@ public class PackageLogicImpl : IPackage
 
         package = await _packageServiceClient.GetPackageByTrackingNumberAsync(trackingNumber);
 
-        var userRequest = _userServiceClient.GetUserByIdAsync(package.SenderId);
+        var userReceiverRequest = _userServiceClient.GetUserByIdAsync(package.ReceiverId);
+        var userSenderRequest = _userServiceClient.GetUserByIdAsync(package.SenderId);
         Task<LocationWithAddress>? currentLocationResult = null;
         if (package.CurrentAddressId != 0)
         currentLocationResult = _locationServiceClient
@@ -45,15 +46,16 @@ public class PackageLogicImpl : IPackage
         
         if (currentLocationResult != null)
         {
-            await Task.WhenAll(userRequest, currentLocationResult, finalLocationResult);   
+            await Task.WhenAll(userReceiverRequest, userSenderRequest, currentLocationResult, finalLocationResult);   
         }
         else
         {
-            await Task.WhenAll(userRequest, finalLocationResult);
+            await Task.WhenAll(userReceiverRequest, userSenderRequest, finalLocationResult);
         }
 
         LocationWithAddress? currentLocation = currentLocationResult == null ? null : currentLocationResult.Result;
-        var user = userRequest.Result;
+        var sender = userSenderRequest.Result;
+        var receiver = userReceiverRequest.Result;
         var finalLocation = finalLocationResult.Result;
 
         if (package == null)
@@ -61,15 +63,24 @@ public class PackageLogicImpl : IPackage
             throw new NotFoundException($"Package with id {trackingNumber} not found");
         }
 
-        return _dtoMapper.BuildGetPackageDto(package, currentLocation, finalLocation, user.Name);
+        return _dtoMapper.BuildGetPackageDto(package, currentLocation, finalLocation, sender.Name, receiver.Name);
     }
 
-    public async Task<IEnumerable<GetShortPackageDto>> GetPackagesByUserAsync(string email)
+    public async Task<GetAllPackagesByUserDto> GetPackagesByUserAsync(string email)
     {
         var users = await _userServiceClient.GetUsersAsync(email);
-        var ids = users.Users.Select(user => user.Id).ToList();
-        var packets = await _packageServiceClient.GetPackagesBySenderIds(ids);
-        return packets.Packet.Select(_dtoMapper.BuildGetShortPackageDto);
+        var ids = users.Users.Select(user => user.Id).ToList(); // ids of the logged in user
+        var packets = await _packageServiceClient.GetPackagesByUserIds(ids);
+        var receivedPackets = packets.Packet.Where(packet => ids.Contains(packet.ReceiverId));
+        var sentPackets = packets.Packet.Where(packet => ids.Contains(packet.SenderId));
+        
+        
+        var dto = new GetAllPackagesByUserDto()
+        {
+            ReceivedPackages = receivedPackets.Select(_dtoMapper.BuildGetShortPackageDto),
+            SendPackages = sentPackets.Select(_dtoMapper.BuildGetShortPackageDto)
+        };
+    return dto;
     }
 
     public async Task<SendPackageReturnDto> SendPackageAsync(SendPackageDto dto)
