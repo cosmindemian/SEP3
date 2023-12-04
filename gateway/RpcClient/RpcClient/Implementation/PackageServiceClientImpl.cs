@@ -6,11 +6,11 @@ using RpcClient.RpcClient;
 
 namespace gateway.RpcClient;
 
-public class PackageServiceClient : IPackageServiceClient
+public class PackageServiceClientImpl : IPackageServiceClient
 {
     private readonly PacketService.PacketServiceClient _client;
 
-    public PackageServiceClient()
+    public PackageServiceClientImpl()
     {
         var channel = GrpcChannel.ForAddress(ServiceConfig.PackagerServiceUrl);
         _client = new PacketService.PacketServiceClient(channel);
