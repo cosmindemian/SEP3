@@ -14,6 +14,11 @@ public class PackageServiceTestClient : IPackageServiceClient
         throw new NotImplementedException();
     }
 
+    public Task<Packets> GetPackagesByUserIds(List<long> ids)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<Packets> GetPackagesBySenderIds(List<long> ids)
     {
         throw new NotImplementedException();
