@@ -41,7 +41,24 @@ else
 {
     <!-- Packages Overview Section -->
     <section class="container mt-4">
-        <h2 class="mb-4">Packages Overview</h2>
+        <h2 class="mb-4">Packages that you have sent</h2>
+        <div class="row">
+            @foreach (GetShortPackageDto package in packages)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <h5 class="card-header bg-@color">Status: @package.TrackingNumber</h5>
+                        <div class="card-body">
+                            <h5 class="card-title">Tracking number: @package.Status</h5>
+                            <a href="/PackageInfo/@package.Id" class="btn btn-outline-dark btn-block mt-2">See more</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+    <section class="container mt-4">
+        <h2 class="mb-4">Packages that you are about to receive</h2>
         <div class="row">
             @foreach (GetShortPackageDto package in packages)
             {

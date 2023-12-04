@@ -94,8 +94,13 @@ public class PackageLogicImpl : IPackage
             receiverCreated = !receiverRequest.Result.Exists;
             senderCreated = !senderRequest.Result.Exists;
 
+            if (senderId == 0 || receiverId == 0)
+            {
+                throw new Exception("sending package failed the sender or receiver id set to 0");
+            }
 
-            finalLocation = locationRequest.Result;
+
+        finalLocation = locationRequest.Result;
             if (!finalLocation.IsPickUpPoint)
             {
                 throw new InvalidArgumentsException("Final location is not a pick up point");

@@ -42,7 +42,7 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public boolean checkIfUserExists(User user){
-        return userRepository.existsUserByEmailAndNameAndPhone(user.getEmail(), user.getName(), user.getPhone());
+    public User checkIfUserExists(User user){
+        return userRepository.findByEmailAndNameAndPhone(user.getEmail(), user.getName(), user.getPhone()).orElse(null);
     }
 }
