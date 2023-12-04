@@ -22,7 +22,7 @@ public class UserServiceTest
     }
 
     [Fact]
-    public async void TestGetUsers()
+    public async void TestGetUsersByEmail()
     {
         var users = await userServiceClient.GetUsersAsync("ahmad@geez.com");
         Assert.NotNull(users);
