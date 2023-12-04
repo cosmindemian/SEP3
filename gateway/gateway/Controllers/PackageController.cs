@@ -38,7 +38,7 @@ public class PackageController : ControllerBase
 
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<IEnumerable<GetShortPackageDto>>> GetAllPackagesOfUser()
+    public async Task<ActionResult<GetAllPackagesByUserDto>> GetAllPackagesOfUser()
     {
         try
         {

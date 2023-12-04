@@ -33,45 +33,58 @@
 {
     <span>Loading..</span>
 }
-else if (!packages.Any())
-{
-    <span>No packages to be found</span>
-}
+
 else
 {
     <!-- Packages Overview Section -->
     <section class="container mt-4">
-        <h2 class="mb-4">Packages that you have sent</h2>
+        <h2 class="mb-4">Packages that you have sent: </h2>
         <div class="row">
-            @foreach (GetShortPackageDto package in packages)
+            @if (!packages.SendPackages.Any())
             {
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <h5 class="card-header bg-@color">Status: @package.TrackingNumber</h5>
-                        <div class="card-body">
-                            <h5 class="card-title">Tracking number: @package.Status</h5>
-                            <a href="/PackageInfo/@package.Id" class="btn btn-outline-dark btn-block mt-2">See more</a>
+                <span>You have not sent any packages yet</span>
+            }
+            else
+            {
+                foreach (GetShortPackageDto package in packages.SendPackages)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <h5 class="card-header bg-@color">Status: @package.TrackingNumber</h5>
+                            <div class="card-body">
+                                <h5 class="card-title">Tracking number: @package.Status</h5>
+                                <a href="/PackageInfo?package=@package.TrackingNumber" class="btn btn-outline-dark btn-block mt-2">See more</a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             }
+            
         </div>
     </section>
     <section class="container mt-4">
-        <h2 class="mb-4">Packages that you are about to receive</h2>
+        <h2 class="mb-4">Packages that you are about to receive: </h2>
         <div class="row">
-            @foreach (GetShortPackageDto package in packages)
+            @if (!packages.SendPackages.Any())
+                        {
+                            <span>There are no packages that you are about to receive</span>
+                        }
+            else
             {
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <h5 class="card-header bg-@color">Status: @package.TrackingNumber</h5>
-                        <div class="card-body">
-                            <h5 class="card-title">Tracking number: @package.Status</h5>
-                            <a href="/PackageInfo/@package.Id" class="btn btn-outline-dark btn-block mt-2">See more</a>
+                foreach (GetShortPackageDto package in packages.ReceivedPackages)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <h5 class="card-header bg-@color">Status: @package.TrackingNumber</h5>
+                            <div class="card-body">
+                                <h5 class="card-title">Tracking number: @package.Status</h5>
+                                <a href="/PackageInfo?package=@package.Id" class="btn btn-outline-dark btn-block mt-2">See more</a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }  
             }
+            
         </div>
     </section>
 }
@@ -81,7 +94,7 @@ else
     private string color = "primary";
     private string color2 = "danger";
     private string color3 = "success";
-    private IEnumerable<GetShortPackageDto>? packages;
+    private GetAllPackagesByUserDto? packages;
     private string msg = "";
     string name = "";
     string _email = "";
