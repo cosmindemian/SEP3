@@ -20,7 +20,7 @@ builder.Services.AddScoped<IAuthenticationServiceClient, AuthenticationServiceCl
 builder.Services.AddScoped<IPackage, PackageLogicImpl>();
 builder.Services.AddScoped<ILocationServiceClient, LocationServiceClientImpl>();
 builder.Services.AddScoped<IAuthenticationServiceClient, AuthenticationServiceClientImpl>();
-builder.Services.AddScoped<IPackageServiceClient, PackageServiceClient>();
+builder.Services.AddScoped<IPackageServiceClient, PackageServiceClientImpl>();
 builder.Services.AddScoped<IUserServiceClient, UserServiceClientImpl>();
 builder.Services.AddScoped<DtoMapper>();
 builder.Services.AddScoped<IAuth, AuthLogicImpl>();

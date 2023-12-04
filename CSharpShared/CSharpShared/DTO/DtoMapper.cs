@@ -25,7 +25,7 @@ public class DtoMapper
     }
 
     public GetPackageDto BuildGetPackageDto(Packet package, LocationWithAddress? currentLocation,
-        LocationWithAddress finalLocation, string userName)
+        LocationWithAddress finalLocation, string senderName, string receiverName)
     {
         var dto = new GetPackageDto();
         dto.Id = package.Id;
@@ -33,7 +33,8 @@ public class DtoMapper
         dto.FinalDestination = BuildGetLocationDto(finalLocation);
         dto.PackageType = package.Size.SizeName;
         dto.PackageNumber = package.TrackingNumber;
-        dto.SenderName = userName;
+        dto.SenderName = senderName;
+        dto.ReceiverName = receiverName;
         dto.PackageStatus = package.Status.Status_;
         return dto;
     }

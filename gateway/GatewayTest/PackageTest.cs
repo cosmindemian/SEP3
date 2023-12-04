@@ -16,7 +16,7 @@ namespace GatewayTest;
 
 public class PackageTest
 {
-    public IPackageServiceClient PackageClient = new PackageServiceClient();
+    public IPackageServiceClient PackageClient = new PackageServiceClientImpl();
     public ILocationServiceClient LocationsClient = new LocationServiceClientImpl();
     public IUserServiceClient UserClient = new UserServiceClientImpl();
     public PackageLogicImpl WorkingPackageLogic;

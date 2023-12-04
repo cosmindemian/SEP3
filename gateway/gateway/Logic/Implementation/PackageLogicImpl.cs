@@ -33,7 +33,8 @@ public class PackageLogicImpl : IPackage
 
         package = await _packageServiceClient.GetPackageByTrackingNumberAsync(trackingNumber);
 
-        var userRequest = _userServiceClient.GetUserByIdAsync(package.SenderId);
+        var userReceiverRequest = _userServiceClient.GetUserByIdAsync(package.ReceiverId);
+        var userSenderRequest = _userServiceClient.GetUserByIdAsync(package.SenderId);
         Task<LocationWithAddress>? currentLocationResult = null;
         if (package.CurrentAddressId != 0)
             currentLocationResult = _locationServiceClient
@@ -46,15 +47,16 @@ public class PackageLogicImpl : IPackage
         
         if (currentLocationResult != null)
         {
-            await Task.WhenAll(userRequest, currentLocationResult, finalLocationResult);   
+            await Task.WhenAll(userReceiverRequest, userSenderRequest, currentLocationResult, finalLocationResult);   
         }
         else
         {
-            await Task.WhenAll(userRequest, finalLocationResult);
+            await Task.WhenAll(userReceiverRequest, userSenderRequest, finalLocationResult);
         }
 
         LocationWithAddress? currentLocation = currentLocationResult == null ? null : currentLocationResult.Result;
-        var user = userRequest.Result;
+        var sender = userSenderRequest.Result;
+        var receiver = userReceiverRequest.Result;
         var finalLocation = finalLocationResult.Result;
 
         if (package == null)
@@ -63,7 +65,7 @@ public class PackageLogicImpl : IPackage
             throw new NotFoundException($"Package with id {trackingNumber} not found");
         }
         _logger.Log($"PackageLogicImpl: GetPackageByTrackingNumberAsync of {trackingNumber} successful");
-        return _dtoMapper.BuildGetPackageDto(package, currentLocation, finalLocation, user.Name);
+        return _dtoMapper.BuildGetPackageDto(package, currentLocation, finalLocation, sender.Name, receiver.Name);
     }
 
     public async Task<GetAllPackagesByUserDto> GetPackagesByUserAsync(string email)
