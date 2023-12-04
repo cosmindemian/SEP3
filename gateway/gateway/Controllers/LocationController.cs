@@ -12,6 +12,7 @@ public class LocationController :ControllerBase
 {
     private readonly ILocationServiceLogic _locationServiceLogic;
     private readonly ExceptionHandler _exceptionHandler;
+    private readonly Logger.Logger _logger= Logger.Logger.Instance;
     public LocationController(ILocationServiceLogic locationServiceLogic, ExceptionHandler exceptionHandler)
     {
         _locationServiceLogic = locationServiceLogic;
@@ -25,6 +26,7 @@ public class LocationController :ControllerBase
         try
         {
             var locations = await _locationServiceLogic.GetAllPickUpPointsAsync();
+            _logger.Log($"LocationController: GetAllPickUpPointsAsync successful");
             return Ok(locations);
         }
         catch (Exception e)

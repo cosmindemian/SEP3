@@ -3,12 +3,13 @@ using gateway.RpcClient.Interface;
 
 namespace gateway.Model.Implementation;
 
-public class LocationServiceImpl : ILocationServiceLogic
+public class LocationLogicImpl : ILocationServiceLogic
 {
     private readonly ILocationServiceClient _locationServiceClient;
     private readonly DtoMapper _dtoMapper;
+    private readonly Logger.Logger _logger = Logger.Logger.Instance;
 
-    public LocationServiceImpl(ILocationServiceClient locationServiceClient, DtoMapper dtoMapper)
+    public LocationLogicImpl(ILocationServiceClient locationServiceClient, DtoMapper dtoMapper)
     {
         _locationServiceClient = locationServiceClient;
         _dtoMapper = dtoMapper;
@@ -17,6 +18,7 @@ public class LocationServiceImpl : ILocationServiceLogic
     public async Task<IEnumerable<GetPickUpPointDto>> GetAllPickUpPointsAsync()
     {
         var locations = await _locationServiceClient.GetAllPickUpPointsAsync();
+        _logger.Log($"LocationLogicImpl: GetAllPickUpPointsAsync returned {locations.Locations.Count} locations");
         return locations.Locations.Select(_dtoMapper.BuildGetPickUpPointDto);
     }
 }

@@ -13,12 +13,13 @@ namespace gateway.Controllers;
 [Route("[controller]")]
 public class PackageController : ControllerBase
 {
-    private readonly IPackage packageLogic;
+    private readonly IPackage _packageLogic;
     private readonly ExceptionHandler _exceptionHandler;
+    private readonly Logger.Logger _logger = Logger.Logger.Instance;
     public PackageController(IPackage packageLogic, ExceptionHandler exceptionHandler)
     {
         _exceptionHandler = exceptionHandler;
-        this.packageLogic = packageLogic;
+        this._packageLogic = packageLogic;
     }
 
     [HttpGet("{trackingNumber}")]
@@ -26,7 +27,8 @@ public class PackageController : ControllerBase
     {
         try
         {
-            var package = await packageLogic.GetPackageByTrackingNumberAsync(trackingNumber);
+            var package = await _packageLogic.GetPackageByTrackingNumberAsync(trackingNumber);
+            _logger.Log($"PackageController: GetByTrackingNumberAsync of {trackingNumber} successful");
             return Ok(package);
         }
         catch (Exception e)
@@ -43,7 +45,8 @@ public class PackageController : ControllerBase
         try
         {
             var email = User.Claims.First(c => c.Type == ClaimTypes.Email).Value;
-            var packages = await packageLogic.GetPackagesByUserAsync(email);
+            var packages = await _packageLogic.GetPackagesByUserAsync(email);
+            _logger.Log($"PackageController: GetAllPackagesOfUser of {email} successful");
             return Ok(packages);
         }
         catch (Exception e)
@@ -58,7 +61,8 @@ public class PackageController : ControllerBase
     {
         try
         {
-            var returnDto = await packageLogic.SendPackageAsync(dto);
+            var returnDto = await _packageLogic.SendPackageAsync(dto);
+            _logger.Log($"PackageController: SendPackageAsync of {dto} successful");
             return Ok(returnDto);
         }
         catch (Exception e)
