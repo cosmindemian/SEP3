@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.sql.Date;
 import java.sql.Time;
 
 @Entity
@@ -26,5 +27,13 @@ public class PickUpPoint extends Location
     this.name = name;
     this.opening_hours = opening_hours;
     this.closing_hours = closing_hours;
+  }
+
+    public String getOpeninghours() {
+      return opening_hours.toString().substring(0,5);
+    }
+
+  public String getClosinghours() {
+    return closing_hours.toString().substring(0,5);
   }
 }
