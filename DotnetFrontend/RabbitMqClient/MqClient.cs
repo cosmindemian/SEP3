@@ -1,12 +1,14 @@
 ﻿using System.Text;
+using System.Text.Json;
+using CSharpShared.RabbitMqMessages;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
 namespace RabbitMqClient;
 
-public class RabbitMQClient
+public class MqClient
 {
-    public static event Func<string, Task> MessageReceived;
+    public static event EventHandler<RabbitMqMessage>? MessageReceived;
 
     public async void Setup(CancellationToken cancellationToken)
     {
@@ -25,7 +27,19 @@ public class RabbitMQClient
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
-                MessageReceived.Invoke(message);
+                try
+                {
+                    var messageObject = JsonSerializer.Deserialize<RabbitMqMessage>(message, new JsonSerializerOptions()
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
+                    MessageReceived?.Invoke(this, messageObject);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error deserializing message:{message}");
+                    Console.WriteLine(e);
+                }
             };
             channel.BasicConsume(queue: "user3",
                 autoAck: true,
