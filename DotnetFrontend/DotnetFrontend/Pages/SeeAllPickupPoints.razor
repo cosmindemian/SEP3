@@ -4,33 +4,41 @@
 @inject ILocationService LocationService;
 <PageTitle>Send a package</PageTitle>
 <section class="container mt-4">
-        <h2 class="mb-4">Pickup points</h2>
-        <div class="row">
-            @if (!locations.Any())
-                        {
-                            <span>There are no pickup points</span>
-                        }
-            else
+    <h2 class="mb-4">Pickup points</h2>
+    <AuthorizeView Roles="Admin">
+            <NavLink class="nav-link text-black" href="/CreateLocation" Match="NavLinkMatch.All">
+                <b>Create a PickupPoint</b>
+            </NavLink>
+    </AuthorizeView>
+    <div class="row">
+        @if (!locations.Any())
+        {
+            <span>There are no pickup points</span>
+        }
+        else
+        {
+            foreach (GetPickUpPointDto location in locations)
             {
-                foreach (GetPickUpPointDto location in locations)
-                {
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            
-                            <h5 class="card-header bg-light">Address: @location.Address.City @location.Address.Street @location.Address.BuildingNumber </h5>
-                             <img src="forest.jpg" class="card-img-center" alt="forest">
-                            <div class="card-body">
-                                <h5 class="card-title">Opened every day</h5>
-                                <h3 class="card-title">From: @location.OpenTime</h3>
-                                <h3 class="card-title">To: @location.CloseTime </h3>
-                            </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <h5 class="card-header bg-light">Address: @location.Address.City @location.Address.Street @location.Address.BuildingNumber </h5>
+                        <img src="forest.jpg" class="card-img-center" alt="forest">
+                        <div class="card-body">
+                            <h5 class="card-title">Opened every day</h5>
+                            <h3 class="card-title">From: @location.OpenTime</h3>
+                            <h3 class="card-title">To: @location.CloseTime </h3>
+                            <AuthorizeView Roles="Admin">
+                                    <b>Delete</b>
+                            </AuthorizeView>
                         </div>
                     </div>
-                }  
+                    
+                </div>
             }
-            
-        </div>
-    </section>
+        }
+
+    </div>
+</section>
 
 
 @code {
