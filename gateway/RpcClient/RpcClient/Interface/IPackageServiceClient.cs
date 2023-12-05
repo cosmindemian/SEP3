@@ -1,5 +1,7 @@
 ﻿
 
+using Google.Protobuf.WellKnownTypes;
+
 namespace gateway.RpcClient.Interface;
 
 public interface IPackageServiceClient
@@ -11,4 +13,5 @@ public interface IPackageServiceClient
 
     Task<Packets> GetPackageByReceiversAsync(IEnumerable<long> userId);
     Task<Packet> SendPacketAsync(long receiverId, long senderId, long typeId, long finalLocationId);
+    Task UpdatePacketLocationAsync(long packetId, long locationId, long userId);
 }

@@ -38,6 +38,12 @@ message Id{
   int64 id = 1;
 }
 
+message PacketLocation{
+  int64 packetId = 1;
+  int64 locationId = 2;
+  int64 userId = 3;
+}
+
 message Packets{
   repeated Packet packet = 1;
 }
@@ -70,5 +76,6 @@ service PacketService{
   rpc getAllSizes(google.protobuf.Empty) returns (Sizes);
   rpc getAllPacketsByReceiverIds(IdListRpc) returns(Packets);
   rpc getAllPacketsByUserIds(IdListRpc) returns(Packets);
+  rpc updatePacketLocation(PacketLocation) returns(google.protobuf.Empty);
 }
 

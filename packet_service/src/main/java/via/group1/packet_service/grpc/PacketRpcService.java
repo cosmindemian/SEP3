@@ -6,20 +6,14 @@ import generated.PacketServiceOuterClass;
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
-import net.devh.boot.grpc.server.advice.GrpcAdviceDiscoverer;
-import net.devh.boot.grpc.server.advice.GrpcExceptionHandlerMethodResolver;
 import net.devh.boot.grpc.server.service.GrpcService;
-
 import org.springframework.dao.DataIntegrityViolationException;
-import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 import via.group1.packet_service.model.interfaces.PacketService;
-import via.group1.packet_service.model.interfaces.SizeService;
 import via.group1.packet_service.model.interfaces.StatusService;
 import via.group1.packet_service.persistance.entity.Packet;
 import via.group1.packet_service.persistance.entity.Size;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @GrpcService
@@ -135,6 +129,17 @@ public class PacketRpcService extends PacketServiceGrpc.PacketServiceImplBase {
             ArrayList<Packet> packets = packetService.getAllPacketsByUserIds(request.getIdList());
             PacketServiceOuterClass.Packets packetsRpc = mapper.buildPacketsRpc(packets);
             responseObserver.onNext(packetsRpc);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asException());
+        }
+    }
+
+    @Override
+    public void updatePacketLocation(PacketServiceOuterClass.PacketLocation request, StreamObserver<Empty> responseObserver) {
+        try {
+            packetService.updatePacketLocation(request.getPacketId(), request.getLocationId(), request.getUserId());
+            responseObserver.onNext(Empty.newBuilder().build());
             responseObserver.onCompleted();
         } catch (Exception e) {
             responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asException());

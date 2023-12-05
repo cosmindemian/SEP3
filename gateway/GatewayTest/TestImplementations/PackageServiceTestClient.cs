@@ -1,4 +1,5 @@
 ﻿using gateway.RpcClient.Interface;
+using Google.Protobuf.WellKnownTypes;
 
 namespace GatewayTest.TestImplementations;
 
@@ -30,6 +31,16 @@ public class PackageServiceTestClient : IPackageServiceClient
     }
 
     public Task<Packet> SendPacketAsync(long receiverId, long senderId, long typeId, long finalLocationId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task UpdatePacketLocationAsync(long packetId, long locationId, long userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Empty> UpdatePacketLocation(long packetId, long locationId)
     {
         throw new NotImplementedException();
     }
