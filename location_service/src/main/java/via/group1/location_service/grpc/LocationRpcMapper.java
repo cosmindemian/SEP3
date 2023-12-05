@@ -27,8 +27,8 @@ import java.util.ArrayList;
               .setId(pickUpPoint.getId())
               .setAddressId(pickUpPoint.getAddress().getId())
               .setName(pickUpPoint.getName())
-              .setOpeningHours(pickUpPoint.getOpening_hours().toString())
-              .setClosingHours(pickUpPoint.getClosing_hours().toString())
+              .setOpeningHours(pickUpPoint.getOpeninghours())
+              .setClosingHours(pickUpPoint.getClosinghours())
               .build();
       builder
           .setIsPickUpPoint(true)
@@ -62,8 +62,8 @@ import java.util.ArrayList;
           LocationServiceOuterClass.PickUpPointWithAddress.newBuilder()
               .setId(pickUpPoint.getId())
               .setName(pickUpPoint.getName())
-              .setOpeningHours(pickUpPoint.getOpening_hours().toString())
-              .setClosingHours(pickUpPoint.getClosing_hours().toString())
+              .setOpeningHours(pickUpPoint.getOpeninghours())
+              .setClosingHours(pickUpPoint.getClosinghours())
               .setAddress(
                   LocationServiceOuterClass.Address.newBuilder()
                       .setId(pickUpPoint.getAddress().getId())

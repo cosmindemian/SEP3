@@ -19,6 +19,7 @@ public class LocationLogicImpl : ILocationServiceLogic
     {
         var locations = await _locationServiceClient.GetAllPickUpPointsAsync();
         _logger.Log($"LocationLogicImpl: GetAllPickUpPointsAsync returned {locations.Locations.Count} locations");
+       
         return locations.Locations.Select(_dtoMapper.BuildGetPickUpPointDto);
     }
 }

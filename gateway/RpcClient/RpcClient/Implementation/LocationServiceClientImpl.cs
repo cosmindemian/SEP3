@@ -69,6 +69,7 @@ public class LocationServiceClientImpl : ILocationServiceClient
         {
             Type = "PickUpPoint"
         });
+       
         return response;
     }
 }
