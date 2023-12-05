@@ -5,6 +5,11 @@
 <PageTitle>Send a package</PageTitle>
 <section class="container mt-4">
     <h2 class="mb-4">Pickup points</h2>
+    <AuthorizeView Roles="Admin">
+            <NavLink class="nav-link text-black" href="/CreateLocation" Match="NavLinkMatch.All">
+                <b>Create a PickupPoint</b>
+            </NavLink>
+    </AuthorizeView>
     <div class="row">
         @if (!locations.Any())
         {
@@ -21,7 +26,10 @@
                             <h5 class="card-title text-center">@location.Address.City @location.Address.Street @location.Address.BuildingNumber</h5>
                             <hr>
                             <p class="text-center">Opened every day from <b>@location.OpenTime</b>
-                            to <b>@location.CloseTime </b></p>
+                                to <b>@location.CloseTime </b></p>
+                            <AuthorizeView Roles="Admin">
+                                    <b>Delete</b>
+                            </AuthorizeView>
                         </div>
                     </div>
                 </div>
