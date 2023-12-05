@@ -5,6 +5,7 @@ using gateway.Model;
 using gateway.Model.Implementation;
 using gateway.RpcClient;
 using gateway.RpcClient.Interface;
+using RabbitMq;
 using RpcClient.RpcClient.Implementation;
 using RpcClient.RpcClient.Interface;
 
@@ -26,6 +27,7 @@ builder.Services.AddScoped<DtoMapper>();
 builder.Services.AddScoped<IAuth, AuthLogicImpl>();
 builder.Services.AddScoped<ILocationServiceLogic, LocationLogicImpl>();
 builder.Services.AddScoped<ExceptionHandler>();
+builder.Services.AddScoped<RabbitMqPublisher>();
 
 // Add authentication. Every request will be authenticated using the AuthenticationProviderSchemeHandler
 builder.Services.AddAuthentication().AddScheme<AuthenticationProviderOptions, AuthenticationProviderSchemeHandler>(

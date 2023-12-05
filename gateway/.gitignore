@@ -18,6 +18,12 @@ Model/.vs
 GatewayTest/bin
 GatewayTest/obj
 GatewayTest/.idea
+RabbitMq/bin
+RabbitMq/obj
+RabbitMq/.idea
 /gateway/Logger/bin/
 /gateway/Logger/obj/
 /gateway/gateway/log.txt
+Logger/bin
+Logger/obj
+Logger/.idea

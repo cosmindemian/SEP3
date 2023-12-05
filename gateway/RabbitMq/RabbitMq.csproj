@@ -7,14 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\c_proto\c_proto.csproj" />
+      <PackageReference Include="RabbitMQ.Client" Version="6.7.0" />
     </ItemGroup>
-
 
     <ItemGroup>
-      <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+      <ProjectReference Include="..\..\CSharpShared\CSharpShared\CSharpShared.csproj" />
     </ItemGroup>
-
-
 
 </Project>

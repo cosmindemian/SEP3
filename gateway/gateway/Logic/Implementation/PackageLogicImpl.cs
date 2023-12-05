@@ -2,6 +2,7 @@
 using gateway.DTO;
 using gateway.RpcClient.Interface;
 using persistance.Exception;
+using RabbitMq;
 using RpcClient.RpcClient.Interface;
 
 
@@ -10,21 +11,22 @@ namespace gateway.Model.Implementation;
 public class PackageLogicImpl : IPackage
 {
     private readonly IPackageServiceClient _packageServiceClient;
-
     private readonly ILocationServiceClient _locationServiceClient;
-
     private readonly IUserServiceClient _userServiceClient;
-
     private readonly DtoMapper _dtoMapper;
+    private readonly RabbitMqPublisher _mqPublisher;
+    
     private readonly Logger.Logger _logger = Logger.Logger.Instance;
 
     public PackageLogicImpl(IPackageServiceClient packageServiceClient,
-        ILocationServiceClient locationServiceClient, IUserServiceClient userServiceClient, DtoMapper dtoMapper)
+        ILocationServiceClient locationServiceClient, IUserServiceClient userServiceClient, DtoMapper dtoMapper,
+        RabbitMqPublisher mqPublisher)
     {
         _packageServiceClient = packageServiceClient;
         _userServiceClient = userServiceClient;
         _locationServiceClient = locationServiceClient;
         _dtoMapper = dtoMapper;
+        _mqPublisher = mqPublisher;
     }
 
     public async Task<GetPackageDto> GetPackageByTrackingNumberAsync(string trackingNumber)
@@ -44,7 +46,7 @@ public class PackageLogicImpl : IPackage
         var finalLocationResult = _locationServiceClient
             .GetLocationByIdWithAddressAsync(package.FinalAddressId);
 
-        
+
         if (currentLocationResult != null)
         {
             await Task.WhenAll(userReceiverRequest, userSenderRequest, currentLocationResult, finalLocationResult);   
@@ -115,7 +117,7 @@ public class PackageLogicImpl : IPackage
             }
 
 
-        finalLocation = locationRequest.Result;
+            finalLocation = locationRequest.Result;
             if (!finalLocation.IsPickUpPoint)
             {
                 _logger.Log($"PackageLogicImpl: SendPackageAsync of {dto} failed, final location is not a pick up point");
@@ -125,7 +127,13 @@ public class PackageLogicImpl : IPackage
             var packet = await _packageServiceClient.SendPacketAsync(receiverId, senderId, dto.TypeId,
                 finalLocation.PickUpPoint.Id);
             _logger.Log($"PackageLogicImpl: SendPackageAsync of {dto} successful");
-             return _dtoMapper.BuildSendPackageReturnDto(packet, finalLocation,senderRequest.Result.User,
+            
+            //Publish message into rabbit mq
+            _mqPublisher.PublishPackageSentNotification(receiverRequest.Result.User.Email,
+                senderRequest.Result.User.Email, receiverRequest.Result.User.Name,
+                senderRequest.Result.User.Name, packet.TrackingNumber);
+
+            return _dtoMapper.BuildSendPackageReturnDto(packet, finalLocation,senderRequest.Result.User,
                 receiverRequest.Result.User);
         }
         catch (Exception e)
