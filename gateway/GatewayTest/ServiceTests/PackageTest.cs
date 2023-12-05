@@ -8,6 +8,7 @@ using gateway.RpcClient.Interface;
 using GatewayTest.TestImplementations;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using RabbitMq;
 using RpcClient.RpcClient.Implementation;
 using RpcClient.RpcClient.Interface;
 using Xunit;
@@ -23,7 +24,7 @@ public class PackageTest
 
     public PackageTest()
     {
-        WorkingPackageLogic = new(PackageClient, LocationsClient, UserClient, new DtoMapper());
+        WorkingPackageLogic = new(PackageClient, LocationsClient, UserClient, new DtoMapper(), new RabbitMqPublisher());
     }
 
     [Fact]
