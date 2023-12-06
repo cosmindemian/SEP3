@@ -6,11 +6,9 @@
 <section class="container mt-4">
     <h2 class="mb-4">Pickup points</h2>
     <AuthorizeView Roles="Admin">
-            <NavLink class="nav-link text-black" href="/CreateLocation" Match="NavLinkMatch.All">
-                <b>Create a PickupPoint</b>
-            </NavLink>
+                <button class="btn btn-outline-dark mx-2" href="/CreateLocation">Create a pickup point</button>
     </AuthorizeView>
-    <div class="row">
+    <div class="row mt-4">
         @if (!locations.Any())
         {
             <span>There are no pickup points</span>
@@ -28,7 +26,9 @@
                             <p class="text-center">Opened every day from <b>@location.OpenTime</b>
                                 to <b>@location.CloseTime </b></p>
                             <AuthorizeView Roles="Admin">
-                                    <b>Delete</b>
+                                <div class="d-flex align-items-center" @onclick="deletePickupPoint">
+                                    <img src="deletePickupPoint.svg" alt="deletePickupPoint"><b>Delete</b>
+                                </div>
                             </AuthorizeView>
                         </div>
                     </div>
@@ -67,4 +67,10 @@
             Console.WriteLine(e);
         }
     }
+
+    private void deletePickupPoint()
+    {
+        throw new NotImplementedException();
+    }
+
 }
