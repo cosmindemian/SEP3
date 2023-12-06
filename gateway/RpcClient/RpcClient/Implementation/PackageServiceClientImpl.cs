@@ -59,6 +59,15 @@ public class PackageServiceClientImpl : IPackageServiceClient
         }
     }
 
+    public async Task<Packets> GetPackagesByLocationIdAsync(long locationId)
+    {
+        var response = await _client.getAllPacketsByLocationIdAsync(new Id()
+        {
+            Id_ = locationId
+        });
+    return response;
+    }
+
     public async Task<Packets> GetPackageByReceiversAsync(IEnumerable<long> userId)
     {
         var response = await _client.getAllPacketsByReceiverIdsAsync(new IdListRpc()

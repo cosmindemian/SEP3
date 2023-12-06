@@ -1,6 +1,8 @@
 @page "/SeeAllPickupPoints"
 @using Client.Interfaces
+@using CSharpShared.Exception
 @using gateway.DTO
+@using Grpc.Core
 @inject ILocationService LocationService;
 <PageTitle>Send a package</PageTitle>
 <section class="container mt-4">
@@ -39,7 +41,10 @@
                 </div>
             }  
         }
-            
+          @if (!String.IsNullOrEmpty(_error))
+          {
+              <div class="alert alert-danger">@_error</div>
+          }  
     </div>
 </section>
 <style>
@@ -69,6 +74,8 @@
 
 @code {
     private IEnumerable<GetPickUpPointDto>? locations = new List<GetPickUpPointDto>();
+    private bool LocationCanNotBeEdited;
+    private string _error = "";
     protected override async Task OnInitializedAsync()
     {
         try
@@ -87,11 +94,25 @@
         return await LocationService.GetAllPickupPoints();
     }
 
-    private void deletePickupPoint(long id)
+    private async void deletePickupPoint(long id)
     {
-        LocationService.DeletePickupPoint(id);
-        locations = locations.Where(location => location.Id != id);
-        InvokeAsync(() => StateHasChanged());
+        try
+        {
+            await LocationService.DeletePickupPoint(id);
+            locations = locations.Where(location => location.Id != id);
+        }
+        catch (LocationUsedException e)
+        {
+            GetPickUpPointDto location = locations.First(location => location.Id == id);
+            _error = "Location " + location.Name+" has packages" ;
+        }
+        catch (Exception e)
+        {
+            _error = "Something went wrong";
+        }
+            InvokeAsync(() => StateHasChanged());
+        
+       
     }
 
 }

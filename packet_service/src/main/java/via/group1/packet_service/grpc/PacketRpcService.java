@@ -145,4 +145,19 @@ public class PacketRpcService extends PacketServiceGrpc.PacketServiceImplBase {
             responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asException());
         }
     }
+
+    @Override
+    public void getAllPacketsByLocationId(PacketServiceOuterClass.Id request, StreamObserver<PacketServiceOuterClass.Packets> responseObserver) {
+        try{
+            ArrayList<Packet> packets = packetService.getAllPacketsByLocationId(request.getId());
+            PacketServiceOuterClass.Packets packetsRpc = mapper.buildPacketsRpc(packets);
+            responseObserver.onNext(packetsRpc);
+            responseObserver.onCompleted();
+        }
+        catch (NoSuchElementException e) {
+            responseObserver.onError(Status.NOT_FOUND.withDescription(e.getMessage()).asException());
+        } catch (Exception e) {
+            responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asException());
+        }
+    }
 }
