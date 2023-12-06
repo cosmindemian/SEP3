@@ -1,5 +1,6 @@
 package via.group1.packet_service.model;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import via.group1.packet_service.model.interfaces.PacketService;
@@ -84,5 +85,23 @@ public class DefaultPacketService implements PacketService {
     @Override
     public ArrayList<Packet> getAllPacketsByUserIds(List<Long> ids) {
         return packetRepository.findAllBySenderIdIsInOrReceiverIdIsIn(ids, ids);
+    }
+
+    @Override
+    @Transactional
+    public void updatePacketLocation(Long packageId, Long locationId, Long userId) {
+        Packet packet = getPacket(packageId);
+        if (packet.getReceiverId().equals(userId) || packet.getSenderId().equals(userId)){
+            if (packet.getCurrentLocationId() == null){
+                packet.setFinalDestinationId(locationId);
+            }
+            else{
+                throw new IllegalArgumentException("Packet is already in transit");
+            }
+        }
+        else{
+            throw new IllegalArgumentException("User is not allowed to update this packet");
+        }
+
     }
 }

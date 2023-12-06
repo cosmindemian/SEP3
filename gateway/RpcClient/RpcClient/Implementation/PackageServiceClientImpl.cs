@@ -1,4 +1,5 @@
 ﻿using gateway.RpcClient.Interface;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
 using persistance.Exception;
@@ -75,6 +76,16 @@ public class PackageServiceClientImpl : IPackageServiceClient
             SenderId = senderId,
             SizeId = typeId,
             ReceiverId = receiverId
+        });
+    }
+
+    public async Task UpdatePacketLocationAsync(long packetId, long locationId, long userId)
+    {
+        await _client.updatePacketLocationAsync(new PacketLocation()
+        {
+            PacketId = packetId,
+            LocationId = locationId,
+            UserId = userId
         });
     }
 

@@ -27,8 +27,8 @@ public class TestDataInsertor implements ApplicationRunner {
         Address address2 = new Address("Aarhus", "8200", "Hasselager Alle", "22");
         Address address3 = new Address("Aalborg", "9000", "Hobrovej", "14");
         Address address4 = new Address("Aarhus", "8200", "Hasselager Alle", "16");
-        Location location = new PickUpPoint(address, "AalborgPickUp", new Time(50000), new Time(90000));
-        Location location2 = new PickUpPoint(address2, "AarhusPickUp", new Time(50000), new Time(90000));
+        Location location = new PickUpPoint(address, "AalborgPickUp", "12:50", "13:00");
+        Location location2 = new PickUpPoint(address2, "AarhusPickUp", "12:50", "13:00");
         Location location3 = new Warehouse(address3);
         Location location4 = new Warehouse(address4);
         locationRepository.save(location);
