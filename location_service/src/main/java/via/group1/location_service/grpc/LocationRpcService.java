@@ -3,10 +3,12 @@ package via.group1.location_service.grpc;
 import com.google.protobuf.Empty;
 import generated.LocationServiceGrpc;
 import generated.LocationServiceOuterClass;
+import generated.PacketServiceOuterClass;
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
+import org.springframework.dao.DataIntegrityViolationException;
 import via.group1.location_service.model.interfaces.AddressService;
 import via.group1.location_service.model.interfaces.LocationService;
 import via.group1.location_service.persistance.entity.Address;
@@ -24,6 +26,24 @@ public class LocationRpcService extends LocationServiceGrpc.LocationServiceImplB
   private final LocationService locationService;
   private final AddressService addressService;
   private final LocationRpcMapper mapper;
+
+  @Override
+  public void addLocation(LocationServiceOuterClass.CreateLocationWithAddress request, StreamObserver<LocationServiceOuterClass.LocationWithAddress> responseObserver) {
+    try {
+      Location location = mapper.parseAddLocationRequest(request);
+      location = locationService.saveLocation(location);
+
+      LocationServiceOuterClass.LocationWithAddress locationRpc = mapper.buildLocationWithAddressRpc(location);
+      responseObserver.onNext(locationRpc);
+      responseObserver.onCompleted();
+    } catch (DataIntegrityViolationException e) {
+      e.printStackTrace();
+      responseObserver.onError(Status.DATA_LOSS.withDescription(e.getMessage()).asException());
+    } catch (Exception e) {
+      e.printStackTrace();
+      responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asException());
+    }
+  }
 
   @Override
   public void getLocationById(LocationServiceOuterClass.getLocationIdRpc request,

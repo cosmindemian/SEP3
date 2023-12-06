@@ -15,25 +15,18 @@ import java.sql.Time;
 public class PickUpPoint extends Location
 {
   private String name;
-  private Time opening_hours;
-  private Time closing_hours;
+  private String opening_hours;
+  private String closing_hours;
 
   public PickUpPoint() {
     super("PickUpPoint");
   }
 
-  public PickUpPoint( Address address, String name, Time opening_hours, Time closing_hours) {
+  public PickUpPoint( Address address, String name, String opening_hours, String closing_hours) {
     super(address, "PickUpPoint");
     this.name = name;
     this.opening_hours = opening_hours;
     this.closing_hours = closing_hours;
   }
 
-    public String getOpeninghours() {
-      return opening_hours.toString().substring(0,5);
-    }
-
-  public String getClosinghours() {
-    return closing_hours.toString().substring(0,5);
-  }
 }

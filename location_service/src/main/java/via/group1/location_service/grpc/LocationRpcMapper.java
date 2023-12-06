@@ -3,9 +3,12 @@ package via.group1.location_service.grpc;
 
 import com.google.protobuf.Timestamp;
 import generated.LocationServiceOuterClass;
+import generated.PacketServiceOuterClass;
 import org.springframework.stereotype.Component;
+import via.group1.location_service.persistance.entity.Address;
 import via.group1.location_service.persistance.entity.Location;
 import via.group1.location_service.persistance.entity.PickUpPoint;
+import via.group1.location_service.persistance.entity.Warehouse;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -27,8 +30,8 @@ import java.util.ArrayList;
               .setId(pickUpPoint.getId())
               .setAddressId(pickUpPoint.getAddress().getId())
               .setName(pickUpPoint.getName())
-              .setOpeningHours(pickUpPoint.getOpeninghours())
-              .setClosingHours(pickUpPoint.getClosinghours())
+              .setOpeningHours(pickUpPoint.getOpening_hours())
+              .setClosingHours(pickUpPoint.getClosing_hours())
               .build();
       builder
           .setIsPickUpPoint(true)
@@ -58,12 +61,13 @@ import java.util.ArrayList;
     if (location instanceof PickUpPoint)
     {
       PickUpPoint pickUpPoint= (PickUpPoint) location;
+
       LocationServiceOuterClass.PickUpPointWithAddress.Builder builderPickUpPoint=
           LocationServiceOuterClass.PickUpPointWithAddress.newBuilder()
               .setId(pickUpPoint.getId())
               .setName(pickUpPoint.getName())
-              .setOpeningHours(pickUpPoint.getOpeninghours())
-              .setClosingHours(pickUpPoint.getClosinghours())
+              .setOpeningHours(pickUpPoint.getOpening_hours())
+              .setClosingHours(pickUpPoint.getClosing_hours())
               .setAddress(
                   LocationServiceOuterClass.Address.newBuilder()
                       .setId(pickUpPoint.getAddress().getId())
@@ -128,6 +132,32 @@ import java.util.ArrayList;
       builder.addLocations(buildLocationWithAddressRpc(location));
     }
     return builder.build();
+  }
+  public Location parseAddLocationRequest(LocationServiceOuterClass.CreateLocationWithAddress request) {
+    Location location;
+    LocationServiceOuterClass.Address address;
+    if(request.getIsPickUpPoint()){
+      location = new PickUpPoint();
+      LocationServiceOuterClass.CreatePickUpPointWithAddress locationWithAddress=
+              request.getPickUpPoint();
+      location.setType("PickUpPoint");
+      ((PickUpPoint)location).setName(locationWithAddress.getName());
+      ((PickUpPoint)location).setOpening_hours(locationWithAddress.getOpeningHours());
+      ((PickUpPoint)location).setClosing_hours(locationWithAddress.getClosingHours());
+      address=locationWithAddress.getAddress();
+    }
+    else{
+      location = new Warehouse();
+      location.setType("Warehouse");
+      address=request.getWarehouse().getAddress();
+    }
+    Address address1=new Address();
+    address1.setCity(address.getCity());
+    address1.setStreet(address.getStreet());
+    address1.setZip(address.getZip());
+    address1.setStreet_number(address.getStreetNumber());
+    location.setAddress(address1);
+    return location;
   }
 
 }
