@@ -4,43 +4,50 @@ option java_package = "generated";
 import "google/protobuf/empty.proto";
 
 message User {
-    int64 id = 1;
-    string email = 2;
-    string name = 3;
-    string phone = 4;
+  int64 id = 1;
+  string email = 2;
+  string name = 3;
+  string phone = 4;
 }
 
 message CreateUserWithCheck {
-    User user = 1;
-    bool exists = 2;
+  User user = 1;
+  bool exists = 2;
 }
 
 message CreateUser {
-    string email = 1;
-    string name = 2;
-    string phone = 3;
+  string email = 1;
+  string name = 2;
+  string phone = 3;
 }
 
 message UserList {
-    repeated User users = 1;
+  repeated User users = 1;
 }
 
 message GetUserByIdRequest{
-    int64 id = 1;
+  int64 id = 1;
 }
 
 message Email{
-    string email = 1;
+  string email = 1;
 }
 
 message GetUserListRequest{
-    repeated int64 id = 1;
+  repeated int64 id = 1;
+}
+
+message UpdatedUser{
+  int64 id = 1;
+  string name = 2;
+  string phone = 3;
 }
 
 service UserService{
-    rpc SaveUser(CreateUser) returns (CreateUserWithCheck);
-    rpc GetUser(GetUserByIdRequest) returns (User);
-    rpc GetUserList(GetUserListRequest) returns (UserList);
-    rpc GetUsersByEmail(Email) returns (UserList);
-    rpc RemoveUser(GetUserByIdRequest) returns (google.protobuf.Empty);
+  rpc SaveUser(CreateUser) returns (CreateUserWithCheck);
+  rpc GetUser(GetUserByIdRequest) returns (User);
+  rpc GetUserList(GetUserListRequest) returns (UserList);
+  rpc GetUsersByEmail(Email) returns (UserList);
+  rpc RemoveUser(GetUserByIdRequest) returns (google.protobuf.Empty);
+  rpc UpdateUser(UpdatedUser) returns (google.protobuf.Empty);
 }

@@ -77,4 +77,14 @@ public class UserServiceClientImpl : IUserServiceClient
             Id = id
         });
     }
+
+    public async Task UpdateUserAsync(long id,string name, string phone)
+    {
+        await _client.UpdateUserAsync(new UpdatedUser()
+        {
+            Id = id,
+            Name = name,
+            Phone = phone,
+        });
+    }
 }

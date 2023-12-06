@@ -1,0 +1,95 @@
+﻿@page "/EditInformation"
+@attribute [Authorize]
+@inject NavigationManager NavManager
+@using Client.Interfaces
+@using gateway.DTO
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage protectedSessionStorage
+@using Client.Interfaces
+@using gateway.DTO
+@inject IUserService UserService;
+@using Validators.userValidator
+<PageTitle>EditInformation</PageTitle>
+<EditForm Model="_updateUserValidator" OnValidSubmit="UpdateUserAsync">
+    <DataAnnotationsValidator/>
+    <div class=" mt-2">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" placeholder="Name" @bind="_updateUserValidator.Name" @bind:event="oninput"/>
+        <ValidationMessage For="() => _updateUserValidator.Name"/>
+    </div>
+    <div class="mt-2">
+        <label for="phoneNumber">Phone number</label>
+        <input type="tel" class="form-control" id="phoneNumber" placeholder="Phone number" @bind="_updateUserValidator.PhoneNumber" @bind:event="oninput"/>
+        <ValidationMessage For="() => _updateUserValidator.PhoneNumber"/>
+    </div>
+    
+    <div class="d-grid mt-4">
+        <button class="btn btn-primary" type="submit">Save</button>
+    </div>
+    @if (_errorMessage != "")
+    {
+        <div class="alert alert-danger" role="alert">
+            @_errorMessage
+        </div>
+    }
+    @if (_isEdited)
+    {
+        <div class="alert alert-success" role="alert">
+            You have successfully changed your information.
+        </div>
+    }
+</EditForm>
+
+@code {
+    private UpdateUserValidator _updateUserValidator = new UpdateUserValidator();
+    private string color = "primary";
+    private string color2 = "danger";
+    private string color3 = "success";
+    private string msg = "";
+    private long currentId;
+    private bool _isEdited = false;
+    private string _errorMessage = "";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // Accessing the global context
+            var globalContext = (await protectedSessionStorage.GetAsync<GlobalContext>("globalContext")).Value;
+            if (globalContext != null || globalContext.UserContext != null)
+            {
+                currentId = globalContext.UserContext.Id;
+                _updateUserValidator.Name = globalContext.UserContext.Name;
+                _updateUserValidator.PhoneNumber = globalContext.UserContext.Phone;
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+    }
+
+    private async Task UpdateUserAsync()
+    {
+        try
+        {
+            var dto = new UpdateUserDto(currentId, _updateUserValidator.Name, _updateUserValidator.PhoneNumber);  
+            await UserService.UpdateUserAsync(dto);
+            
+            var globalContext = (await protectedSessionStorage.GetAsync<GlobalContext>("globalContext")).Value;
+            globalContext.UserContext.Name = _updateUserValidator.Name;
+            globalContext.UserContext.Phone = _updateUserValidator.PhoneNumber;
+            await protectedSessionStorage.SetAsync("globalContext", globalContext);
+            
+            NavManager.NavigateTo("/AllUserPackagesOverview");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            //resultMsg = e.Message;
+            color = "red";
+        }
+    }
+}

@@ -23,7 +23,7 @@
                         <input type="password" class="form-control" id="password" @bind="password">
                     </div>
                     <div class="d-grid mt-4">
-                        <button class="btn btn-primary" type="button" @onclick="Login">Log in</button>
+                        <button class="btn btn-primary" type="submit" @onclick="Login" >Log in</button>
                         @if (!string.IsNullOrEmpty(errorMessage))
                         {
                             <div class="alert alert-danger mt-2" role="alert">

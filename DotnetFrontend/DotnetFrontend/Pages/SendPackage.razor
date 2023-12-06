@@ -78,7 +78,7 @@
             <div class="col">
                 <div class="mb-3">
                     <label for="receiverName" class="form-label">Receiver’s name</label>
-                    <input type="text" class="form-control" id="receiverName" placeholder="Alex Bolfic" @bind="_packageValidator.ReceiverName" @bind:event="oninput"/>
+                    <input type="text" class="form-control" id="receiverName" placeholder="Receiver's name" @bind="_packageValidator.ReceiverName" @bind:event="oninput"/>
                     <ValidationMessage For="() => _packageValidator.ReceiverName"/>
                 </div>
             </div>
@@ -87,35 +87,35 @@
             <div class="col">
                 <div class="mb-3">
                     <label for="senderName" class="form-label">Sender’s name</label>
-                    <input type="text" class="form-control" id="senderName" placeholder="Alex Bolfa" @bind="_packageValidator.SenderName" @bind:event="oninput">
+                    <input type="text" class="form-control" id="senderName" placeholder="Sender's name" @bind="_packageValidator.SenderName" @bind:event="oninput">
                     <ValidationMessage For="() => _packageValidator.SenderName"/>
                 </div>
             </div>
             <div class="col">
                 <div class="mb-3">
                     <label for="receiverEmail" class="form-label">Receiver’s email address</label>
-                    <input type="text" class="form-control" id="receiverEmail" placeholder="alex@hotmail.com" @bind="_packageValidator.ReceiverEmail" @bind:event="oninput">
+                    <input type="text" class="form-control" id="receiverEmail" placeholder="Receiver's email" @bind="_packageValidator.ReceiverEmail" @bind:event="oninput">
                     <ValidationMessage For="() => _packageValidator.ReceiverEmail"/>
                 </div>
             </div>
             <div class="col">
                 <div class="mb-3">
                     <label for="senderEmail" class="form-label">Sender’s email address</label>
-                    <input type="text" class="form-control" id="senderEmail" placeholder="alex@hotmail.com" @bind="_packageValidator.SenderEmail" @bind:event="oninput">
+                    <input type="text" class="form-control" id="senderEmail" placeholder="Sender's email" @bind="_packageValidator.SenderEmail" @bind:event="oninput">
                     <ValidationMessage For="() => _packageValidator.SenderEmail"/>
                 </div>
             </div>
             <div class="col">
                 <div class="mb-3">
                     <label for="receiverPhone" class="form-label">Receiver’s phone number</label>
-                    <input type="tel" class="form-control" id="receiverPhone" placeholder="13 67 67 87" @bind="_packageValidator.ReceiverPhoneNumber" @bind:event="oninput">
+                    <input type="tel" class="form-control" id="receiverPhone" placeholder="Receiver's phone" @bind="_packageValidator.ReceiverPhoneNumber" @bind:event="oninput">
                     <ValidationMessage For="() => _packageValidator.ReceiverPhoneNumber"/>
                 </div>
             </div>
             <div class="col">
                 <div class="mb-3">
                     <label for="senderPhone" class="form-label">Sender’s phone number</label>
-                    <input type="tel" class="form-control" id="senderPhone" placeholder="13 67 67 87" @bind="_packageValidator.SenderPhoneNumber" @bind:event="oninput">
+                    <input type="tel" class="form-control" id="senderPhone" placeholder="Sender's phone" @bind="_packageValidator.SenderPhoneNumber" @bind:event="oninput">
                     <ValidationMessage For="() => _packageValidator.SenderPhoneNumber"/>
                 </div>
             </div>

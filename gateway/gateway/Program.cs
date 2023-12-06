@@ -25,6 +25,7 @@ builder.Services.AddScoped<IPackageServiceClient, PackageServiceClientImpl>();
 builder.Services.AddScoped<IUserServiceClient, UserServiceClientImpl>();
 builder.Services.AddScoped<DtoMapper>();
 builder.Services.AddScoped<IAuth, AuthLogicImpl>();
+builder.Services.AddScoped<IUser, UserLogicImpl>();
 builder.Services.AddScoped<ILocationServiceLogic, LocationLogicImpl>();
 builder.Services.AddScoped<ExceptionHandler>();
 builder.Services.AddScoped<RabbitMqPublisher>();

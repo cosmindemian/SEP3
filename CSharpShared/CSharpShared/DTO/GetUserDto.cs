@@ -2,7 +2,7 @@
 
 public class GetUserDto
 {
-    public long id;
+    public long id { set; get; }
     public String email { set; get; }
     public String name { set; get; }
     public String phone { set; get; }

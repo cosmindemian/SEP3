@@ -87,6 +87,13 @@ public class DefaultPacketService implements PacketService {
         return packetRepository.findAllBySenderIdIsInOrReceiverIdIsIn(ids, ids);
     }
 
+
+    @Override
+    public ArrayList<Packet> getAllPacketsByLocationId(Long id) {
+        Optional<ArrayList<Packet>> packet = packetRepository.findAllByCurrentLocationIdOrFinalDestinationId(id, id);
+        return packet.orElse(null);
+    }
+
     @Override
     @Transactional
     public void updatePacketLocation(Long packageId, Long locationId, Long userId) {

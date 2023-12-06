@@ -5,6 +5,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Client.Interfaces;
+using CSharpShared.Exception;
 using gateway.DTO;
 
 namespace Client.Implementations
@@ -12,10 +13,11 @@ namespace Client.Implementations
     public class LocationHttpClient : ILocationService
     {
         private readonly HttpClient client;
-
-        public LocationHttpClient(HttpClient client)
+        private ExceptionHandler _exceptionHandler;
+        public LocationHttpClient(HttpClient client, ExceptionHandler exceptionHandler)
         {
             this.client = client;
+            _exceptionHandler = exceptionHandler;
         }
 
         public async Task<SendLocationReturnDto> CreateLocation(SendLocationDto dto)
@@ -53,7 +55,12 @@ namespace Client.Implementations
         public async Task DeletePickupPoint(long id)
         {
             string url = "Location?id=" + id;
-            await client.DeleteAsync(url );
+            var response = await client.DeleteAsync(url);
+            if (!response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadFromJsonAsync<ApiException>();
+                _exceptionHandler.Throw(content);
+            }
         }
     }
 }

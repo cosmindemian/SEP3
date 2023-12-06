@@ -67,7 +67,9 @@ message IdListRpc{
   repeated int64 id = 1;
 }
 
+
 service PacketService{
+  rpc getAllPacketsByLocationId(Id) returns (Packets);
   rpc addPacket(AddPacket) returns (Packet);
   rpc getPacketById(GetPacketIdRpc) returns(Packet);
   rpc getPacketByTrackingNumber(GetPacketTrackingNumber) returns(Packet);

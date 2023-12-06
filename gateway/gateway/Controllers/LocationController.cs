@@ -52,14 +52,16 @@ public class LocationController :ControllerBase
         }
     }
     [HttpDelete]
-    //[HttpGet("{id}")]
-    public async Task<ActionResult<object>> DeletePickupPointAsync(long id)
+    public async Task<ActionResult> DeletePickupPointAsync(long id)
     {
         try
         {
             await _locationServiceLogic.DeletePickupPoint(id);
-            _logger.Log($"LocationController: DeletePickupPoint with id  {id} successful");
-            return Ok();
+                _logger.Log($"LocationController: DeletePickupPoint delete location with id  {id} was called");
+                return Ok();
+            
+
+
         }
         catch (Exception e)
         {
