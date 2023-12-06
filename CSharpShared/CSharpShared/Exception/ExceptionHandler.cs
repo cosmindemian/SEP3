@@ -12,6 +12,7 @@ public class ExceptionHandler
     public const string InvalidArgumentsType = "InvalidArguments";
     public const string EmailNotVerifiedType = "EmailNotVerified";
     public const string LocationNotPickupPointType = "LocationNotPickupPoint";
+    public const string LocationUsedType = "LocationUsed";
 
     public ApiException Handle(System.Exception exception)
     {
@@ -26,6 +27,7 @@ public class ExceptionHandler
             EmailNotVerifiedException => new ApiException(401, EmailNotVerifiedType, exception.Message),
             LocationNotPickupPointException => new ApiException(400, LocationNotPickupPointType,
                 exception.Message),
+            LocationUsedException => new ApiException(400, LocationUsedType, exception.Message),
             _ => new ApiException(500, InternalServerType, exception.Message)
         };
     }
@@ -44,6 +46,8 @@ public class ExceptionHandler
                 throw new InvalidArgumentsException(exception.Message);
             case EmailNotVerifiedType:
                 throw new EmailNotVerifiedException();
+            case LocationUsedType:
+                throw new LocationUsedException();
             default:
                 throw new System.Exception("Unknown exception");
         }

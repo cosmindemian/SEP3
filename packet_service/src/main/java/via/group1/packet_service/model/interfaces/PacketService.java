@@ -23,4 +23,5 @@ public interface PacketService {
     ArrayList<Packet> getAllPacketsByReceiverIds(List<Long> ids);
     ArrayList<Packet> getAllPacketsByUserIds(List<Long> ids);
     void updatePacketLocation(Long packageId, Long locationId, Long userId);
+    ArrayList<Packet> getAllPacketsByLocationId(Long senderId);
 }

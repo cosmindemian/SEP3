@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using gateway.DTO;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Client.Interfaces
 {
