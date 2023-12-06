@@ -19,6 +19,22 @@ public class LocationController :ControllerBase
         _exceptionHandler = exceptionHandler;
     }
 
+    [HttpPost]
+    public async Task<ActionResult<SendLocationReturnDto>> SendLocationAsync(SendLocationDto dto)
+    {
+        try
+        {
+            var returnDto = await _locationServiceLogic.CreateLocation(dto);
+            _logger.Log($"LocationController: SendLocationAsync of {dto} successful");
+            return Ok(returnDto);
+        }
+        catch (Exception e)
+        {
+            var error = _exceptionHandler.Handle(e);
+            return StatusCode(error.StatusCode, error);
+        }
+    }
+    
     [HttpGet]
     [Route("pick_up_point")]
     public async Task<ActionResult<IEnumerable<GetPickUpPointDto>>> GetAllPickUpPointsAsync()

@@ -1,4 +1,5 @@
-﻿using gateway.RpcClient.Interface;
+﻿using CSharpShared.Exception;
+using gateway.RpcClient.Interface;
 using Grpc.Core;
 using Grpc.Net.Client;
 using persistance.Exception;
@@ -35,6 +36,27 @@ public class LocationServiceClientImpl : ILocationServiceClient
 
             throw;
         }
+    }
+
+    public async Task<LocationWithAddress> SaveLocation(string type, CreatePickUpPointWithAddress pickUpPoint, CreateWarehouseWithAddress warehouse)
+    {
+        if(type== "PickUpPoint")
+        {   
+            return await _client.addLocationAsync(new CreateLocationWithAddress()
+            {
+                PickUpPoint = pickUpPoint,
+                IsPickUpPoint = true
+            });
+        }   
+        if(type== "Warehouse")
+        {
+            return await _client.addLocationAsync(new CreateLocationWithAddress()
+            {
+                Warehouse = warehouse,
+                IsPickUpPoint = false
+            });
+        }
+        throw new InvalidTypeException();
     }
 
     public async Task<LocationWithAddress> GetLocationByIdWithAddressAsync(long id)

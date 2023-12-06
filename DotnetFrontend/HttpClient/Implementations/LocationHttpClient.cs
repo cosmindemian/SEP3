@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Client.Interfaces;
@@ -16,7 +17,23 @@ namespace Client.Implementations
         {
             this.client = client;
         }
-        
+
+        public async Task<SendLocationReturnDto> CreateLocation(SendLocationDto dto)
+        {
+            HttpResponseMessage response = await client.PostAsJsonAsync("/Location", dto);
+            string result = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(result);
+            }
+
+            var location = JsonSerializer.Deserialize<SendLocationReturnDto>(result, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+            return location;
+        }
+
         public async Task<IEnumerable<GetPickUpPointDto>> GetAllPickupPoints()
         {
             string uri = "/Location/pick_up_point";

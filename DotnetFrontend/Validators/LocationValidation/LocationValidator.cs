@@ -9,8 +9,7 @@ public class LocationValidator
     public string City { set; get; }
     
     [Required (ErrorMessage = "Zip is required")]
-    [MinLength(2, ErrorMessage = "Zip must be longer than 2 characters")]
-    public string Zip { set; get; }
+    public long Zip { set; get; }
     
     [Required (ErrorMessage = "Street name is required")]
     [MinLength(2, ErrorMessage = "Street name must be longer than 2 characters")]
@@ -37,7 +36,7 @@ public class LocationValidator
         
     }
 
-    public LocationValidator(string city, string zip, string street, string streetNumber, string type, string name, DateTime openingHours, DateTime closingHours)
+    public LocationValidator(string city, long zip, string street, string streetNumber, string type, string name, DateTime openingHours, DateTime closingHours)
     {
         City = city;
         Zip = zip;

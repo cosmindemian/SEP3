@@ -100,6 +100,16 @@ public class DtoMapper
             BuildGetLocationDto(finalLocation));
     }
     
+    public SendLocationReturnDto BuildSendLocationReturnDto(LocationWithAddress locationWithAddress)
+    {
+        if(locationWithAddress.IsPickUpPoint)
+            return new SendLocationReturnDto(locationWithAddress.PickUpPoint.Id, locationWithAddress.PickUpPoint);
+        else
+        {
+            return new SendLocationReturnDto(locationWithAddress.Warehouse.Id, locationWithAddress.Warehouse);
+        }
+    }
+    
     public UserDto BuildUserDto(User user)
     {
         return new UserDto(user.Phone, user.Email, user.Name);

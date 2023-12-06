@@ -130,7 +130,6 @@
 
 @code {
     private LocationValidator _locationValidator = new LocationValidator();
-    private PickUpPointValidator _pickUpPointValidator = new PickUpPointValidator();
     private string pickupPoint = "";
     
    
@@ -138,7 +137,12 @@
     {
         try
         {
-            //await LocationService.CreateLocation(_pickUpPointValidator);
+            SendLocationDto sendLocationDto = 
+                new SendLocationDto(_locationValidator.City, _locationValidator.Zip, _locationValidator.Street,
+                    _locationValidator.StreetNumber, _locationValidator.Type,_locationValidator.Name, _locationValidator.Opening_Hours.ToString("HH:mm"),
+                    _locationValidator.Closing_Hours.ToString("HH:mm"));
+            Console.WriteLine(_locationValidator.Type);
+            await LocationService.CreateLocation(sendLocationDto);
             Console.WriteLine("Location created");
             NavManager.NavigateTo("/SeeAllPickupPoints");
         }
