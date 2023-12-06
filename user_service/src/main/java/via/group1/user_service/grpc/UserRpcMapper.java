@@ -36,6 +36,16 @@ public class UserRpcMapper {
                 .build();
     }
 
+    public User parseUpdateUserRpc(UserServiceOuterClass.User user){
+        if (dataValidator.isNotValidPhone(user.getPhone()))
+            throw new IllegalArgumentException("User data is not valid");
+
+        return User.builder()
+                .name(user.getName())
+                .phone(user.getPhone())
+                .build();
+    }
+
     public UserServiceOuterClass.UserList buildUserList(List<User> userList) {
         List<UserServiceOuterClass.User> usersRpc = userList.stream().map(this::buildUserRpc).toList();
         return UserServiceOuterClass.UserList.newBuilder().addAllUsers(usersRpc).build();

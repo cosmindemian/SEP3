@@ -1,0 +1,74 @@
+﻿@page "/EditInformation"
+@attribute [Authorize]
+@using Client.Interfaces
+@using gateway.DTO
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage protectedSessionStorage
+@using Client.Interfaces
+@using gateway.DTO
+@using Validators.userValidator
+<PageTitle>EditInformation</PageTitle>
+<EditForm Model="_userValidator" OnValidSubmit="SaveAsync">
+    <DataAnnotationsValidator/>
+    <div class=" mt-2">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" placeholder="Name" @bind="_userValidator.Name" @bind:event="oninput"/>
+        <ValidationMessage For="() => _userValidator.Name"/>
+    </div>
+    <div class="mt-2">
+        <label for="phoneNumber">Phone number</label>
+        <input type="tel" class="form-control" id="phoneNumber" placeholder="Phone number" @bind="_userValidator.PhoneNumber" @bind:event="oninput"/>
+        <ValidationMessage For="() => _userValidator.PhoneNumber"/>
+    </div>
+    <div class="d-grid mt-4">
+        <button class="btn btn-primary" type="submit">Save</button>
+    </div>
+    @if (_errorMessage != "")
+    {
+        <div class="alert alert-danger" role="alert">
+            @_errorMessage
+        </div>
+    }
+    @if (_isEdited)
+    {
+        <div class="alert alert-success" role="alert">
+            You have successfully changed your information.
+        </div>
+    }
+</EditForm>
+
+@code {
+    private UserValidator _userValidator = new UserValidator();
+    private string color = "primary";
+    private string color2 = "danger";
+    private string color3 = "success";
+    private string msg = "";
+    private bool _isEdited = false;
+    private string _errorMessage = "";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+    // Accessing the global context
+            var globalContext = (await protectedSessionStorage.GetAsync<GlobalContext>("globalContext")).Value;
+            if (globalContext != null || globalContext.UserContext != null)
+            {
+                _userValidator.Name = globalContext.UserContext.Name;
+                _userValidator.PhoneNumber = globalContext.UserContext.Phone;
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+    }
+
+    private async Task SaveAsync()
+    {
+        
+    }
+
+}

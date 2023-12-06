@@ -37,10 +37,17 @@ message GetUserListRequest{
     repeated int64 id = 1;
 }
 
+message UpdateUser {
+    int64 id = 1;
+    string name = 2;
+    string phone = 3;
+}
+
 service UserService{
     rpc SaveUser(CreateUser) returns (CreateUserWithCheck);
     rpc GetUser(GetUserByIdRequest) returns (User);
     rpc GetUserList(GetUserListRequest) returns (UserList);
     rpc GetUsersByEmail(Email) returns (UserList);
     rpc RemoveUser(GetUserByIdRequest) returns (google.protobuf.Empty);
+    rpc UpdateUser(UpdateUser) returns (google.protobuf.Empty);
 }

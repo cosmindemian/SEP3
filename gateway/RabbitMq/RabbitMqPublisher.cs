@@ -13,16 +13,20 @@ public class RabbitMqPublisher
 
     public RabbitMqPublisher()
     {
-        _factory = new ConnectionFactory { HostName = "localhost" };
-        _connection = _factory.CreateConnection();
-        _channel = _connection.CreateModel();
-        _channel.QueueDeclare(queue: "notification",
-            durable: true,
-            exclusive: false,
-            autoDelete: false,
-            arguments: null);
+        try
+        {
+            _factory = new ConnectionFactory { HostName = "localhost" };
+            _connection = _factory.CreateConnection();
+            _channel = _connection.CreateModel();
+            _channel.QueueDeclare(queue: "notification",
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+        }
+        catch{}
     }
-    
+
     public void PublishPackageSentNotification(string receiverMail, string senderMail, string receiverName, string senderName,
         string trackingNumber)
     {
@@ -33,12 +37,19 @@ public class RabbitMqPublisher
 
     public void Publish(string message)
     {
+        try
+        {
         var body = Encoding.UTF8.GetBytes(message);
 
         _channel.BasicPublish(exchange: "",
             routingKey: "notification",
             basicProperties: null,
             body: body);
+        }
+        catch (Exception e)
+        {
+   
+        }
     }
     
     private string ToJson(Object obj)

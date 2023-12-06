@@ -11,4 +11,5 @@ public interface UserService {
     List<User> getUsersByEmail(String email);
     void removeUser(Long id);
     User checkIfUserExists(User user);
+    User updateUser(User user);
 }

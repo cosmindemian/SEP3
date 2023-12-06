@@ -3,6 +3,7 @@
 @using Client.Interfaces
 @using gateway.DTO
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject NavigationManager NavManager
 @inject IPackageService PackageService;
 @inject ProtectedSessionStorage protectedSessionStorage
 
@@ -24,6 +25,7 @@
                     <p>
                         <b>Phone number:</b> @_phoneNumber
                     </p>
+                    <button class="btn btn-primary" type="submit" @onclick="EditInformation">Edit personal information</button>
                 </div>
             </div>
         </div>
@@ -125,8 +127,11 @@ else
                 msg = e.Message;
             }  
         }
-        
-        
+    }
+
+    private async void EditInformation()
+    {
+        NavManager.NavigateTo("/EditInformation");
     }
 
 }

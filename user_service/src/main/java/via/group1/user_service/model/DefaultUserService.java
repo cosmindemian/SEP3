@@ -45,4 +45,15 @@ public class DefaultUserService implements UserService {
     public User checkIfUserExists(User user){
         return userRepository.findByEmailAndNameAndPhone(user.getEmail(), user.getName(), user.getPhone()).orElse(null);
     }
+
+    @Override
+    public User updateUser(User user) {
+        User currentUser = userRepository.findById(user.getId()).orElseThrow(NoSuchElementException::new);
+        if(user.getId() == currentUser.getId())
+        {
+            currentUser.setName(user.getName());
+            currentUser.setPhone(user.getPhone());
+        }
+        return userRepository.save(currentUser);
+    }
 }

@@ -23,39 +23,34 @@ public class UserRpcService extends UserServiceGrpc.UserServiceImplBase {
     @Override
     public void getUser(UserServiceOuterClass.GetUserByIdRequest request,
                         StreamObserver<UserServiceOuterClass.User> responseObserver) {
-        try{
+        try {
             User user = userService.getUser(request.getId());
             UserServiceOuterClass.User userRpc = mapper.buildUserRpc(user);
             responseObserver.onNext(userRpc);
             responseObserver.onCompleted();
-        }
-        catch (NullPointerException | NoSuchElementException e)
-        {
+        } catch (NullPointerException | NoSuchElementException e) {
             responseObserver.onError(io.grpc.Status.NOT_FOUND.withDescription(e.getMessage()).asException());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asException());
         }
     }
 
     @Override
     public void saveUser(UserServiceOuterClass.CreateUser request, StreamObserver<UserServiceOuterClass.CreateUserWithCheck> responseObserver) {
-        try{
+        try {
             User user = mapper.parseUserRpc(request);
             User returnUser = userService.checkIfUserExists(user);
             boolean exists = returnUser != null;
-            if(!exists){
+            if (!exists) {
                 returnUser = userService.saveUser(user);
             }
             UserServiceOuterClass.CreateUserWithCheck userRpc = mapper.buildUserWithCheck(returnUser, exists);
 
             responseObserver.onNext(userRpc);
             responseObserver.onCompleted();
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             responseObserver.onError(Status.INVALID_ARGUMENT.withDescription(e.getMessage()).asException());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asException());
         }
     }
@@ -63,44 +58,53 @@ public class UserRpcService extends UserServiceGrpc.UserServiceImplBase {
     @Override
     public void getUserList(UserServiceOuterClass.GetUserListRequest request,
                             StreamObserver<UserServiceOuterClass.UserList> responseObserver) {
-        try{
+        try {
             List<User> userList = userService.getUserList(request.getIdList());
             UserServiceOuterClass.UserList userListRpc = mapper.buildUserList(userList);
             responseObserver.onNext(userListRpc);
             responseObserver.onCompleted();
-        }
-        catch (NullPointerException | NoSuchElementException e){
+        } catch (NullPointerException | NoSuchElementException e) {
             responseObserver.onError(io.grpc.Status.NOT_FOUND.withDescription(e.getMessage()).asException());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asException());
         }
     }
 
     @Override
     public void getUsersByEmail(UserServiceOuterClass.Email request, StreamObserver<UserServiceOuterClass.UserList> responseObserver) {
-        try{
+        try {
             List<User> userList = userService.getUsersByEmail(request.getEmail());
             UserServiceOuterClass.UserList userListRpc = mapper.buildUserList(userList);
             responseObserver.onNext(userListRpc);
             responseObserver.onCompleted();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asException());
         }
     }
 
     @Override
     public void removeUser(UserServiceOuterClass.GetUserByIdRequest request, StreamObserver<Empty> responseObserver) {
-        try{
+        try {
             userService.removeUser(request.getId());
             responseObserver.onNext(Empty.newBuilder().build());
             responseObserver.onCompleted();
-        }
-        catch (NullPointerException | NoSuchElementException e){
+        } catch (NullPointerException | NoSuchElementException e) {
             responseObserver.onError(io.grpc.Status.NOT_FOUND.withDescription(e.getMessage()).asException());
+        } catch (Exception e) {
+            responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asException());
         }
-        catch (Exception e){
+    }
+
+    @Override
+    public void updateUser(UserServiceOuterClass.User request, StreamObserver<Empty> responseObserver) {
+        try {
+            User user = mapper.parseUpdateUserRpc(request);
+            userService.updateUser(user);
+            responseObserver.onNext(Empty.newBuilder().build());
+            responseObserver.onCompleted();
+        } catch (NullPointerException | NoSuchElementException e) {
+            responseObserver.onError(io.grpc.Status.NOT_FOUND.withDescription(e.getMessage()).asException());
+        } catch (Exception e) {
             responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asException());
         }
     }

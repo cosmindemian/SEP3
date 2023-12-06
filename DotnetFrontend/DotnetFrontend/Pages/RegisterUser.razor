@@ -20,17 +20,17 @@
                         <DataAnnotationsValidator/>
                         <div class=" mt-2">
                             <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" placeholder="Honzik" @bind="_userValidator.Name" @bind:event="oninput"/>
+                            <input type="text" class="form-control" id="name" placeholder="Name" @bind="_userValidator.Name" @bind:event="oninput"/>
                             <ValidationMessage For="() => _userValidator.Name"/>
                         </div>
                         <div class="mt-2">
                             <label for="phoneNumber">Phone number</label>
-                            <input type="tel" class="form-control" id="phoneNumber" placeholder="69 69 69 69" @bind="_userValidator.PhoneNumber" @bind:event="oninput"/>
+                            <input type="tel" class="form-control" id="phoneNumber" placeholder="00 00 00 00" @bind="_userValidator.PhoneNumber" @bind:event="oninput"/>
                             <ValidationMessage For="() => _userValidator.PhoneNumber"/>
                         </div>
                         <div class="mt-2">
                             <label for="email">Email address</label>
-                            <input type="email" class="form-control" id="email" placeholder="honzik@hotmail.com" @bind="_userValidator.Email" @bind:event="oninput"/>
+                            <input type="email" class="form-control" id="email" placeholder="example@hotmail.com" @bind="_userValidator.Email" @bind:event="oninput"/>
                             <ValidationMessage For="() => _userValidator.Email"/>
                         </div>
                         <div class="mt-2">
@@ -60,7 +60,6 @@
                 <img src="loginMonkey.jpg" width="600px" alt="monkey" class="rounded-3 d-none d-xxl-block">
             </div>
         </div>
-
     </div>
 </EditForm>
 <style>
