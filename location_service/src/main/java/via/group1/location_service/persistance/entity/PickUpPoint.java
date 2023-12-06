@@ -28,5 +28,4 @@ public class PickUpPoint extends Location
     this.opening_hours = opening_hours;
     this.closing_hours = closing_hours;
   }
-
 }

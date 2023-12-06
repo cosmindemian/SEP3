@@ -13,4 +13,5 @@ public interface LocationService
   ArrayList<Location> getAllLocations();
   ArrayList<Location> getAllLocationsByType(String type);
   ArrayList<Location> getAllLocationsByIdIn(List<Long> id);
+  void deleteLocation(Long id);
 }
