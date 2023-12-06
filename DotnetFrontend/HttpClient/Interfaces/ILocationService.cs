@@ -7,5 +7,6 @@ namespace Client.Interfaces
     public interface ILocationService
     {
         Task<IEnumerable<GetPickUpPointDto>> GetAllPickupPoints();
+        Task DeletePickupPoint(long id);
     }
 }
