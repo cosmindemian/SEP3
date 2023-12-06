@@ -49,5 +49,11 @@ namespace Client.Implementations
             });
             return pickupPoints;
         }
+
+        public async Task DeletePickupPoint(long id)
+        {
+            string url = "Location?id=" + id;
+            await client.DeleteAsync(url );
+        }
     }
 }

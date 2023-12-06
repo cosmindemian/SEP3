@@ -1,0 +1,78 @@
+@using RabbitMqClient
+@using Authentication
+@using CSharpShared.RabbitMqMessages
+@implements IDisposable
+@inject AuthenticationStateProvider AuthProvider
+<div class="notification-container">
+    <button class="notification-button" @onclick="OnClick">
+        @if (NewNotification)
+        {
+            <div class="notification-dot"></div>
+        }
+    </button>
+    @if (_showNotification)
+    {
+        <div class="notification-arrow"></div>
+        <div class="notification-window">
+            @foreach (var notification in Notifications)
+            {
+                
+            <div class="text-danger text-decoration-line-through">
+                @notification
+            </div>
+            }
+
+        </div>
+    }
+</div>
+
+@code {
+    public bool NewNotification { get; set; } = false;
+    public MqClient MqClient { get; set; } = new();
+    private bool _showNotification = false;
+    CancellationTokenSource messageConsumerCancellationToken = new();
+    public List<string> Notifications { get; set; } = new();
+
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            MqClient.MessageReceived += receiveMessage;
+        }
+        var state = await AuthProvider.GetAuthenticationStateAsync();
+        if (state.User.Identity != null && state.User.Identity.IsAuthenticated)
+        {;
+            await MqClient.Setup(messageConsumerCancellationToken.Token,
+                long.Parse(state.User.Claims.First(claim => claim.Type == AuthenticationEntity.UserIdClaim).Value));
+        }
+    }
+
+    public void receiveMessage(object? sender, MessageEventReturn e)
+    {
+        if (e.Type == IncomingPackageMessage.TypeConst)
+        {
+            var message = IncomingPackageMessage.FromJson(e.Message);
+            Notifications.Add($"{message.SenderName} sent you a package with number:{message.TrackingNumber}");
+        }
+        NewNotification = true;
+        InvokeAsync(() => StateHasChanged());
+    }
+
+
+    public void Dispose()
+    {
+        messageConsumerCancellationToken.Cancel();
+        MqClient.MessageReceived -= receiveMessage;
+    }
+
+    public void OnClick()
+    {
+        if (_showNotification)
+        {
+            Notifications.Clear();
+            NewNotification = false;
+        }
+        _showNotification = !_showNotification;
+    }
+
+}

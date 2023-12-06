@@ -13,6 +13,8 @@ public class PackageSentMessage extends RabbitMqMessage {
     private String senderName;
     private String receiverName;
     private String TrackingNumber;
+    private long senderId;
+    private long receiverId;
 
     public PackageSentMessage() {
         super("PackageSent");

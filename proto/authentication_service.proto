@@ -28,9 +28,18 @@ message VerifyEmailRequest{
   string emailCode = 1;
 }
 
+message EmailMessage{
+  string email = 1;
+}
+
+message UserId{
+  int64 userId = 1;
+}
+
 service AuthenticationService{
   rpc login(LoginRequest) returns (JwtToken);
   rpc register(RegisterRequest) returns (google.protobuf.Empty);
   rpc verifyToken(JwtToken) returns (VerifyTokenResponse);
   rpc verifyEmail(VerifyEmailRequest) returns (google.protobuf.Empty);
+  rpc getUserId(EmailMessage) returns (UserId);
 }

@@ -89,4 +89,10 @@ public class LocationLogicImpl : ILocationServiceLogic
        
         return locations.Locations.Select(_dtoMapper.BuildGetPickUpPointDto);
     }
+
+    public async Task DeletePickupPoint(long id)
+    {
+        await _locationServiceClient.DeleteLocation(id);
+        _logger.Log($"LocationLogicImpl: DeleteLocation was called with id:  {id}");
+    }
 }

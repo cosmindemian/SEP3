@@ -9,7 +9,14 @@
     <ItemGroup>
       <ProjectReference Include="..\..\CSharpShared\CSharpShared\CSharpShared.csproj" />
       <ProjectReference Include="..\HttpClient\HttpClient.csproj" />
+      <ProjectReference Include="..\RabbitMqClient\RabbitMqClient.csproj" />
     </ItemGroup>
+
+
+    <ItemGroup>
+      <PackageReference Include="Blazored.Toast" Version="4.1.0" />
+    </ItemGroup>
+
 
 
 </Project>

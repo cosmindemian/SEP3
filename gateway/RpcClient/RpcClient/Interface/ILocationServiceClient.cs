@@ -12,4 +12,5 @@ public interface ILocationServiceClient
     public Task<LocationWithAddress> GetLocationByIdWithAddressAsync(long id);
     
     public Task<LocationsWithAddress>GetAllPickUpPointsAsync();
+    public Task DeleteLocation(long id);
 }

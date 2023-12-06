@@ -24,7 +24,8 @@ public class PackageTest
 
     public PackageTest()
     {
-        WorkingPackageLogic = new(PackageClient, LocationsClient, UserClient, new DtoMapper(), new RabbitMqPublisher());
+        WorkingPackageLogic = new(PackageClient, LocationsClient, UserClient, new DtoMapper(),
+            new MessagingLogicImpl(new RabbitMqPublisher(), new AuthenticationServiceClientImpl()));
     }
 
     [Fact]

@@ -51,5 +51,22 @@ public class LocationController :ControllerBase
             return StatusCode(error.StatusCode, error);
         }
     }
+    [HttpDelete]
+    //[HttpGet("{id}")]
+    public async Task<ActionResult<object>> DeletePickupPointAsync(long id)
+    {
+        try
+        {
+            await _locationServiceLogic.DeletePickupPoint(id);
+            _logger.Log($"LocationController: DeletePickupPoint with id  {id} successful");
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            var error = _exceptionHandler.Handle(e);
+            return StatusCode(error.StatusCode, error);
+        }
+    }
+    
     
 }

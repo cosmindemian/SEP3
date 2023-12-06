@@ -22,7 +22,7 @@ public class AuthenticationService : global::AuthenticationService.Authenticatio
 
     public override async Task<Empty> register(RegisterRequest request, ServerCallContext context)
     {
-            Credential credential;
+        Credential credential;
         try
         {
             credential = await _credentialLogic.RegisterAsync(request.Email, request.Password, request.UserId);
@@ -102,6 +102,26 @@ public class AuthenticationService : global::AuthenticationService.Authenticatio
             return new Empty();
         }
         catch (InvalidEmailTokenException e)
+        {
+            throw new RpcException(new StatusRpc(StatusCode.NotFound, e.Message));
+        }
+        catch (System.Exception e)
+        {
+            Console.WriteLine(e.StackTrace);
+            throw new RpcException(new StatusRpc(StatusCode.Internal, e.Message));
+        }
+    }
+
+    public override async Task<UserId> getUserId(EmailMessage request, ServerCallContext context)
+    {
+        try
+        {
+            return new UserId
+            {
+                UserId_ = await _credentialLogic.GetUserIdAsync(request.Email)
+            };
+        }
+        catch (NotFoundException e)
         {
             throw new RpcException(new StatusRpc(StatusCode.NotFound, e.Message));
         }

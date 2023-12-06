@@ -51,4 +51,16 @@ public class CredentialDaoImp : ICredentialDao
         credential.IsVerified = isVerified;
         await _context.SaveChangesAsync();
     }
+
+    public async Task<long> GetUserIdAsync(string email)
+    {
+        var id = await _context.Credentials.Where(cr => cr.Email == email).Select(cr => cr.UserId)
+            .FirstOrDefaultAsync();
+        if (id == 0)
+        {
+            throw new NotFoundException();
+        }
+
+        return id;
+    }
 }

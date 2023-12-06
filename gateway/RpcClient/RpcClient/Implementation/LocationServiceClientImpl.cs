@@ -94,4 +94,13 @@ public class LocationServiceClientImpl : ILocationServiceClient
        
         return response;
     }
+
+    public async Task DeleteLocation(long id)
+    {
+        _client.deleteLocation(new getLocationIdRpc()
+        {
+            Id = id
+        });
+       
+    }
 }
