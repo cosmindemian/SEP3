@@ -1,0 +1,179 @@
+@page "/CreateLocation"
+@inject NavigationManager NavManager
+@attribute [Authorize(Roles = "Admin")]
+@using Client.Interfaces
+@using gateway.DTO
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using Validators.LocationValidation
+@using Validators.packageValidation
+@inject IPackageService PackageService;
+@inject ILocationService LocationService;
+@inject ProtectedSessionStorage protectedSessionStorage
+<PageTitle>Send a package</PageTitle>
+
+<h1 class="text-center fw-bold text-uppercase">CREATE a new Location</h1>
+
+<EditForm Model="_locationValidator"  OnValidSubmit="AddLocation" >
+
+    <div class="container mt-5">
+        <div class=" row justify-content-center">
+            <div class="col-3">
+                <DataAnnotationsValidator/>
+                <label for="radio-card-1" class="radio-card">
+                    <div class="card-content-wrapper">
+                        <span class="check-icon"></span>
+                        <div class="card">
+                            <div class="card-header">
+                                <input type="radio" name="radio-card" id="radio-card-1" checked @onchange="@(ChangePickUpPoint)"/>
+                                <span>Type 1</span>
+                            </div>
+                            <div class="card-body bg-light">
+                                <h5 class="card-title">PickUpPoint</h5>
+                                <p class="card-text">Main point for interaction with customers</p>
+                            </div>
+                        </div>
+                    </div>
+                </label>
+            </div>
+
+            <div class="col-3">
+                <label for="radio-card-2" class="radio-card">
+                    <div class="card-content-wrapper">
+                        <span class="check-icon"></span>
+                        <div class="card">
+                            <div class="card-header">
+                                <input type="radio" name="radio-card" id="radio-card-2" @onchange="@(ChangeWarehouse)"/>
+                                <span>Type 2</span>
+                            </div>
+                            <div class="card-body bg-light">
+                                <h5 class="card-title">Warehouse</h5>
+                                <p class="card-text">For package storage</p>
+                            </div>
+                        </div>
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container w-100 w-lg-50 mt-5">
+
+        <div class="row row-cols-2">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="city" class="form-label">City</label>
+                    <input type="text" class="form-control" id="city" placeholder="Aarhus" @bind="_locationValidator.City" @bind:event="oninput">
+                    <ValidationMessage For="() => _locationValidator.City"/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="zip" class="form-label">Zip</label>
+                    <input type="number" class="form-control" id="zip" placeholder="8200" @bind="_locationValidator.Zip" @bind:event="oninput">
+                    <ValidationMessage For="() => _locationValidator.Zip"/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="street" class="form-label">Street</label>
+                    <input type="text" class="form-control" id="street" placeholder="Viborgvej" @bind="_locationValidator.Street" @bind:event="oninput">
+                    <ValidationMessage For="() => _locationValidator.Street"/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="StreetNumber" class="form-label">Street number</label>
+                    <input type="text" class="form-control" id="StreetNumber" placeholder="20" @bind="_locationValidator.StreetNumber" @bind:event="oninput">
+                    <ValidationMessage For="() => _locationValidator.StreetNumber"/>
+                </div>
+            </div>
+            @if(_locationValidator.Type == "PickUpPoint"){
+                
+                <div class="col">
+                    <div class="mb-3">
+                        <label for="OpeningHours" class="form-label">Opening Hours</label>
+                        <input type="time" class="form-control" id="OpeningHours" placeholder="12:00" @bind="_locationValidator.Opening_Hours" @bind:event="oninput">
+                        <ValidationMessage For="() => _locationValidator.Opening_Hours"/>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="mb-3">
+                        <label for="ClosingHours" class="form-label">Closing Hours</label>
+                        <input type="time" class="form-control" id="ClosingHours" placeholder="16:00" @bind="_locationValidator.Closing_Hours" @bind:event="oninput">
+                        <ValidationMessage For="() => _locationValidator.Closing_Hours"/>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="mb-3">
+                        <label for="receiverName" class="form-label">Location Name</label>
+                        <input type="text" class="form-control" id="receiverName" placeholder="Aarhus" @bind="_locationValidator.Name" @bind:event="oninput"/>
+                        <ValidationMessage For="() => _locationValidator.Name"/>
+                    </div>
+                </div>
+            }
+              
+        </div>
+
+        <div class="text-center mt-5">
+           
+            <button type="submit" class="btn btn-primary" >Send a package</button>
+        </div>
+       
+    </div>
+   
+
+
+</EditForm>
+
+
+
+@code {
+    private LocationValidator _locationValidator = new LocationValidator();
+    private PickUpPointValidator _pickUpPointValidator = new PickUpPointValidator();
+    private string pickupPoint = "";
+    
+   
+    private async Task AddLocation()
+    {
+        try
+        {
+            //await LocationService.CreateLocation(_pickUpPointValidator);
+            Console.WriteLine("Location created");
+            NavManager.NavigateTo("/SeeAllPickupPoints");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+
+    private void ChangePickUpPoint()
+    {
+        _locationValidator= new LocationValidator();
+        _locationValidator.Type = "PickUpPoint";
+    }
+    
+    private void ChangeWarehouse()
+    {
+        _locationValidator= new LocationValidator();
+        _locationValidator.Type = "Warehouse";
+        _locationValidator.Name = "Warehouse";
+        _locationValidator.Opening_Hours= DateTime.Now;
+        _locationValidator.Closing_Hours= DateTime.Now;
+    }
+    
+    
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            ChangePickUpPoint();
+            
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+}

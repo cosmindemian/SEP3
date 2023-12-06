@@ -71,4 +71,23 @@ public class PackageController : ControllerBase
             return StatusCode(error.StatusCode, error);
         }
     }
+    
+    [HttpPut]
+    [Route("update_location")]
+    public async Task<ActionResult<GetPackageDto>> UpdatePackageLocationAsync([FromBody] UpdateFinalLocationDto dto)
+    {
+        try
+        {
+            var userId = long.Parse(User.Claims.First(c => c.Type == "UserId").Value);
+            await _packageLogic.UpdatePackageLocationAsync(dto.PackageId, dto.LocationId, userId);
+            _logger.Log($"PackageController: UpdatePackageLocationAsync of {dto} successful");
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            var error = _exceptionHandler.Handle(e);
+            return StatusCode(error.StatusCode, error);
+        }
+    }
+    
 }

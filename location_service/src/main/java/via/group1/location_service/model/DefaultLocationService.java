@@ -43,4 +43,14 @@ public class DefaultLocationService implements LocationService
     return (ArrayList<Location>) locationRepository.getAllByIdIn(id).orElseThrow();
   }
 
+  @Override
+  public void deleteLocation(Long id) {
+    if(getLocation(id)!=null){
+      locationRepository.deleteById(id);
+    }
+    else{
+      throw new IllegalArgumentException("Location with id " + id + "does not exist.");
+    }
+
+  }
 }

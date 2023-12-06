@@ -69,6 +69,16 @@ public class LocationServiceClientImpl : ILocationServiceClient
         {
             Type = "PickUpPoint"
         });
+       
         return response;
+    }
+
+    public async Task DeleteLocation(long id)
+    {
+        _client.deleteLocation(new getLocationIdRpc()
+        {
+            Id = id
+        });
+       
     }
 }

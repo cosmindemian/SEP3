@@ -11,6 +11,7 @@ public class ExceptionHandler
     public const string NotFoundType = "NotFound";
     public const string InvalidArgumentsType = "InvalidArguments";
     public const string EmailNotVerifiedType = "EmailNotVerified";
+    public const string LocationNotPickupPointType = "LocationNotPickupPoint";
 
     public ApiException Handle(System.Exception exception)
     {
@@ -23,6 +24,8 @@ public class ExceptionHandler
             LoginException => new ApiException(401, LoginType, exception.Message),
             NotFoundException => new ApiException(404, NotFoundType, exception.Message),
             EmailNotVerifiedException => new ApiException(401, EmailNotVerifiedType, exception.Message),
+            LocationNotPickupPointException => new ApiException(400, LocationNotPickupPointType,
+                exception.Message),
             _ => new ApiException(500, InternalServerType, exception.Message)
         };
     }

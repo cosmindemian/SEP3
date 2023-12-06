@@ -1,6 +1,8 @@
-﻿using CSharpShared.Exception;
+﻿using System.Security.Claims;
+using CSharpShared.Exception;
 using gateway.DTO;
 using gateway.RpcClient.Interface;
+using Google.Protobuf.WellKnownTypes;
 using persistance.Exception;
 using RabbitMq;
 using RpcClient.RpcClient.Interface;
@@ -160,6 +162,21 @@ public class PackageLogicImpl : IPackage
             _logger.Log($"PackageLogicImpl: SendPackageAsync of {dto} failed");
             throw;
         }
+    }
+
+    public async Task UpdatePackageLocationAsync(long packageId, long locationId, long userId)
+    {
+           var location = await _locationServiceClient.GetLocationByIdAsync(locationId);
+           if (location.IsPickUpPoint)
+           {
+                await _packageServiceClient.UpdatePacketLocationAsync(packageId, locationId, userId);
+                _logger.Log($"PackageLogicImpl: UpdatePackageLocationAsync of {packageId} successful");   
+           }
+           else
+           {
+               _logger.Log($"PackageLogicImpl: UpdatePackageLocationAsync of {packageId} failed, location is not a pick up point");
+               throw new InvalidArgumentsException("Location is not a pick up point");
+           }
     }
 
     private void ValidatePackage(SendPackageDto dto)

@@ -28,6 +28,15 @@ message PickUpPointWithAddress{
   string closing_hours= 4;
   Address address = 5;
 }
+message CreatePickUpPointWithAddress{
+  string name = 1;
+  string opening_hours = 2;
+  string closing_hours= 3;
+  Address address = 4;
+}
+message CreateWarehouseWithAddress{
+  Address address = 1;
+}
 
 message WarehouseWithAddress{
   int64 id = 1;
@@ -47,6 +56,13 @@ message LocationWithAddress{
   oneof type{
     PickUpPointWithAddress pick_up_point = 1;
     WarehouseWithAddress warehouse = 2;
+  }
+  bool isPickUpPoint = 3;
+}
+message CreateLocationWithAddress{
+  oneof type{
+    CreatePickUpPointWithAddress pick_up_point = 1;
+    CreateWarehouseWithAddress warehouse = 2;
   }
   bool isPickUpPoint = 3;
 }
@@ -83,7 +99,10 @@ message getTypeRpc{
   string type = 1;
 }
 
+
 service LocationService{
+  rpc deleteLocation(getLocationIdRpc) returns(google.protobuf.Empty);
+  rpc addLocation(CreateLocationWithAddress) returns (LocationWithAddress);
   rpc getLocationById(getLocationIdRpc) returns(Location);
   rpc getLocationWithAddressById(getLocationIdRpc) returns(LocationWithAddress);
   rpc getAddressById(getAddressIdRpc) returns(Address);
