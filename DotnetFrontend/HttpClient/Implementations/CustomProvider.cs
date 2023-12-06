@@ -17,7 +17,6 @@ public class CustomAuthProvider: AuthenticationStateProvider
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
         ClaimsPrincipal principal = await authService.GetAuthAsync();
-        
         return new AuthenticationState(principal);
     }
     

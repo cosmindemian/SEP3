@@ -10,7 +10,9 @@ import via.group1.notification_service.mail.EmailService;
 import via.group1.notification_service.model.NotificationService;
 import via.group1.notification_service.rabbitmq.messages.PackageSentMessage;
 import via.group1.notification_service.rabbitmq.messages.RabbitMqMessage;
+import via.group1.notification_service.rabbitmq.messages.UserCreatedMessage;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 @Component
@@ -21,13 +23,13 @@ public class NotificationListener {
     private final NotificationService notificationService;
 
     @RabbitListener(queues = {RabbitMqConfig.NOTIFICATION_QUEUE})
-    public void receiveMessage(String message) throws JsonProcessingException {
+    public void receiveMessage(String message) throws IOException {
         logger.info("Received <" + message + ">");
         handleMessage(message);
     }
 
 
-    private void handleMessage(String message) throws JsonProcessingException {
+    private void handleMessage(String message) throws IOException {
 
         RabbitMqMessage rabbitMqMessage = objectMapper.readValue(message, RabbitMqMessage.class);
 
@@ -36,6 +38,11 @@ public class NotificationListener {
                 logger.info("Package sent");
                 PackageSentMessage packageSentMessage = objectMapper.readValue(message, PackageSentMessage.class);
                 notificationService.handlePackageSent(packageSentMessage);
+            }
+            case "UserCreated" -> {
+                logger.info("User registered");
+                UserCreatedMessage userCreatedMessage = objectMapper.readValue(message, UserCreatedMessage.class);
+                notificationService.userRegistered(userCreatedMessage);
             }
             default -> logger.warning("Unknown message type: " + rabbitMqMessage.getType());
         }

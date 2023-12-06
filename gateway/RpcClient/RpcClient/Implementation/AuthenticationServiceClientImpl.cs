@@ -35,7 +35,7 @@ public class AuthenticationServiceClientImpl : IAuthenticationServiceClient
         {
             throw new AuthenticationException("Token is not valid");
         }
-        
+
         return new AuthenticationEntity(response.UserId, response.Email, response.AuthLevel);
     }
 
@@ -108,6 +108,28 @@ public class AuthenticationServiceClientImpl : IAuthenticationServiceClient
             {
                 case StatusCode.NotFound:
                     throw new InvalidEmailTokenException();
+                default:
+                    throw;
+            }
+        }
+    }
+
+    public async Task<long> GetUserIdAsync(string email)
+    {
+        try
+        {
+            var response = await _client.getUserIdAsync(new EmailMessage
+            {
+                Email = email
+            });
+            return response.UserId_;
+        }
+        catch (RpcException e)
+        {
+            switch (e.StatusCode)
+            {
+                case StatusCode.NotFound:
+                    throw new NotFoundException();
                 default:
                     throw;
             }

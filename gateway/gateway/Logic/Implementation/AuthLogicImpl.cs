@@ -3,6 +3,7 @@ using gateway.DTO;
 using Grpc.Core;
 using grpc.Exception;
 using persistance.Exception;
+using RabbitMq;
 using RpcClient.RpcClient.Interface;
 
 namespace gateway.Model.Implementation;
@@ -13,13 +14,15 @@ public class AuthLogicImpl : IAuth
     private readonly IUserServiceClient _userServiceClient;
     private readonly DtoMapper _dtoMapper;
     private readonly Logger.Logger _logger = Logger.Logger.Instance;
+    private readonly IMessagingLogic _messagingLogic;
 
     public AuthLogicImpl(IAuthenticationServiceClient authServiceClient, IUserServiceClient userServiceClient,
-        DtoMapper dtoMapper)
+        DtoMapper dtoMapper, IMessagingLogic mqPublisher)
     {
         _authServiceClient = authServiceClient;
         _userServiceClient = userServiceClient;
         _dtoMapper = dtoMapper;
+        _messagingLogic = mqPublisher;
     }
 
     public async Task<TokenDto> LoginAsync(LoginDto loginDto)
@@ -60,6 +63,15 @@ public class AuthLogicImpl : IAuth
             }
             _logger.Log($"AuthLogicImpl: Registration of {registerDto} failed");
             throw;
+        }
+
+        try
+        {
+            _messagingLogic.PublishUserRegisteredNotification(user.User.Id);
+        }
+        catch (Exception e)
+        {
+            _logger.Log($"AuthLogicImpl: Registration of {registerDto} failed");
         }
     }
 

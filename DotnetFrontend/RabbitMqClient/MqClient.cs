@@ -8,47 +8,60 @@ namespace RabbitMqClient;
 
 public class MqClient
 {
-    public static event EventHandler<RabbitMqMessage>? MessageReceived;
+    private bool _running = false;
+    private long _userId = 0;
+    private IModel _model;
+    public static event EventHandler<MessageEventReturn>? MessageReceived;
+    private List<ulong> _deliveredTags = new List<ulong>();
 
-    public async void Setup(CancellationToken cancellationToken)
+    public async Task Setup(CancellationToken cancellationToken, long userId)
     {
-        var factory = new ConnectionFactory() { HostName = "localhost" };
-        using (var connection = factory.CreateConnection())
-        using (var channel = connection.CreateModel())
+        if (!_running || _userId != userId)
         {
-            channel.QueueDeclare(queue: "user3",
-                durable: true,
-                exclusive: false,
-                autoDelete: false,
-                arguments: null);
-
-            var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += (model, ea) =>
+            var factory = new ConnectionFactory() { HostName = "localhost" };
+            using (var connection = factory.CreateConnection())
+            using (var channel = connection.CreateModel())
             {
-                var body = ea.Body.ToArray();
-                var message = Encoding.UTF8.GetString(body);
-                try
+                _model = channel;
+                channel.QueueDeclare(queue: $"notification_queue_{userId}",
+                    durable: true,
+                    exclusive: false,
+                    autoDelete: false,
+                    arguments: null);
+
+                var consumer = new EventingBasicConsumer(channel);
+                consumer.Received += (model, ea) =>
                 {
-                    var messageObject = JsonSerializer.Deserialize<RabbitMqMessage>(message, new JsonSerializerOptions()
+                    _deliveredTags.Add(ea.DeliveryTag);
+                    var body = ea.Body.ToArray();
+                    var message = Encoding.UTF8.GetString(body);
+                    try
                     {
-                        PropertyNameCaseInsensitive = true
-                    });
-                    MessageReceived?.Invoke(this, messageObject);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Error deserializing message:{message}");
-                    Console.WriteLine(e);
-                }
-            };
-            channel.BasicConsume(queue: "user3",
-                autoAck: true,
-                consumer: consumer);
+                        var messageObject = JsonSerializer.Deserialize<RabbitMqMessage>(message,
+                            new JsonSerializerOptions()
+                            {
+                                PropertyNameCaseInsensitive = true
+                            });
+                        MessageReceived?.Invoke(this, new MessageEventReturn(message: message,
+                            type: messageObject.Type));
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine($"Error deserializing message:{message}");
+                    }
+                };
+                channel.BasicConsume(queue: $"notification_queue_{userId}",
+                    autoAck: true,
+                    consumer: consumer);
 
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                await Task.Delay(1000);
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    await Task.Delay(1000);
+                }
             }
+
+            _userId = userId;
+            _running = true;
         }
     }
 }

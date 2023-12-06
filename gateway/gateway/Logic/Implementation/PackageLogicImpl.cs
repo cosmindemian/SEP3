@@ -14,19 +14,19 @@ public class PackageLogicImpl : IPackage
     private readonly ILocationServiceClient _locationServiceClient;
     private readonly IUserServiceClient _userServiceClient;
     private readonly DtoMapper _dtoMapper;
-    private readonly RabbitMqPublisher _mqPublisher;
+    private readonly IMessagingLogic _messagingLogic;
     
     private readonly Logger.Logger _logger = Logger.Logger.Instance;
 
     public PackageLogicImpl(IPackageServiceClient packageServiceClient,
         ILocationServiceClient locationServiceClient, IUserServiceClient userServiceClient, DtoMapper dtoMapper,
-        RabbitMqPublisher mqPublisher)
+        RabbitMqPublisher mqPublisher, IMessagingLogic messagingLogic)
     {
         _packageServiceClient = packageServiceClient;
         _userServiceClient = userServiceClient;
         _locationServiceClient = locationServiceClient;
         _dtoMapper = dtoMapper;
-        _mqPublisher = mqPublisher;
+        _messagingLogic = messagingLogic;
     }
 
     public async Task<GetPackageDto> GetPackageByTrackingNumberAsync(string trackingNumber)
@@ -129,7 +129,7 @@ public class PackageLogicImpl : IPackage
             _logger.Log($"PackageLogicImpl: SendPackageAsync of {dto} successful");
             
             //Publish message into rabbit mq
-            _mqPublisher.PublishPackageSentNotification(receiverRequest.Result.User.Email,
+            _messagingLogic.PublishPackageSentNotification(receiverRequest.Result.User.Email,
                 senderRequest.Result.User.Email, receiverRequest.Result.User.Name,
                 senderRequest.Result.User.Name, packet.TrackingNumber);
 

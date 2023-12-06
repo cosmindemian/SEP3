@@ -11,6 +11,6 @@ public class RabbitMqTest
     public void Publish()
     {
         _rabbitMqPublisher.PublishPackageSentNotification("janmetela@seznam.cz", "jarahonza56@gmail.com",
-            "J", "Jar", "1234");
+            "J", "PAPRIKA", "1234",5,5);
     }
-}
+}   

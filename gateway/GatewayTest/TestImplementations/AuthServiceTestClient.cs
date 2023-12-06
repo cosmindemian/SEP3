@@ -46,4 +46,9 @@ public class AuthServiceTestClient : IAuthenticationServiceClient
     {
         throw new NotImplementedException();
     }
+
+    public Task<long> GetUserIdAsync(string email)
+    {
+        throw new NotImplementedException();
+    }
 }

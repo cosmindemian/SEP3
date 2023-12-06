@@ -4,6 +4,7 @@ using gateway.DTO;
 using gateway.Model;
 using gateway.Model.Implementation;
 using GatewayTest.TestImplementations;
+using RabbitMq;
 using Xunit;
 
 namespace GatewayTest;
@@ -19,7 +20,8 @@ public class UserTest
         _userTestClient = new UserServiceTestClient();
         _authServiceTestClient = new AuthServiceTestClient();
         DtoMapper dtoMapper = new();
-        AuthLogicImpl authLogicImpl = new AuthLogicImpl(_authServiceTestClient, _userTestClient, dtoMapper);
+        AuthLogicImpl authLogicImpl = new AuthLogicImpl(_authServiceTestClient, _userTestClient, dtoMapper,
+            new RabbitMqPublisher());
         _authController = new(authLogicImpl, new ExceptionHandler());
     }
 
