@@ -15,6 +15,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<IPackageService, PackageHttpClient>();
 builder.Services.AddScoped<ILocationService, LocationHttpClient>();
 builder.Services.AddScoped<IAuthService, AuthHttpClient>();
+builder.Services.AddScoped<IUserService, UserHttpClient>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthProvider>();
 builder.Services.AddScoped<GlobalContext>();
 builder.Services.AddScoped<ExceptionHandler>();

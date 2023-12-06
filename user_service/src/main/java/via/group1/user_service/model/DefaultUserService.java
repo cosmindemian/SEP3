@@ -1,5 +1,6 @@
 package via.group1.user_service.model;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,7 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
+    @Transactional
     public User updateUser(User user) {
         User currentUser = userRepository.findById(user.getId()).orElseThrow(NoSuchElementException::new);
         if(user.getId() == currentUser.getId())

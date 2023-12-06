@@ -24,7 +24,7 @@ public class UserValidator
     public UserValidator()
     {
     }
-    
+
     public UserValidator(string name, string email, string phoneNumber, string password)
     {
         Name = name;

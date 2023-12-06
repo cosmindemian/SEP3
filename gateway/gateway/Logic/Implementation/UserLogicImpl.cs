@@ -3,7 +3,7 @@ using RpcClient.RpcClient.Interface;
 
 namespace gateway.Model.Implementation;
 
-public class UserLogicImpl
+public class UserLogicImpl : IUser
 {
     private readonly IUserServiceClient _userServiceClient;
     private readonly DtoMapper _dtoMapper;
@@ -15,14 +15,12 @@ public class UserLogicImpl
     }
 
     //Todo: Implement
-    public async Task<User> GetUserByIdAsync(long id)
-    {
-        var userRequest = await _userServiceClient.GetUserByIdAsync(id);
-        
-        var user = userRequest;
-
-        _logger.Log($"UserLogicImpl: GetUserByIdAsync of {user} not implemented");
+    public  Task<User> GetUserByIdAsync(long id){
         throw new NotImplementedException();
     }
-    
+
+    public async Task UpdateUserAsync(UpdateUserDto dto)
+    {
+        await _userServiceClient.UpdateUserAsync(dto.Id, dto.Name, dto.Phone);
+    }
 }

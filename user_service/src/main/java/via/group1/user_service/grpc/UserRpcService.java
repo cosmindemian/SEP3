@@ -96,16 +96,16 @@ public class UserRpcService extends UserServiceGrpc.UserServiceImplBase {
     }
 
     @Override
-    public void updateUser(UserServiceOuterClass.User request, StreamObserver<Empty> responseObserver) {
-        try {
+    public void updateUser(UserServiceOuterClass.UpdatedUser request, StreamObserver<Empty> responseObserver) {
+        try{
             User user = mapper.parseUpdateUserRpc(request);
             userService.updateUser(user);
             responseObserver.onNext(Empty.newBuilder().build());
             responseObserver.onCompleted();
-        } catch (NullPointerException | NoSuchElementException e) {
-            responseObserver.onError(io.grpc.Status.NOT_FOUND.withDescription(e.getMessage()).asException());
-        } catch (Exception e) {
-            responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asException());
-        }
+    } catch (NullPointerException | NoSuchElementException e) {
+        responseObserver.onError(io.grpc.Status.NOT_FOUND.withDescription(e.getMessage()).asException());
+    } catch (Exception e) {
+        responseObserver.onError(io.grpc.Status.INTERNAL.withDescription(e.getMessage()).asException());
+    }
     }
 }

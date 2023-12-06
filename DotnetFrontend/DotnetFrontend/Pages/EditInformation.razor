@@ -1,25 +1,28 @@
 ﻿@page "/EditInformation"
 @attribute [Authorize]
+@inject NavigationManager NavManager
 @using Client.Interfaces
 @using gateway.DTO
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @inject ProtectedSessionStorage protectedSessionStorage
 @using Client.Interfaces
 @using gateway.DTO
+@inject IUserService UserService;
 @using Validators.userValidator
 <PageTitle>EditInformation</PageTitle>
-<EditForm Model="_userValidator" OnValidSubmit="SaveAsync">
+<EditForm Model="_updateUserValidator" OnValidSubmit="UpdateUserAsync">
     <DataAnnotationsValidator/>
     <div class=" mt-2">
         <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" placeholder="Name" @bind="_userValidator.Name" @bind:event="oninput"/>
-        <ValidationMessage For="() => _userValidator.Name"/>
+        <input type="text" class="form-control" id="name" placeholder="Name" @bind="_updateUserValidator.Name" @bind:event="oninput"/>
+        <ValidationMessage For="() => _updateUserValidator.Name"/>
     </div>
     <div class="mt-2">
         <label for="phoneNumber">Phone number</label>
-        <input type="tel" class="form-control" id="phoneNumber" placeholder="Phone number" @bind="_userValidator.PhoneNumber" @bind:event="oninput"/>
-        <ValidationMessage For="() => _userValidator.PhoneNumber"/>
+        <input type="tel" class="form-control" id="phoneNumber" placeholder="Phone number" @bind="_updateUserValidator.PhoneNumber" @bind:event="oninput"/>
+        <ValidationMessage For="() => _updateUserValidator.PhoneNumber"/>
     </div>
+    
     <div class="d-grid mt-4">
         <button class="btn btn-primary" type="submit">Save</button>
     </div>
@@ -38,11 +41,12 @@
 </EditForm>
 
 @code {
-    private UserValidator _userValidator = new UserValidator();
+    private UpdateUserValidator _updateUserValidator = new UpdateUserValidator();
     private string color = "primary";
     private string color2 = "danger";
     private string color3 = "success";
     private string msg = "";
+    private long currentId;
     private bool _isEdited = false;
     private string _errorMessage = "";
 
@@ -51,12 +55,13 @@
     {
         try
         {
-    // Accessing the global context
+            // Accessing the global context
             var globalContext = (await protectedSessionStorage.GetAsync<GlobalContext>("globalContext")).Value;
             if (globalContext != null || globalContext.UserContext != null)
             {
-                _userValidator.Name = globalContext.UserContext.Name;
-                _userValidator.PhoneNumber = globalContext.UserContext.Phone;
+                currentId = globalContext.UserContext.Id;
+                _updateUserValidator.Name = globalContext.UserContext.Name;
+                _updateUserValidator.PhoneNumber = globalContext.UserContext.Phone;
             }
         }
         catch (Exception e)
@@ -66,9 +71,19 @@
         }
     }
 
-    private async Task SaveAsync()
+    private async Task UpdateUserAsync()
     {
-        
+        try
+        {
+            var dto = new UpdateUserDto(currentId, _updateUserValidator.Name, _updateUserValidator.PhoneNumber);  
+            await UserService.UpdateUserAsync(dto);
+            NavManager.NavigateTo("/AllUserPackagesOverview");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            //resultMsg = e.Message;
+            color = "red";
+        }
     }
-
 }

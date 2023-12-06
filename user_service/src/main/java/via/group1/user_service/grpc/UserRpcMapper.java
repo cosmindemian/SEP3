@@ -36,11 +36,12 @@ public class UserRpcMapper {
                 .build();
     }
 
-    public User parseUpdateUserRpc(UserServiceOuterClass.User user){
+    public User parseUpdateUserRpc(UserServiceOuterClass.UpdatedUser user){
         if (dataValidator.isNotValidPhone(user.getPhone()))
             throw new IllegalArgumentException("User data is not valid");
 
         return User.builder()
+                .id(user.getId())
                 .name(user.getName())
                 .phone(user.getPhone())
                 .build();
