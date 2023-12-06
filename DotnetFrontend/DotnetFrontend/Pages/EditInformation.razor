@@ -77,6 +77,12 @@
         {
             var dto = new UpdateUserDto(currentId, _updateUserValidator.Name, _updateUserValidator.PhoneNumber);  
             await UserService.UpdateUserAsync(dto);
+            
+            var globalContext = (await protectedSessionStorage.GetAsync<GlobalContext>("globalContext")).Value;
+            globalContext.UserContext.Name = _updateUserValidator.Name;
+            globalContext.UserContext.Phone = _updateUserValidator.PhoneNumber;
+            await protectedSessionStorage.SetAsync("globalContext", globalContext);
+            
             NavManager.NavigateTo("/AllUserPackagesOverview");
         }
         catch (Exception e)
