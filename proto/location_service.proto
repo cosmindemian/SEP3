@@ -38,9 +38,6 @@ message CreateWarehouseWithAddress{
   Address address = 1;
 }
 
-
-
-
 message WarehouseWithAddress{
   int64 id = 1;
   Address address = 2;
@@ -102,7 +99,9 @@ message getTypeRpc{
   string type = 1;
 }
 
+
 service LocationService{
+  rpc deleteLocation(getLocationIdRpc) returns(google.protobuf.Empty);
   rpc addLocation(CreateLocationWithAddress) returns (LocationWithAddress);
   rpc getLocationById(getLocationIdRpc) returns(Location);
   rpc getLocationWithAddressById(getLocationIdRpc) returns(LocationWithAddress);
