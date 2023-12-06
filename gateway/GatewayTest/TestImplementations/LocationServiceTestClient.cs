@@ -18,4 +18,9 @@ public class LocationServiceTestClient : ILocationServiceClient
     {
         throw new NotImplementedException();
     }
+
+    public Task DeleteLocation(long id)
+    {
+        throw new NotImplementedException();
+    }
 }
