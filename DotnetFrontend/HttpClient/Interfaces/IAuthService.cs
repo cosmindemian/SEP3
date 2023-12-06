@@ -8,9 +8,9 @@ public interface IAuthService
     Task<TokenDto> LoginAsync(LoginDto dto);
     Task RegisterAsync(RegisterDto dto);
     
-     Action<ClaimsPrincipal> OnAuthStateChanged { get; set; }
+    Action<ClaimsPrincipal> OnAuthStateChanged { get; set; }
     
-     Task<ClaimsPrincipal> GetAuthAsync();
+    Task<ClaimsPrincipal> GetAuthAsync();
     
     void Logout();
     

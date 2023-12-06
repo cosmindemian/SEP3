@@ -31,6 +31,7 @@ public class AuthServiceTestClient : IAuthenticationServiceClient
         }
         throw new LoginException("Invalid credentials");
     }
+    
     //This implementations fails when password is less than 3 characters
     public Task RegisterAsync(string email, string password, long userId)
     {
