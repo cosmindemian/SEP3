@@ -1,12 +1,13 @@
 @page "/SeeAllPickupPoints"
 @using Client.Interfaces
 @using gateway.DTO
+@inject NavigationManager NavManager;
 @inject ILocationService LocationService;
 <PageTitle>Send a package</PageTitle>
 <section class="container mt-4">
     <h2 class="mb-4">Pickup points</h2>
     <AuthorizeView Roles="Admin">
-                <button class="btn btn-outline-dark mx-2" href="/CreateLocation">Create a pickup point</button>
+        <button class="btn btn-outline-dark mx-2" @onclick="goToCreateLocation">Create a Location</button>
     </AuthorizeView>
     <div class="row mt-4">
         @if (!locations.Any())
@@ -80,6 +81,11 @@
         {
             Console.WriteLine(e);
         }
+    }
+
+    private void goToCreateLocation()
+    {
+        NavManager.NavigateTo("/CreateLocation");
     }
 
     private   async Task<IEnumerable<GetPickUpPointDto>> GetAllPickupPoints()

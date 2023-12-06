@@ -9,6 +9,11 @@ public class LocationServiceTestClient : ILocationServiceClient
         throw new NotImplementedException();
     }
 
+    public Task<LocationWithAddress> SaveLocation(string type, CreatePickUpPointWithAddress pickUpPoint, CreateWarehouseWithAddress warehouse)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<LocationWithAddress> GetLocationByIdWithAddressAsync(long id)
     {
         throw new NotImplementedException();
