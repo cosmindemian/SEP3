@@ -13,7 +13,7 @@
 
 <h1 class="text-center fw-bold text-uppercase">CREATE a new Location</h1>
 
-<EditForm Model="_locationValidator" OnValidSubmit="AddLocation" >
+<EditForm Model="_locationValidator"  OnValidSubmit="AddLocation" >
 
     <div class="container mt-5">
         <div class=" row justify-content-center">
@@ -24,7 +24,7 @@
                         <span class="check-icon"></span>
                         <div class="card">
                             <div class="card-header">
-                                <input type="radio" name="radio-card" id="radio-card-1" checked @onchange="@(() => _locationValidator.Type = "PickUpPoint")"/>
+                                <input type="radio" name="radio-card" id="radio-card-1" checked @onchange="@(ChangePickUpPoint)"/>
                                 <span>Type 1</span>
                             </div>
                             <div class="card-body bg-light">
@@ -42,7 +42,7 @@
                         <span class="check-icon"></span>
                         <div class="card">
                             <div class="card-header">
-                                <input type="radio" name="radio-card" id="radio-card-2" @onchange="@(() => _locationValidator.Type = "Warehouse")"/>
+                                <input type="radio" name="radio-card" id="radio-card-2" @onchange="@(ChangeWarehouse)"/>
                                 <span>Type 2</span>
                             </div>
                             <div class="card-body bg-light">
@@ -89,48 +89,29 @@
                 </div>
             </div>
             @if(_locationValidator.Type == "PickUpPoint"){
+                
                 <div class="col">
                     <div class="mb-3">
                         <label for="OpeningHours" class="form-label">Opening Hours</label>
-                        <input type="time" class="form-control" id="OpeningHours" placeholder="12:00" @bind="_pickUpPointValidator.Opening_Hours" @bind:event="oninput">
-                        <ValidationMessage For="() => _pickUpPointValidator.Opening_Hours"/>
+                        <input type="time" class="form-control" id="OpeningHours" placeholder="12:00" @bind="_locationValidator.Opening_Hours" @bind:event="oninput">
+                        <ValidationMessage For="() => _locationValidator.Opening_Hours"/>
                     </div>
                 </div>
                 <div class="col">
                     <div class="mb-3">
                         <label for="ClosingHours" class="form-label">Closing Hours</label>
-                        <input type="time" class="form-control" id="ClosingHours" placeholder="16:00" @bind="_pickUpPointValidator.Closing_Hours" @bind:event="oninput">
-                        <ValidationMessage For="() => _pickUpPointValidator.Closing_Hours"/>
+                        <input type="time" class="form-control" id="ClosingHours" placeholder="16:00" @bind="_locationValidator.Closing_Hours" @bind:event="oninput">
+                        <ValidationMessage For="() => _locationValidator.Closing_Hours"/>
                     </div>
                 </div>
                 <div class="col">
                     <div class="mb-3">
                         <label for="receiverName" class="form-label">Location Name</label>
-                        <input type="text" class="form-control" id="receiverName" placeholder="Aarhus" @bind="_pickUpPointValidator.Name" @bind:event="oninput"/>
-                        <ValidationMessage For="() => _pickUpPointValidator.Name"/>
+                        <input type="text" class="form-control" id="receiverName" placeholder="Aarhus" @bind="_locationValidator.Name" @bind:event="oninput"/>
+                        <ValidationMessage For="() => _locationValidator.Name"/>
                     </div>
                 </div>
             }
-            
-            <!--div class="col-12">
-                <div class="mb-3">
-                    <label class="form-label">Destination pickup point</label>
-                    <select class="form-select" @bind="pickupPoint">
-                        @if (locations != null)
-                        {
-                            @foreach (var pickupPoint in locations)
-                            {
-                                <option value="@pickupPoint.Id">@pickupPoint.Address.City @pickupPoint.Address.Street @pickupPoint.Address.BuildingNumber</option>
-                            }
-                        }
-                    </select>
-                    @if (locations == null)
-                    {
-                        errorMsgForPickupPoints = "No pickup points were found";
-                        <pickupPoint>@errorMsgForPickupPoints</pickupPoint>
-                    }
-                </div>
-            </!--div-->
               
         </div>
 
@@ -151,13 +132,7 @@
     private LocationValidator _locationValidator = new LocationValidator();
     private PickUpPointValidator _pickUpPointValidator = new PickUpPointValidator();
     private string pickupPoint = "";
-    private IEnumerable<GetPickUpPointDto>? locations = new List<GetPickUpPointDto>();
-    private string errorMsgForPickupPoints = "";
-    private string randomString = "";
-    //private string resultMsg = "";
-    private string color = "";
-    private SendPackageReturnDto packageWithAllInfo;
-
+    
    
     private async Task AddLocation()
     {
@@ -170,44 +145,35 @@
         catch (Exception e)
         {
             Console.WriteLine(e);
-            errorMsgForPickupPoints = e.Message;
         }
     }
 
-    // private async Task SendPackageAsync()
-    // {
-    //     try
-    //     {
-    //         UserDto sender = new UserDto(_pickUpPointValidator.SenderPhoneNumber, _pickUpPointValidator.SenderEmail, _pickUpPointValidator.SenderName);
-    //         UserDto receiver = new UserDto(_pickUpPointValidator.ReceiverPhoneNumber, _pickUpPointValidator.ReceiverEmail, _pickUpPointValidator.ReceiverName);
-    //         SendPackageDto sendPackageDto = new SendPackageDto(long.Parse(pickupPoint),  sender, receiver: receiver, long.Parse(_pickUpPointValidator.PackageType) );
-    //         
-    //         packageWithAllInfo = await PackageService.CreatePackage(sendPackageDto);
-    //         string packageTrackingNumber = packageWithAllInfo.PackageNumber;
-    //         NavManager.NavigateTo("/PackageSentConfirmation/" + packageTrackingNumber);
-    //     }
-    //     catch (Exception e)
-    //     {
-    //         Console.WriteLine(e);
-    //         //resultMsg = e.Message;
-    //         color = "red";
-    //     }
-    // }
-
+    private void ChangePickUpPoint()
+    {
+        _locationValidator= new LocationValidator();
+        _locationValidator.Type = "PickUpPoint";
+    }
+    
+    private void ChangeWarehouse()
+    {
+        _locationValidator= new LocationValidator();
+        _locationValidator.Type = "Warehouse";
+        _locationValidator.Name = "Warehouse";
+        _locationValidator.Opening_Hours= DateTime.Now;
+        _locationValidator.Closing_Hours= DateTime.Now;
+    }
+    
+    
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            pickupPoint = "1";
-            _locationValidator.Type = "PickUpPoint";
-            errorMsgForPickupPoints = "";
-            locations = await LocationService.GetAllPickupPoints();
+            ChangePickUpPoint();
             
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            errorMsgForPickupPoints = e.Message;
         }
     }
 }

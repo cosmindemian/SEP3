@@ -21,4 +21,31 @@ public class LocationValidator
     
     [Required (ErrorMessage = "Type is required")]
     public string Type { set; get; }
+    
+    [Required (ErrorMessage = "Name is required")]
+    [MinLength(2, ErrorMessage = "Name must be longer than 2 characters")]
+    public string Name { set; get; }
+    
+    [Required (ErrorMessage = "Opening_Hours are required")]
+    public DateTime Opening_Hours { set; get; }
+    
+    [Required (ErrorMessage = "Closing Hours are required")]
+    public DateTime Closing_Hours { set; get; }
+
+    public LocationValidator()
+    {
+        
+    }
+
+    public LocationValidator(string city, string zip, string street, string streetNumber, string type, string name, DateTime openingHours, DateTime closingHours)
+    {
+        City = city;
+        Zip = zip;
+        Street = street;
+        StreetNumber = streetNumber;
+        Type = type;
+        Name = name;
+        Opening_Hours = openingHours;
+        Closing_Hours = closingHours;
+    }
 }
