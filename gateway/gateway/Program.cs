@@ -29,6 +29,7 @@ builder.Services.AddScoped<IUser, UserLogicImpl>();
 builder.Services.AddScoped<ILocationServiceLogic, LocationLogicImpl>();
 builder.Services.AddScoped<ExceptionHandler>();
 builder.Services.AddScoped<RabbitMqPublisher>();
+builder.Services.AddScoped<IMessagingLogic, MessagingLogicImpl>();
 
 // Add authentication. Every request will be authenticated using the AuthenticationProviderSchemeHandler
 builder.Services.AddAuthentication().AddScheme<AuthenticationProviderOptions, AuthenticationProviderSchemeHandler>(

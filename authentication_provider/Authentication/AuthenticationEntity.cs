@@ -12,6 +12,7 @@ public class AuthenticationEntity
     public string Email { get; set; }
     public string AuthLevel { get; set; }
 
+    public const string UserIdClaim = "UserId";
     public AuthenticationEntity(long userId, string email, string authLevel)
     {
         UserId = userId;
@@ -49,7 +50,7 @@ public class AuthenticationEntity
     {
         var claims = new[]
         {
-            new Claim("UserId", UserId.ToString()),
+            new Claim(UserIdClaim, UserId.ToString()),
             new Claim(ClaimTypes.Role, AuthLevel),
             new Claim(ClaimTypes.Email, Email),
         };

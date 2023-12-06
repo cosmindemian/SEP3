@@ -63,11 +63,12 @@ public class AuthHttpClient : AuthenticationStateProvider, IAuthService
     
     public Task<ClaimsPrincipal> GetAuthAsync()
     {
-        if (Jwt == null || Jwt == "")
+        if (Jwt == "")
         {
             return Task.FromResult(new ClaimsPrincipal(new ClaimsIdentity()));
         }
-        ClaimsPrincipal principal = AuthenticationEntity.BuildClaimsPrincipalStatic(Jwt);
+        var claims = AuthenticationEntity.ParseTokenClaims(Jwt);
+        var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, "jwt"));
         return Task.FromResult(principal);
     }
     

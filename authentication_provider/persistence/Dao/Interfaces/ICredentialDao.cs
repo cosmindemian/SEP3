@@ -8,4 +8,5 @@ public interface ICredentialDao
         EmailVerificationCode emailCode);
     Task<Credential> GetCredentialAsync(string email);
     Task SetIsVerifiedAsync(long id, bool isVerified);
+    Task<long> GetUserIdAsync(string email);
 }

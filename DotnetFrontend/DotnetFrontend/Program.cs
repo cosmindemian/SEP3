@@ -2,9 +2,7 @@ using Client.Implementations;
 using Client.Interfaces;
 using CSharpShared.Exception;
 using DotnetFrontend.Context;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using DotnetFrontend.Data;
+using Blazored.Toast;
 using Microsoft.AspNetCore.Components.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +23,7 @@ builder.Services.AddScoped(
             BaseAddress = new Uri("http://localhost:5106") 
         }
 );
+builder.Services.AddBlazoredToast();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

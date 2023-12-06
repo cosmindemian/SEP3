@@ -10,4 +10,5 @@ public interface ICredentialLogic
     
     public Task<Credential> GetCredentialAsync(string email);
     Task VerifyUserAsync(string code);
+    public Task<long> GetUserIdAsync(string email);
 }

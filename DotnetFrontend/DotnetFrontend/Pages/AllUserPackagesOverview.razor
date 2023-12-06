@@ -50,12 +50,16 @@ else
             {
                 foreach (GetShortPackageDto package in packages.SendPackages)
                 {
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <h5 class="card-header bg-@color">Status: @package.TrackingNumber</h5>
+                    <div class="col-md-4 mb-4 ">
+                        <div class="window">
+                            <img src="package.svg" class="card-img" height="150" alt="forest">
                             <div class="card-body">
-                                <h5 class="card-title">Tracking number: @package.Status</h5>
-                                <a href="/PackageInfo?package=@package.TrackingNumber" class="btn btn-outline-dark btn-block mt-2">See more</a>
+                                <h5 class="card-title text-center">@package.TrackingNumber</h5>
+                                <hr>
+                                <p class="text-center">Status: @package.Status</p>
+                                <div class="d-grid gap-2">
+                                                                    <button href="/PackageInfo?package=@package.TrackingNumber" class="btn btn-outline-dark btn-block mt-2">See more</button>
+                                                                </div>
                             </div>
                         </div>
                     </div>
@@ -75,12 +79,16 @@ else
             {
                 foreach (GetShortPackageDto package in packages.ReceivedPackages)
                 {
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <h5 class="card-header bg-@color">Status: @package.TrackingNumber</h5>
+                    <div class="col-md-4 mb-4 ">
+                        <div class="window">
+                            <img src="package.svg" class="card-img" height="150" alt="forest">
                             <div class="card-body">
-                                <h5 class="card-title">Tracking number: @package.Status</h5>
-                                <a href="/PackageInfo?package=@package.TrackingNumber" class="btn btn-outline-dark btn-block mt-2">See more</a>
+                                <h5 class="card-title text-center">@package.TrackingNumber</h5>
+                                
+                                <p class="text-center">Status: @package.Status</p>
+                                <div class="d-grid gap-2">
+                                    <button href="/PackageInfo?package=@package.TrackingNumber" class="btn btn-outline-dark btn-block mt-2">See more</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -90,7 +98,19 @@ else
         </div>
     </section>
 }
-
+<style>
+    .window{
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+  
+    
+</style>
 
 @code {
     private string color = "primary";

@@ -74,6 +74,7 @@
             GlobalContext globalContext = new GlobalContext(user);
             await ProtectedSessionStorage.SetAsync("globalContext", globalContext);
             errorMessage = "";
+            StateHasChanged();
             NavManager.NavigateTo("/AllUserPackagesOverview");
         }
         catch (LoginException e)

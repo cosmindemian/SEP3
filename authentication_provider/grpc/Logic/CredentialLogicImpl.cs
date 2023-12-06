@@ -29,8 +29,18 @@ public class CredentialLogicImpl : ICredentialLogic
         password = BCrypt.Net.BCrypt.HashPassword(password);
         var credential = await _credentialDao.AddCredentialAsync(email, password, userId, _roleDao.GetDefaultRole(), false
             , new EmailVerificationCode());
-         _emailLogicImpl.SendVerificationLinkEmail(credential.Email, credential.EmailVerificationCode.Code);
-         return credential;
+
+        try
+        {
+            _emailLogicImpl.SendVerificationLinkEmail(credential.Email, credential.EmailVerificationCode.Code);
+        }
+        catch (System.Exception e)
+        {
+            Console.WriteLine(e.Message);
+            Console.WriteLine("Error sending email");
+        }
+
+        return credential;
     }
 
     public async Task<Credential> LoginAsync(string email, string password)
@@ -64,5 +74,10 @@ public class CredentialLogicImpl : ICredentialLogic
     {
         var emailVerificationCode = await _emailVerificationDao.GetEmailVerificationCodeByCodeAsync(code);
         await _credentialDao.SetIsVerifiedAsync(emailVerificationCode.CredentialId, true);
+    }
+
+    public Task<long> GetUserIdAsync(string email)
+    {
+        return _credentialDao.GetUserIdAsync(email);
     }
 }

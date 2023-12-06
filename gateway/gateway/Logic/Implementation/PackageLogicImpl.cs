@@ -16,19 +16,19 @@ public class PackageLogicImpl : IPackage
     private readonly ILocationServiceClient _locationServiceClient;
     private readonly IUserServiceClient _userServiceClient;
     private readonly DtoMapper _dtoMapper;
-    private readonly RabbitMqPublisher _mqPublisher;
-    
+    private readonly IMessagingLogic _messagingLogic;
+
     private readonly Logger.Logger _logger = Logger.Logger.Instance;
 
     public PackageLogicImpl(IPackageServiceClient packageServiceClient,
         ILocationServiceClient locationServiceClient, IUserServiceClient userServiceClient, DtoMapper dtoMapper,
-        RabbitMqPublisher mqPublisher)
+        IMessagingLogic messagingLogic)
     {
         _packageServiceClient = packageServiceClient;
         _userServiceClient = userServiceClient;
         _locationServiceClient = locationServiceClient;
         _dtoMapper = dtoMapper;
-        _mqPublisher = mqPublisher;
+        _messagingLogic = messagingLogic;
     }
 
     public async Task<GetPackageDto> GetPackageByTrackingNumberAsync(string trackingNumber)
@@ -42,8 +42,8 @@ public class PackageLogicImpl : IPackage
         Task<LocationWithAddress>? currentLocationResult = null;
         if (package.CurrentAddressId != 0)
             currentLocationResult = _locationServiceClient
-                .GetLocationByIdWithAddressAsync(package.CurrentAddressId);            
-        
+                .GetLocationByIdWithAddressAsync(package.CurrentAddressId);
+
 
         var finalLocationResult = _locationServiceClient
             .GetLocationByIdWithAddressAsync(package.FinalAddressId);
@@ -51,7 +51,7 @@ public class PackageLogicImpl : IPackage
 
         if (currentLocationResult != null)
         {
-            await Task.WhenAll(userReceiverRequest, userSenderRequest, currentLocationResult, finalLocationResult);   
+            await Task.WhenAll(userReceiverRequest, userSenderRequest, currentLocationResult, finalLocationResult);
         }
         else
         {
@@ -65,9 +65,11 @@ public class PackageLogicImpl : IPackage
 
         if (package == null)
         {
-            _logger.Log($"PackageLogicImpl: GetPackageByTrackingNumberAsync of {trackingNumber} failed, package not found");
+            _logger.Log(
+                $"PackageLogicImpl: GetPackageByTrackingNumberAsync of {trackingNumber} failed, package not found");
             throw new NotFoundException($"Package with id {trackingNumber} not found");
         }
+
         _logger.Log($"PackageLogicImpl: GetPackageByTrackingNumberAsync of {trackingNumber} successful");
         return _dtoMapper.BuildGetPackageDto(package, currentLocation, finalLocation, sender.Name, receiver.Name);
     }
@@ -79,8 +81,8 @@ public class PackageLogicImpl : IPackage
         var packets = await _packageServiceClient.GetPackagesByUserIds(ids);
         var receivedPackets = packets.Packet.Where(packet => ids.Contains(packet.ReceiverId));
         var sentPackets = packets.Packet.Where(packet => ids.Contains(packet.SenderId));
-        
-        
+
+
         var dto = new GetAllPackagesByUserDto()
         {
             ReceivedPackages = receivedPackets.Select(_dtoMapper.BuildGetShortPackageDto),
@@ -122,37 +124,41 @@ public class PackageLogicImpl : IPackage
             finalLocation = locationRequest.Result;
             if (!finalLocation.IsPickUpPoint)
             {
-                _logger.Log($"PackageLogicImpl: SendPackageAsync of {dto} failed, final location is not a pick up point");
+                _logger.Log(
+                    $"PackageLogicImpl: SendPackageAsync of {dto} failed, final location is not a pick up point");
                 throw new InvalidArgumentsException("Final location is not a pick up point");
             }
 
             var packet = await _packageServiceClient.SendPacketAsync(receiverId, senderId, dto.TypeId,
                 finalLocation.PickUpPoint.Id);
             _logger.Log($"PackageLogicImpl: SendPackageAsync of {dto} successful");
-            
+
             //Publish message into rabbit mq
-            _mqPublisher.PublishPackageSentNotification(receiverRequest.Result.User.Email,
+            _messagingLogic.PublishPackageSentNotification(receiverRequest.Result.User.Email,
                 senderRequest.Result.User.Email, receiverRequest.Result.User.Name,
                 senderRequest.Result.User.Name, packet.TrackingNumber);
 
-            return _dtoMapper.BuildSendPackageReturnDto(packet, finalLocation,senderRequest.Result.User,
+            return _dtoMapper.BuildSendPackageReturnDto(packet, finalLocation, senderRequest.Result.User,
                 receiverRequest.Result.User);
         }
         catch (Exception e)
         {
             if (senderCreated && senderId != 0)
             {
-                _logger.Log($"PackageLogicImpl: SendPackageAsync of {dto} error, sender created but failed to send package");
+                _logger.Log(
+                    $"PackageLogicImpl: SendPackageAsync of {dto} error, sender created but failed to send package");
                 await _userServiceClient.DeleteUserAsync(senderId);
                 throw;
             }
 
             if (receiverId != 0 && receiverCreated)
             {
-                _logger.Log($"PackageLogicImpl: SendPackageAsync of {dto} error, receiver created but failed to send package");
+                _logger.Log(
+                    $"PackageLogicImpl: SendPackageAsync of {dto} error, receiver created but failed to send package");
                 await _userServiceClient.DeleteUserAsync(receiverId);
                 throw;
             }
+
             _logger.Log($"PackageLogicImpl: SendPackageAsync of {dto} failed");
             throw;
         }
@@ -198,6 +204,7 @@ public class PackageLogicImpl : IPackage
             _logger.Log($"PackageLogicImpl: SendPackageAsync of {dto} failed, type not found");
             throw new NotFoundException("Type not found");
         }
+
         _logger.Log($"PackageLogicImpl: ValidatePackage of {dto} successful");
     }
 }
