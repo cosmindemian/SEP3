@@ -1,8 +1,8 @@
 ﻿@page "/AllUserPackagesOverview"
-@attribute [Authorize]
-@using Client.Interfaces
 @using gateway.DTO
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using Client.Interfaces
+@attribute [Authorize]
 @inject NavigationManager NavManager
 @inject IPackageService PackageService;
 @inject ProtectedSessionStorage protectedSessionStorage
@@ -48,7 +48,7 @@ else
             }
             else
             {
-                foreach (GetShortPackageDto package in packages.SendPackages)
+                foreach (var package in packages.SendPackages)
                 {
                     <div class="col-md-4 mb-4 ">
                         <div class="window">
@@ -58,43 +58,43 @@ else
                                 <hr>
                                 <p class="text-center">Status: @package.Status</p>
                                 <div class="d-grid gap-2">
-                                                                    <button href="/PackageInfo?package=@package.TrackingNumber" class="btn btn-outline-dark btn-block mt-2">See more</button>
-                                                                </div>
+                                    <button @onclick="() => GoToDetailPage(package.TrackingNumber)" class="btn btn-outline-dark btn-block mt-2">See more</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 }
             }
-            
+
         </div>
     </section>
     <section class="container mt-4">
         <h2 class="mb-4">Packages that you are about to receive: </h2>
         <div class="row">
             @if (!packages.SendPackages.Any())
-                        {
-                            <span>There are no packages that you are about to receive</span>
-                        }
+            {
+                <span>There are no packages that you are about to receive</span>
+            }
             else
             {
-                foreach (GetShortPackageDto package in packages.ReceivedPackages)
+                foreach (var package in packages.ReceivedPackages)
                 {
                     <div class="col-md-4 mb-4 ">
                         <div class="window">
                             <img src="package.svg" class="card-img" height="150" alt="forest">
                             <div class="card-body">
                                 <h5 class="card-title text-center">@package.TrackingNumber</h5>
-                                
+
                                 <p class="text-center">Status: @package.Status</p>
                                 <div class="d-grid gap-2">
-                                    <button href="/PackageInfo?package=@package.TrackingNumber" class="btn btn-outline-dark btn-block mt-2">See more</button>
+                                    <button @onclick="() => GoToDetailPage(package.TrackingNumber)" class="btn btn-outline-dark btn-block mt-2">See more</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                }  
+                }
             }
-            
+
         </div>
     </section>
 }
@@ -130,28 +130,30 @@ else
         {
             throw new Exception("Global context is null");
         }
-        else
+    // setting the values from the global context
+        name = globalContext.UserContext.Name;
+        _email = globalContext.UserContext.Email;
+        _phoneNumber = globalContext.UserContext.Phone;
+        msg = "";
+        try
         {
-            // setting the values from the global context
-            name = globalContext.UserContext.Name;
-            _email = globalContext.UserContext.Email;
-            _phoneNumber = globalContext.UserContext.Phone;
-            msg = "";
-            try
-            {
-                packages = await PackageService.GetAllPackagesByUserId(globalContext.Jwt);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                msg = e.Message;
-            }  
+            packages = await PackageService.GetAllPackagesByUserId(globalContext.Jwt);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
         }
     }
 
     private async void EditInformation()
     {
         NavManager.NavigateTo("/EditInformation");
+    }
+
+    private void GoToDetailPage(string packageTrackingNumber)
+    {
+        NavManager.NavigateTo("/PackageInfo?package=" + packageTrackingNumber);
     }
 
 }
