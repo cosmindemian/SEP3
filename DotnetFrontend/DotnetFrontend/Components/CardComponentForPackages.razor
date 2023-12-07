@@ -1,0 +1,40 @@
+﻿@using Google.Protobuf.WellKnownTypes
+<div class="col-md-4 mb-4 ">
+    <div class="window">
+        <img src=@CardPicture class="card-img" height="150" alt="forest">
+        <div class="card-body">
+            <h5 class="card-title text-center">@CardTitle</h5>
+            <hr>
+            <p class="text-center">@CardDescription</p>
+        
+            <div class="d-grid gap-2">
+                <button @onclick="() => CardButtonMethod.InvokeAsync()" class="btn btn-outline-dark btn-block mt-2">@CardButtonText</button>
+            </div>
+          
+        </div>
+    </div>
+</div>
+<style>
+    .window{
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+</style>
+
+@code {
+    [Parameter]
+    public string CardPicture { get; set; }
+    [Parameter]
+    public string CardTitle { get; set; }
+    [Parameter]
+    public string CardDescription { get; set; }
+    [Parameter]
+    public EventCallback  CardButtonMethod { get; set; }
+    [Parameter]
+    public string CardButtonText { get; set; }
+   
+}
