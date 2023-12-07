@@ -52,10 +52,12 @@ namespace Client.Implementations
             return pickupPoints;
         }
 
-        public async Task DeletePickupPoint(long id)
+        public async Task DeletePickupPoint(long id, string token)
         {
             string url = "Location?id=" + id;
-            var response = await client.DeleteAsync(url);
+            var request = new HttpRequestMessage(HttpMethod.Delete, url);
+            request.Headers.Add("Bearer", new []{token});
+            var response = await client.SendAsync(request);
             if (!response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadFromJsonAsync<ApiException>();
