@@ -80,11 +80,11 @@
                     <select class="form-select" @bind="pickupPoint">
                         @if (locations != null)
                         {
-                            <option value = @package.FinalDestination.Address.City selected=""></option>
                             @foreach (var pickupPoint in locations)
                             {
                                 <option value="@pickupPoint.Id">@pickupPoint.Address.City @pickupPoint.Address.Street @pickupPoint.Address.BuildingNumber</option>
                             }
+                             <option value = @package.FinalDestination.Address selected=""></option>
                         }
                     </select>
                     @if (locations == null)
