@@ -3,6 +3,7 @@ package via.group1.packet_service.model;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import via.group1.packet_service.exception.UnauthorizedException;
 import via.group1.packet_service.model.interfaces.PacketService;
 import via.group1.packet_service.model.interfaces.SizeService;
 import via.group1.packet_service.model.interfaces.StatusService;
@@ -96,18 +97,16 @@ public class DefaultPacketService implements PacketService {
 
     @Override
     @Transactional
-    public void updatePacketLocation(Long packageId, Long locationId, Long userId) {
+    public void updatePacketLocation(Long packageId, Long locationId, Long userId) throws UnauthorizedException {
         Packet packet = getPacket(packageId);
-        if (packet.getReceiverId().equals(userId) || packet.getSenderId().equals(userId)){
-            if (packet.getCurrentLocationId() == null){
+        if (packet.getReceiverId().equals(userId) || packet.getSenderId().equals(userId)) {
+            if (packet.getCurrentLocationId() == null) {
                 packet.setFinalDestinationId(locationId);
-            }
-            else{
+            } else {
                 throw new IllegalArgumentException("Packet is already in transit");
             }
-        }
-        else{
-            throw new IllegalArgumentException("User is not allowed to update this packet");
+        } else {
+            throw new UnauthorizedException("User is not allowed to update this packet");
         }
 
     }
