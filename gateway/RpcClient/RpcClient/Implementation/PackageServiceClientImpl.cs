@@ -1,4 +1,5 @@
-﻿using gateway.RpcClient.Interface;
+﻿using CSharpShared.Exception;
+using gateway.RpcClient.Interface;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
@@ -90,12 +91,29 @@ public class PackageServiceClientImpl : IPackageServiceClient
 
     public async Task UpdatePacketLocationAsync(long packetId, long locationId, long userId)
     {
-        await _client.updatePacketLocationAsync(new PacketLocation()
+        try
         {
-            PacketId = packetId,
-            LocationId = locationId,
-            UserId = userId
-        });
+            await _client.updatePacketLocationAsync(new PacketLocation()
+            {
+                PacketId = packetId,
+                LocationId = locationId,
+                UserId = userId
+            });
+        }
+        catch (RpcException e)
+        {
+            switch (e)
+            {
+                case {StatusCode: StatusCode.Unauthenticated}:
+                    throw new UnauthorizedAccessException();
+                case {StatusCode: StatusCode.InvalidArgument}:
+                    throw new InvalidArgumentsException("Package is already in transit");
+                default:
+                    throw;
+                
+            }
+            
+        }
     }
 
     public async Task<Packets> GetPackagesByUserIds(List<long> ids)

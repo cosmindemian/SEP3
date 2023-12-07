@@ -8,6 +8,7 @@ import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.dao.DataIntegrityViolationException;
+import via.group1.packet_service.exception.UnauthorizedException;
 import via.group1.packet_service.model.interfaces.PacketService;
 import via.group1.packet_service.model.interfaces.StatusService;
 import via.group1.packet_service.persistance.entity.Packet;
@@ -141,7 +142,14 @@ public class PacketRpcService extends PacketServiceGrpc.PacketServiceImplBase {
             packetService.updatePacketLocation(request.getPacketId(), request.getLocationId(), request.getUserId());
             responseObserver.onNext(Empty.newBuilder().build());
             responseObserver.onCompleted();
-        } catch (Exception e) {
+        }
+        catch (IllegalArgumentException e){
+            responseObserver.onError(Status.INVALID_ARGUMENT.withDescription(e.getMessage()).asException());
+        }
+        catch (UnauthorizedException e){
+            responseObserver.onError(Status.UNAUTHENTICATED.withDescription(e.getMessage()).asException());
+        }
+        catch (Exception e) {
             responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asException());
         }
     }
@@ -156,7 +164,8 @@ public class PacketRpcService extends PacketServiceGrpc.PacketServiceImplBase {
         }
         catch (NoSuchElementException e) {
             responseObserver.onError(Status.NOT_FOUND.withDescription(e.getMessage()).asException());
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asException());
         }
     }

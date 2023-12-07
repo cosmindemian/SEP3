@@ -74,6 +74,7 @@ public class PackageController : ControllerBase
     
     [HttpPut]
     [Route("update_location")]
+    [Authorize]
     public async Task<ActionResult<GetPackageDto>> UpdatePackageLocationAsync([FromBody] UpdateFinalLocationDto dto)
     {
         try

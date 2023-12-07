@@ -14,6 +14,7 @@ public class ExceptionHandler
     public const string EmailNotVerifiedType = "EmailNotVerified";
     public const string LocationNotPickupPointType = "LocationNotPickupPoint";
     public const string LocationUsedType = "LocationUsed";
+    public const string UnauthorizedAccessType = "UnauthorizedAccess";
 
     public ApiException Handle(System.Exception exception)
     {
@@ -29,6 +30,7 @@ public class ExceptionHandler
             EmailNotVerifiedException => new ApiException(401, EmailNotVerifiedType, exception.Message),
             LocationNotPickupPointException => new ApiException(400, LocationNotPickupPointType,
                 exception.Message),
+            UnauthorizedAccessException => new ApiException(401, UnauthorizedAccessType, exception.Message),
             LocationUsedException => new ApiException(400, LocationUsedType, exception.Message),
             _ => new ApiException(500, InternalServerType, exception.Message)
         };

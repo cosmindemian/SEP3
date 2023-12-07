@@ -4,12 +4,10 @@ public class UpdateFinalLocationDto
 {
     public long PackageId { set; get; }
     public long LocationId { set; get; }
-    public long UserId { set; get; }
     
-    public UpdateFinalLocationDto(long packageId, long locationId, long userId)
+    public UpdateFinalLocationDto(long packageId, long locationId)
     {
         PackageId = packageId;
         LocationId = locationId;
-        UserId = userId;
     }
 }

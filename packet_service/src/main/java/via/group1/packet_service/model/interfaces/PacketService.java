@@ -1,5 +1,6 @@
 package via.group1.packet_service.model.interfaces;
 
+import via.group1.packet_service.exception.UnauthorizedException;
 import via.group1.packet_service.persistance.entity.Packet;
 import via.group1.packet_service.persistance.entity.Size;
 
@@ -22,6 +23,6 @@ public interface PacketService {
 
     ArrayList<Packet> getAllPacketsByReceiverIds(List<Long> ids);
     ArrayList<Packet> getAllPacketsByUserIds(List<Long> ids);
-    void updatePacketLocation(Long packageId, Long locationId, Long userId);
+    void updatePacketLocation(Long packageId, Long locationId, Long userId) throws UnauthorizedException;
     ArrayList<Packet> getAllPacketsByLocationId(Long senderId);
 }
