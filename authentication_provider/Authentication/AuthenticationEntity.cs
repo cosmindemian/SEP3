@@ -11,6 +11,7 @@ public class AuthenticationEntity
     public long UserId { get; set; }
     public string Email { get; set; }
     public string AuthLevel { get; set; }
+    public const string Admin = "Admin";
 
     public const string UserIdClaim = "UserId";
     public AuthenticationEntity(long userId, string email, string authLevel)

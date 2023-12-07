@@ -1,18 +1,21 @@
+using Authentication;
 using CSharpShared.Exception;
 using gateway.DTO;
 using gateway.Model;
 using grpc.Exception;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace gateway.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class LocationController :ControllerBase
+public class LocationController : ControllerBase
 {
     private readonly ILocationServiceLogic _locationServiceLogic;
     private readonly ExceptionHandler _exceptionHandler;
-    private readonly Logger.Logger _logger= Logger.Logger.Instance;
+    private readonly Logger.Logger _logger = Logger.Logger.Instance;
+
     public LocationController(ILocationServiceLogic locationServiceLogic, ExceptionHandler exceptionHandler)
     {
         _locationServiceLogic = locationServiceLogic;
@@ -20,7 +23,8 @@ public class LocationController :ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<SendLocationReturnDto>> SendLocationAsync(SendLocationDto dto)
+    [Authorize(Roles = AuthenticationEntity.Admin)]
+    public async Task<ActionResult<SendLocationReturnDto>> CreateLocationAsync(SendLocationDto dto)
     {
         try
         {
@@ -34,7 +38,7 @@ public class LocationController :ControllerBase
             return StatusCode(error.StatusCode, error);
         }
     }
-    
+
     [HttpGet]
     [Route("pick_up_point")]
     public async Task<ActionResult<IEnumerable<GetPickUpPointDto>>> GetAllPickUpPointsAsync()
@@ -51,8 +55,10 @@ public class LocationController :ControllerBase
             return StatusCode(error.StatusCode, error);
         }
     }
+
     [HttpDelete]
-    public async Task<ActionResult> DeletePickupPointAsync(long id)
+    [Authorize(Roles = AuthenticationEntity.Admin)]
+public async Task<ActionResult> DeletePickupPointAsync(long id)
     {
         try
         {
