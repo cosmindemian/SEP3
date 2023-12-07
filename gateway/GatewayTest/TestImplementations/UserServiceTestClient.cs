@@ -61,4 +61,9 @@ public class UserServiceTestClient : IUserServiceClient
         }
         return Task.CompletedTask;
     }
+
+    public Task UpdateUserAsync(long id, string name, string phone)
+    {
+        throw new NotImplementedException();
+    }
 }
