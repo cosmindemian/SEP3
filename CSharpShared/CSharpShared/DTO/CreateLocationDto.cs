@@ -1,6 +1,6 @@
 ﻿namespace gateway.DTO;
 
-public class SendLocationDto
+public class CreateLocationDto
 {
     public string City { set; get; }
     public long Zip { set; get; }
@@ -11,7 +11,7 @@ public class SendLocationDto
     public string OpeningHours { set; get; }
     public string ClosingHours { set; get; }
     
-    public SendLocationDto(string city, long zip, string street, string streetNumber, string type, string name, string openingHours, string closingHours)
+    public CreateLocationDto(string city, long zip, string street, string streetNumber, string type, string name, string openingHours, string closingHours)
     {
         City = city;
         Zip = zip;

@@ -19,12 +19,12 @@
         <div class=" row justify-content-center">
             <div class="col-3">
                 <DataAnnotationsValidator/>
-                <label for="radio-card-1" class="radio-card">
+                <label for="radio-card-PickUpPoint" class="radio-card">   
                     <div class="card-content-wrapper">
                         <span class="check-icon"></span>
                         <div class="card">
                             <div class="card-header">
-                                <input type="radio" name="radio-card" id="radio-card-1" checked @onchange="@(ChangePickUpPoint)"/>
+                                <input type="radio" id="radio-card-PickUpPoint" checked="@(_locationValidator.Type == "PickUpPoint")" name="Location" @onchange="@(ChangePickUpPoint)"/>
                                 <span>Type 1</span>
                             </div>
                             <div class="card-body bg-light">
@@ -37,17 +37,17 @@
             </div>
 
             <div class="col-3">
-                <label for="radio-card-2" class="radio-card">
+                <label for="radio-card-Warehouse" class="radio-card">
                     <div class="card-content-wrapper">
                         <span class="check-icon"></span>
                         <div class="card">
                             <div class="card-header">
-                                <input type="radio" name="radio-card" id="radio-card-2" @onchange="@(ChangeWarehouse)"/>
+                                <input type="radio" id="radio-card-Warehouse" checked="@(_locationValidator.Type == "Warehouse")" name="Location" @onchange="@(ChangeWarehouse)"/>
                                 <span>Type 2</span>
                             </div>
                             <div class="card-body bg-light">
                                 <h5 class="card-title">Warehouse</h5>
-                                <p class="card-text">For package storage</p>
+                                <p class="card-text">For package storage and management</p>
                             </div>
                         </div>
                     </div>
@@ -114,6 +114,10 @@
             }
               
         </div>
+        @if (!String.IsNullOrEmpty(errorMsg))
+        {
+            <div class="alert alert-danger">@errorMsg</div>
+        }
 
         <div class="text-center mt-5">
            
@@ -131,24 +135,25 @@
 @code {
     private LocationValidator _locationValidator = new LocationValidator();
     private string pickupPoint = "";
+    private string errorMsg = "";
     
    
     private async Task AddLocation()
     {
         try
         {
-            SendLocationDto sendLocationDto = 
-                new SendLocationDto(_locationValidator.City, _locationValidator.Zip, _locationValidator.Street,
+            CreateLocationDto sendLocationDto = 
+                new CreateLocationDto(_locationValidator.City, _locationValidator.Zip, _locationValidator.Street,
                     _locationValidator.StreetNumber, _locationValidator.Type,_locationValidator.Name, _locationValidator.Opening_Hours.ToString("HH:mm"),
                     _locationValidator.Closing_Hours.ToString("HH:mm"));
-            Console.WriteLine(_locationValidator.Type);
             await LocationService.CreateLocation(sendLocationDto);
-            Console.WriteLine("Location created");
+            errorMsg = "";
             NavManager.NavigateTo("/SeeAllPickupPoints");
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
+            errorMsg = "Something went wrong";
         }
     }
 
@@ -172,8 +177,7 @@
     {
         try
         {
-            ChangePickUpPoint();
-            
+            _locationValidator.Type = "PickUpPoint";
         }
         catch (Exception e)
         {

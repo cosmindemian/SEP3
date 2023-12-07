@@ -20,13 +20,14 @@ namespace Client.Implementations
             _exceptionHandler = exceptionHandler;
         }
 
-        public async Task<SendLocationReturnDto> CreateLocation(SendLocationDto dto)
+        public async Task<SendLocationReturnDto> CreateLocation(CreateLocationDto dto)
         {
             HttpResponseMessage response = await client.PostAsJsonAsync("/Location", dto);
             string result = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception(result);
+                var content= await response.Content.ReadFromJsonAsync<ApiException>();
+                _exceptionHandler.Throw(content);
             }
 
             var location = JsonSerializer.Deserialize<SendLocationReturnDto>(result, new JsonSerializerOptions
@@ -43,7 +44,8 @@ namespace Client.Implementations
             string result = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception(result);
+                var content= await response.Content.ReadFromJsonAsync<ApiException>();
+                _exceptionHandler.Throw(content);
             }
             IEnumerable<GetPickUpPointDto> pickupPoints = JsonSerializer.Deserialize<IEnumerable<GetPickUpPointDto>>(result, new JsonSerializerOptions
             {

@@ -6,9 +6,11 @@ public interface ILocationServiceClient
 {
     Task<Location> GetLocationByIdAsync(long id);
 
-    Task<LocationWithAddress> SaveLocation(string type, CreatePickUpPointWithAddress pickUpPoint,
+    Task<LocationWithAddress> SavePickUpPoint(string type, CreatePickUpPointWithAddress pickUpPoint);
+    
+    Task<LocationWithAddress> SaveWarehouse(string type,
         CreateWarehouseWithAddress warehouse);
-
+    
     public Task<LocationWithAddress> GetLocationByIdWithAddressAsync(long id);
     
     public Task<LocationsWithAddress>GetAllPickUpPointsAsync();

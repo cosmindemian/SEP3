@@ -12,7 +12,35 @@ public class DtoMapper
         );
     }
 
-
+    public CreatePickUpPointWithAddress BuildCreatePickUpPointWithAddress(CreateLocationDto dto)
+    {
+        return new CreatePickUpPointWithAddress
+        {
+            Address = BuildAddress(dto),
+            Name = dto.Name,
+            OpeningHours = dto.OpeningHours,
+            ClosingHours = dto.ClosingHours
+        };
+    }
+    
+    public CreateWarehouseWithAddress BuildCreateWarehouseWithAddress(CreateLocationDto dto)
+    {
+        return new CreateWarehouseWithAddress
+        {
+            Address = BuildAddress(dto)
+        };
+    }
+    
+    public Address BuildAddress(CreateLocationDto dto)
+    {
+        return new Address
+        {
+            City = dto.City,
+            Street = dto.Street,
+            StreetNumber = dto.StreetNumber,
+            Zip = dto.Zip.ToString()
+        };
+    }
     public GetAddressDto BuildGetAddressDto(Address address)
     {
         var addressDto = new GetAddressDto

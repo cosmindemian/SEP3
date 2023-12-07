@@ -24,7 +24,7 @@ public class LocationController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles = AuthenticationEntity.Admin)]
-    public async Task<ActionResult<SendLocationReturnDto>> CreateLocationAsync(SendLocationDto dto)
+    public async Task<ActionResult<SendLocationReturnDto>> CreateLocationAsync(CreateLocationDto dto)
     {
         try
         {

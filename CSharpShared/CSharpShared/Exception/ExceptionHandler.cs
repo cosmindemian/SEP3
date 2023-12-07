@@ -10,6 +10,7 @@ public class ExceptionHandler
     public const string InternalServerType = "InternalServerError";
     public const string NotFoundType = "NotFound";
     public const string InvalidArgumentsType = "InvalidArguments";
+    public const string InvalidType = "InvalidType";
     public const string EmailNotVerifiedType = "EmailNotVerified";
     public const string LocationNotPickupPointType = "LocationNotPickupPoint";
     public const string LocationUsedType = "LocationUsed";
@@ -20,6 +21,7 @@ public class ExceptionHandler
         Console.WriteLine(exception.Data);
         return exception switch
         {
+            InvalidTypeException => new ApiException(400, InvalidType, exception.Message),
             InvalidArgumentsException => new ApiException(400, InvalidArgumentsType, exception.Message),
             EmailTakenException => new ApiException(400, EmailTakenType, exception.Message),
             LoginException => new ApiException(401, LoginType, exception.Message),

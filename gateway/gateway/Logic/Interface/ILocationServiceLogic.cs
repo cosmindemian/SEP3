@@ -4,7 +4,7 @@ namespace gateway.Model;
 
 public interface ILocationServiceLogic
 {
-    Task<SendLocationReturnDto> CreateLocation(SendLocationDto dto);
+    Task<SendLocationReturnDto> CreateLocation(CreateLocationDto dto);
     Task<IEnumerable<GetPickUpPointDto>> GetAllPickUpPointsAsync();
     Task DeletePickupPoint(long id);
 

@@ -4,11 +4,12 @@
 @using gateway.DTO
 @inject NavigationManager NavManager;
 @using Grpc.Core
+@using Authentication
 @inject ILocationService LocationService;
 <PageTitle>Send a package</PageTitle>
 <section class="container mt-4">
     <h2 class="mb-4">Pickup points</h2>
-    <AuthorizeView Roles="Admin">
+    <AuthorizeView Roles="@AuthenticationEntity.Admin">
         <button class="btn btn-outline-dark mx-2" @onclick="goToCreateLocation">Create a Location</button>
     </AuthorizeView>
     <div class="row mt-4">
@@ -28,14 +29,12 @@
                             <hr>
                             <p class="text-center">Opened every day from <b>@location.OpenTime</b>
                                 to <b>@location.CloseTime </b></p>
-                        <AuthorizeView Roles="Admin">
-                        <a  @onclick="() => deletePickupPoint(location.Id)">
-                        <div class="d-flex align-items-center deleteButton px-1">
-                                    
-                            <img src="deletePickupPoint.svg" alt="deletePickupPoint"><b>Delete</b>
-                                    
-                        </div>
-                        </a>
+                            <AuthorizeView Roles="@AuthenticationEntity.Admin">
+                                <a  @onclick="() => deletePickupPoint(location.Id)">
+                                    <div class="d-flex align-items-center deleteButton px-1">
+                                        <img src="deletePickupPoint.svg" alt="deletePickupPoint"><b>Delete</b>
+                                    </div>
+                                </a>
                             </AuthorizeView>
                         </div>
                     </div>

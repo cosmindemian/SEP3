@@ -18,68 +18,40 @@ public class LocationLogicImpl : ILocationServiceLogic
         _packageServiceClient = packageServiceClient;
     }
 
-    public async Task<SendLocationReturnDto> CreateLocation(SendLocationDto dto)
+    public async Task<SendLocationReturnDto> CreateLocation(CreateLocationDto dto)
     {
         ValidateLocation(dto);
         try
         {
-            Address address = new Address();
-            address.City = dto.City;
-            address.Zip = dto.Zip.ToString();
-            address.Street = dto.Street;
-            address.StreetNumber = dto.StreetNumber;
-
-            CreatePickUpPointWithAddress pickUpPointWithAddress= new CreatePickUpPointWithAddress();
-            CreateWarehouseWithAddress warehouseWithAddress = new CreateWarehouseWithAddress();
             switch (dto.Type)
             {
                 case "PickUpPoint":
                 {
-                    pickUpPointWithAddress.Address = address;
-                    pickUpPointWithAddress.Name = dto.Name;
-                    pickUpPointWithAddress.OpeningHours = dto.OpeningHours;
-                    pickUpPointWithAddress.ClosingHours = dto.ClosingHours;
-                    break;
+                    var pickUpPointWithAddress = _dtoMapper.BuildCreatePickUpPointWithAddress(dto);
+                    var location = await _locationServiceClient.SavePickUpPoint(dto.Type, pickUpPointWithAddress);
+                    _logger.Log($"LocationLogicImpl: CreateLocation of {dto} succeeded");
+                    return _dtoMapper.BuildSendLocationReturnDto(location);
                 }
                 case "Warehouse":
                 {
-                    warehouseWithAddress.Address = address;
-                    break;
+                    var warehouseWithAddress = _dtoMapper.BuildCreateWarehouseWithAddress(dto);
+                    var location = await _locationServiceClient.SaveWarehouse(dto.Type, warehouseWithAddress);
+                    _logger.Log($"LocationLogicImpl: CreateLocation of {dto} succeeded");
+                    return _dtoMapper.BuildSendLocationReturnDto(location);
                 }
                 default:
-                    throw new InvalidTypeException();
+                    throw new InvalidTypeException("Cannot create location with selected type");
             }
             
-            
-            
-
-            var location = await _locationServiceClient.SaveLocation(dto.Type, pickUpPointWithAddress,warehouseWithAddress);
-            _logger.Log($"LocationLogicImpl: CreateLocation of {dto} succeeded");
-            
-            
-            return _dtoMapper.BuildSendLocationReturnDto(location);
         }
         catch (Exception e)
         {
-            // if (senderCreated && senderId != 0)
-            // {
-            //     _logger.Log($"PackageLogicImpl: SendPackageAsync of {dto} error, sender created but failed to send package");
-            //     await _userServiceClient.DeleteUserAsync(senderId);
-            //     throw;
-            // }
-            //
-            // if (receiverId != 0 && receiverCreated)
-            // {
-            //     _logger.Log($"PackageLogicImpl: SendPackageAsync of {dto} error, receiver created but failed to send package");
-            //     await _userServiceClient.DeleteUserAsync(receiverId);
-            //     throw;
-            // }
             _logger.Log($"LocationLogicImpl: CreateLocation of {dto} failed");
             throw;
         }
     }
 
-    private void ValidateLocation(SendLocationDto dto)
+    private void ValidateLocation(CreateLocationDto dto)
     {
         
     }

@@ -159,9 +159,6 @@
     private string pickupPoint = "";
     private IEnumerable<GetPickUpPointDto>? locations = new List<GetPickUpPointDto>();
     private string errorMsgForPickupPoints = "";
-    private string randomString = "";
-    //private string resultMsg = "";
-    private string color = "";
     private SendPackageReturnDto packageWithAllInfo;
 
    
@@ -182,8 +179,7 @@
         catch (Exception e)
         {
             Console.WriteLine(e);
-            //resultMsg = e.Message;
-            color = "red";
+            errorMsgForPickupPoints = "Something went wrong, please try again later";
         }
     }
 

@@ -38,25 +38,22 @@ public class LocationServiceClientImpl : ILocationServiceClient
         }
     }
 
-    public async Task<LocationWithAddress> SaveLocation(string type, CreatePickUpPointWithAddress pickUpPoint, CreateWarehouseWithAddress warehouse)
+    public async Task<LocationWithAddress> SavePickUpPoint(string type, CreatePickUpPointWithAddress pickUpPoint)
     {
-        if(type== "PickUpPoint")
-        {   
-            return await _client.addLocationAsync(new CreateLocationWithAddress()
-            {
-                PickUpPoint = pickUpPoint,
-                IsPickUpPoint = true
-            });
-        }   
-        if(type== "Warehouse")
+        return await _client.addLocationAsync(new CreateLocationWithAddress()
         {
-            return await _client.addLocationAsync(new CreateLocationWithAddress()
-            {
-                Warehouse = warehouse,
-                IsPickUpPoint = false
-            });
-        }
-        throw new InvalidTypeException();
+            PickUpPoint = pickUpPoint,
+            IsPickUpPoint = true
+        });
+    }
+
+    public async Task<LocationWithAddress> SaveWarehouse(string type, CreateWarehouseWithAddress warehouse)
+    {
+        return await _client.addLocationAsync(new CreateLocationWithAddress()
+        {
+            Warehouse = warehouse,
+            IsPickUpPoint = false
+        });
     }
 
     public async Task<LocationWithAddress> GetLocationByIdWithAddressAsync(long id)
