@@ -3,8 +3,12 @@
 @using CSharpShared.Exception
 @using gateway.DTO
 @inject NavigationManager NavManager;
+@using DotnetFrontend.Components
+@inherits LayoutComponentBase
+@inject ProtectedSessionStorage protectedSessionStorage
 @using Grpc.Core
 @using Authentication
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @inject ILocationService LocationService;
 <PageTitle>Send a package</PageTitle>
 <section class="container mt-4">
@@ -21,24 +25,13 @@
         {
             foreach (GetPickUpPointDto location in locations)
             {
-                <div class="col-md-4 mb-4 ">
-                    <div class="window">
-                        <img src="location.svg" class="card-img" height="150" alt="forest">
-                        <div class="card-body">
-                            <h5 class="card-title text-center">@location.Address.City @location.Address.Street @location.Address.BuildingNumber</h5>
-                            <hr>
-                            <p class="text-center">Opened every day from <b>@location.OpenTime</b>
-                                to <b>@location.CloseTime </b></p>
-                            <AuthorizeView Roles="@AuthenticationEntity.Admin">
-                                <a  @onclick="() => deletePickupPoint(location.Id)">
-                                    <div class="d-flex align-items-center deleteButton px-1">
-                                        <img src="deletePickupPoint.svg" alt="deletePickupPoint"><b>Delete</b>
-                                    </div>
-                                </a>
-                            </AuthorizeView>
-                        </div>
-                    </div>
-                </div>
+                var locationAddress =   location.Address.City + " "+ location.Address.Street +" "+ location.Address.BuildingNumber;
+                var openingHours = "Opened every day from "+location.OpenTime +" to " +location.CloseTime;
+                <CardComponentForPickupPoints CardPicture="location.svg" CardTitle="@locationAddress" CardDescription="@openingHours" CardSubTitle="@location.Name"
+                                                                  CardButtonMethod="@(() => deletePickupPoint(location.Id))" CardButtonText="Delete">
+                    
+                                       
+                </CardComponentForPickupPoints>
             }  
         }
           @if (!String.IsNullOrEmpty(_error))
@@ -48,25 +41,6 @@
     </div>
 </section>
 <style>
-    .window{
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-    .deleteButton{
-    background-color: 	rgba(102, 206, 232, 0.65);
-    border-radius: 20px;
-    width: 90px;
-    }
-    .deleteButton:hover{
-    background-color: rgba(53, 124, 193, 0.78);
-    cursor: pointer;
-    
-    }
-    
   
     
 </style>
@@ -101,9 +75,14 @@
 
     private async void deletePickupPoint(long id)
     {
+        var globalContext = (await protectedSessionStorage.GetAsync<GlobalContext>("globalContext")).Value;
+        if (globalContext == null || globalContext.UserContext == null)
+        {
+            throw new Exception("Global context is null");
+        }
         try
         {
-            await LocationService.DeletePickupPoint(id);
+            await LocationService.DeletePickupPoint(id, globalContext.Jwt);
             locations = locations.Where(location => location.Id != id);
         }
         catch (LocationUsedException e)

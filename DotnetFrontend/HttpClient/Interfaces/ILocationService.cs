@@ -9,6 +9,6 @@ namespace Client.Interfaces
     {
         Task<SendLocationReturnDto> CreateLocation(CreateLocationDto dto);
         Task<IEnumerable<GetPickUpPointDto>> GetAllPickupPoints();
-        Task DeletePickupPoint(long id);
+        Task DeletePickupPoint(long id, string token);
     }
 }
