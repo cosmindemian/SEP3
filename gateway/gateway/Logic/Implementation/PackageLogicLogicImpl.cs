@@ -10,7 +10,7 @@ using RpcClient.RpcClient.Interface;
 
 namespace gateway.Model.Implementation;
 
-public class PackageLogicImpl : IPackage
+public class PackageLogicLogicImpl : IPackageLogic
 {
     private readonly IPackageServiceClient _packageServiceClient;
     private readonly ILocationServiceClient _locationServiceClient;
@@ -20,7 +20,7 @@ public class PackageLogicImpl : IPackage
 
     private readonly Logger.Logger _logger = Logger.Logger.Instance;
 
-    public PackageLogicImpl(IPackageServiceClient packageServiceClient,
+    public PackageLogicLogicImpl(IPackageServiceClient packageServiceClient,
         ILocationServiceClient locationServiceClient, IUserServiceClient userServiceClient, DtoMapper dtoMapper,
         IMessagingLogic messagingLogic)
     {
@@ -66,11 +66,11 @@ public class PackageLogicImpl : IPackage
         if (package == null)
         {
             _logger.Log(
-                $"PackageLogicImpl: GetPackageByTrackingNumberAsync of {trackingNumber} failed, package not found");
+                $"PackageLogicLogicImpl: GetPackageByTrackingNumberAsync of {trackingNumber} failed, package not found");
             throw new NotFoundException($"Package with id {trackingNumber} not found");
         }
 
-        _logger.Log($"PackageLogicImpl: GetPackageByTrackingNumberAsync of {trackingNumber} successful");
+        _logger.Log($"PackageLogicLogicImpl: GetPackageByTrackingNumberAsync of {trackingNumber} successful");
         return _dtoMapper.BuildGetPackageDto(package, currentLocation, finalLocation, sender.Name, receiver.Name);
     }
 
@@ -88,7 +88,7 @@ public class PackageLogicImpl : IPackage
             ReceivedPackages = receivedPackets.Select(_dtoMapper.BuildGetShortPackageDto),
             SendPackages = sentPackets.Select(_dtoMapper.BuildGetShortPackageDto)
         };
-        _logger.Log($"PackageLogicImpl: GetPackagesByUserAsync of {email} successful");
+        _logger.Log($"PackageLogicLogicImpl: GetPackagesByUserAsync of {email} successful");
         return dto;
     }
 
@@ -116,7 +116,7 @@ public class PackageLogicImpl : IPackage
 
             if (senderId == 0 || receiverId == 0)
             {
-                _logger.Log($"PackageLogicImpl: SendPackageAsync of {dto} failed, sender or receiver id set to 0");
+                _logger.Log($"PackageLogicLogicImpl: SendPackageAsync of {dto} failed, sender or receiver id set to 0");
                 throw new Exception("sending package failed the sender or receiver id set to 0");
             }
 
@@ -125,13 +125,13 @@ public class PackageLogicImpl : IPackage
             if (!finalLocation.IsPickUpPoint)
             {
                 _logger.Log(
-                    $"PackageLogicImpl: SendPackageAsync of {dto} failed, final location is not a pick up point");
+                    $"PackageLogicLogicImpl: SendPackageAsync of {dto} failed, final location is not a pick up point");
                 throw new InvalidArgumentsException("Final location is not a pick up point");
             }
 
             var packet = await _packageServiceClient.SendPacketAsync(receiverId, senderId, dto.TypeId,
                 finalLocation.PickUpPoint.Id);
-            _logger.Log($"PackageLogicImpl: SendPackageAsync of {dto} successful");
+            _logger.Log($"PackageLogicLogicImpl: SendPackageAsync of {dto} successful");
 
             //Publish message into rabbit mq
             _messagingLogic.PublishPackageSentNotification(receiverRequest.Result.User.Email,
@@ -146,7 +146,7 @@ public class PackageLogicImpl : IPackage
             if (senderCreated && senderId != 0)
             {
                 _logger.Log(
-                    $"PackageLogicImpl: SendPackageAsync of {dto} error, sender created but failed to send package");
+                    $"PackageLogicLogicImpl: SendPackageAsync of {dto} error, sender created but failed to send package");
                 await _userServiceClient.DeleteUserAsync(senderId);
                 throw;
             }
@@ -154,12 +154,12 @@ public class PackageLogicImpl : IPackage
             if (receiverId != 0 && receiverCreated)
             {
                 _logger.Log(
-                    $"PackageLogicImpl: SendPackageAsync of {dto} error, receiver created but failed to send package");
+                    $"PackageLogicLogicImpl: SendPackageAsync of {dto} error, receiver created but failed to send package");
                 await _userServiceClient.DeleteUserAsync(receiverId);
                 throw;
             }
 
-            _logger.Log($"PackageLogicImpl: SendPackageAsync of {dto} failed");
+            _logger.Log($"PackageLogicLogicImpl: SendPackageAsync of {dto} failed");
             throw;
         }
     }
@@ -170,11 +170,11 @@ public class PackageLogicImpl : IPackage
            if (location.IsPickUpPoint)
            {
                 await _packageServiceClient.UpdatePacketLocationAsync(packageId, locationId, userId);
-                _logger.Log($"PackageLogicImpl: UpdatePackageLocationAsync of {packageId} successful");   
+                _logger.Log($"PackageLogicLogicImpl: UpdatePackageLocationAsync of {packageId} successful");   
            }
            else
            {
-               _logger.Log($"PackageLogicImpl: UpdatePackageLocationAsync of {packageId} failed, location is not a pick up point");
+               _logger.Log($"PackageLogicLogicImpl: UpdatePackageLocationAsync of {packageId} failed, location is not a pick up point");
                throw new InvalidArgumentsException("Location is not a pick up point");
            }
     }
@@ -183,28 +183,28 @@ public class PackageLogicImpl : IPackage
     {
         if (dto.FinalLocationId == 0)
         {
-            _logger.Log($"PackageLogicImpl: SendPackageAsync of {dto} failed, final location not found");
+            _logger.Log($"PackageLogicLogicImpl: SendPackageAsync of {dto} failed, final location not found");
             throw new NotFoundException("Final location not found");
         }
 
         if (dto.Receiver == null)
         {
-            _logger.Log($"PackageLogicImpl: SendPackageAsync of {dto} failed, receiver not found");
+            _logger.Log($"PackageLogicLogicImpl: SendPackageAsync of {dto} failed, receiver not found");
             throw new NotFoundException("Receiver not found");
         }
 
         if (dto.Sender == null)
         {
-            _logger.Log($"PackageLogicImpl: SendPackageAsync of {dto} failed, sender is null and not registered");
+            _logger.Log($"PackageLogicLogicImpl: SendPackageAsync of {dto} failed, sender is null and not registered");
             throw new NotFoundException("Sender is null and sender is not registered");
         }
 
         if (dto.TypeId == 0)
         {
-            _logger.Log($"PackageLogicImpl: SendPackageAsync of {dto} failed, type not found");
+            _logger.Log($"PackageLogicLogicImpl: SendPackageAsync of {dto} failed, type not found");
             throw new NotFoundException("Type not found");
         }
 
-        _logger.Log($"PackageLogicImpl: ValidatePackage of {dto} successful");
+        _logger.Log($"PackageLogicLogicImpl: ValidatePackage of {dto} successful");
     }
 }

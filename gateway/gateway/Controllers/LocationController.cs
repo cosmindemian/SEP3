@@ -12,13 +12,13 @@ namespace gateway.Controllers;
 [Route("[controller]")]
 public class LocationController : ControllerBase
 {
-    private readonly ILocationServiceLogic _locationServiceLogic;
+    private readonly ILocationLogic _locationLogic;
     private readonly ExceptionHandler _exceptionHandler;
     private readonly Logger.Logger _logger = Logger.Logger.Instance;
 
-    public LocationController(ILocationServiceLogic locationServiceLogic, ExceptionHandler exceptionHandler)
+    public LocationController(ILocationLogic locationLogic, ExceptionHandler exceptionHandler)
     {
-        _locationServiceLogic = locationServiceLogic;
+        _locationLogic = locationLogic;
         _exceptionHandler = exceptionHandler;
     }
 
@@ -28,7 +28,7 @@ public class LocationController : ControllerBase
     {
         try
         {
-            var returnDto = await _locationServiceLogic.CreateLocation(dto);
+            var returnDto = await _locationLogic.CreateLocation(dto);
             _logger.Log($"LocationController: SendLocationAsync of {dto} successful");
             return Ok(returnDto);
         }
@@ -45,7 +45,7 @@ public class LocationController : ControllerBase
     {
         try
         {
-            var locations = await _locationServiceLogic.GetAllPickUpPointsAsync();
+            var locations = await _locationLogic.GetAllPickUpPointsAsync();
             _logger.Log($"LocationController: GetAllPickUpPointsAsync successful");
             return Ok(locations);
         }
@@ -62,7 +62,7 @@ public async Task<ActionResult> DeletePickupPointAsync(long id)
     {
         try
         {
-            await _locationServiceLogic.DeletePickupPoint(id);
+            await _locationLogic.DeletePickupPoint(id);
                 _logger.Log($"LocationController: DeletePickupPoint delete location with id  {id} was called");
                 return Ok();
             

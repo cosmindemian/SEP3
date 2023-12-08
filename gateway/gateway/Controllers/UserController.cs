@@ -10,14 +10,14 @@ namespace gateway.Controllers;
 [Route("[controller]")]
 public class UserController : ControllerBase
 {
-    private readonly IUser _userLogic;
+    private readonly IUserLogic _userLogicLogic;
     private readonly DtoMapper _dtoMapper;
     private readonly Logger.Logger _logger = Logger.Logger.Instance;
     private readonly ExceptionHandler _exceptionHandler;
 
-    public UserController(IUser userLogic, DtoMapper dtoMapper)
+    public UserController(IUserLogic userLogicLogic, DtoMapper dtoMapper)
     {
-        _userLogic = userLogic;
+        _userLogicLogic = userLogicLogic;
         _dtoMapper = dtoMapper;
     }
 
@@ -27,7 +27,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            await _userLogic.UpdateUserAsync(dto);
+            await _userLogicLogic.UpdateUserAsync(dto);
             _logger.Log($"PackageController: UpdatePackageLocationAsync of {dto} successful");
             return Ok();
         }
@@ -45,7 +45,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            var user = await userLogic.GetUserByIdAsync(id);
+            var user = await userLogicLogic.GetUserByIdAsync(id);
             GetUserDto dto = _dtoMapper.GetUserDto(user);
             return Ok(dto);
         }

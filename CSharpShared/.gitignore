@@ -7,3 +7,5 @@ c_proto/bin
 c_proto/obj
 c_proto/c_proto/obj
 c_proto/c_proto/.idea
+CSharpProto/bin
+CSharpProto/obj

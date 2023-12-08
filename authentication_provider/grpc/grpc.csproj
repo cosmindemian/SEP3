@@ -14,7 +14,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\CSharpShared\CSharpShared\CSharpShared.csproj" />
-        <ProjectReference Include="..\..\CSharpShared\c_proto\c_proto.csproj" />
+        <ProjectReference Include="..\..\CSharpShared\CSharpProto\CSharpProto.csproj" />
         <ProjectReference Include="..\Authentication\Authentication.csproj" />
         <ProjectReference Include="..\persistence\persistence.csproj"/>
     </ItemGroup>
