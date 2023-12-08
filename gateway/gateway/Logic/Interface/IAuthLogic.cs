@@ -2,7 +2,7 @@
 
 namespace gateway.Model;
 
-public interface IAuth
+public interface IAuthLogic
 {
     Task<TokenDto> LoginAsync(LoginDto loginDto);
     Task RegisterAsync(RegisterDto registerDto);

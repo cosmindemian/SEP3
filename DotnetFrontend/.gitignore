@@ -9,7 +9,7 @@ DotnetFrontend/Validators/obj
 /Domain/bin/
 /Domain/obj/
 /packages/
-/RabbitMqClient/bin/
-RabbitMqClient/obj/
-/RabbitMqClient/.idea
+/RabbitMqConsumer/bin/
+RabbitMqConsumer/obj/
+/RabbitMqConsumer/.idea
 .idea

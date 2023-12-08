@@ -21,9 +21,9 @@ public class UserTest
         _userTestClient = new UserServiceTestClient();
         _authServiceTestClient = new AuthServiceTestClient();
         DtoMapper dtoMapper = new();
-        AuthLogicImpl authLogicImpl = new AuthLogicImpl(_authServiceTestClient, _userTestClient, dtoMapper,
+        AuthLogicLogicImpl authLogicLogicImpl = new AuthLogicLogicImpl(_authServiceTestClient, _userTestClient, dtoMapper,
             new MessagingLogicImpl(new RabbitMqPublisher(), new AuthenticationServiceClientImpl()));
-        _authController = new(authLogicImpl, new ExceptionHandler());
+        _authController = new(authLogicLogicImpl, new ExceptionHandler());
     }
 
     [Fact]

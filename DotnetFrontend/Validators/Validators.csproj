@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\CSharpShared\CSharpShared\CSharpShared.csproj" />
+      
     </ItemGroup>
     
 </Project>

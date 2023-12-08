@@ -20,18 +20,18 @@ public class PackageTest
     public IPackageServiceClient PackageClient = new PackageServiceClientImpl();
     public ILocationServiceClient LocationsClient = new LocationServiceClientImpl();
     public IUserServiceClient UserClient = new UserServiceClientImpl();
-    public PackageLogicImpl WorkingPackageLogic;
+    public PackageLogicLogicImpl WorkingPackageLogicLogic;
 
     public PackageTest()
     {
-        WorkingPackageLogic = new(PackageClient, LocationsClient, UserClient, new DtoMapper(),
+        WorkingPackageLogicLogic = new(PackageClient, LocationsClient, UserClient, new DtoMapper(),
             new MessagingLogicImpl(new RabbitMqPublisher(), new AuthenticationServiceClientImpl()));
     }
 
     [Fact]
     public async void GetPackageByTrackingNumber()
     {
-        PackageController packageController = new(WorkingPackageLogic, new ExceptionHandler());
+        PackageController packageController = new(WorkingPackageLogicLogic, new ExceptionHandler());
         var result = await packageController.GetByTrackingNumberAsync("1234");
         Assert.True(result.Result is OkObjectResult);
         OkObjectResult okResult = (OkObjectResult)result.Result;

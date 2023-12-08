@@ -9,7 +9,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\CSharpShared\CSharpShared\CSharpShared.csproj" />
       <ProjectReference Include="..\HttpClient\HttpClient.csproj" />
-      <ProjectReference Include="..\RabbitMqClient\RabbitMqClient.csproj" />
+      <ProjectReference Include="..\RabbitMqConsumer\RabbitMqConsumer.csproj" />
     </ItemGroup>
 
 

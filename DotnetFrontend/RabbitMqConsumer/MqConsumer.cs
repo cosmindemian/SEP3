@@ -6,7 +6,7 @@ using RabbitMQ.Client.Events;
 
 namespace RabbitMqClient;
 
-public class MqClient
+public class MqConsumer
 {
     private bool _running = false;
     private long _userId = 0;
