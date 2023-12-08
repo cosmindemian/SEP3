@@ -2,9 +2,11 @@
 @using Client.Interfaces
 @using gateway.DTO
 @using System.Collections.Specialized
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @inject IPackageService PackageService;
 @inject NavigationManager NavigationManager
 @inject ILocationService LocationService;
+@inject ProtectedSessionStorage protectedSessionStorage;
 
 <PageTitle>See package information</PageTitle>
 
@@ -67,32 +69,47 @@
                 }
                 else
                 {
-                    <td>@package.CurrentLocation.Address.City</td>
+                    <td>@package.CurrentLocation.Address.City @package.CurrentLocation.Address.Street @package.CurrentLocation.Address.BuildingNumber</td>
                 }
 
 
             </tr>
             <tr>
-                <th scope="row">Final destination</th>
-                <td>@package.FinalDestination.Address.City</td>
-                <div class="mb-3">
-                    <label class="form-label">Destination pickup point</label>
-                    <select class="form-select" @bind="pickupPoint">
-                        @if (locations != null)
+                <AuthorizeView>
+                    <NotAuthorized>
+                        <th scope="row">Final destination</th>
+                        <td>@package.FinalDestination.Address.City @package.FinalDestination.Address.Street @package.FinalDestination.Address.BuildingNumber</td>
+                    </NotAuthorized>
+                    <Authorized>
+                        <th scope="row">Final destination</th>
+                        @if (package.CurrentLocation == null)
                         {
-                            @foreach (var pickupPoint in locations)
-                            {
-                                <option value="@pickupPoint.Id">@pickupPoint.Address.City @pickupPoint.Address.Street @pickupPoint.Address.BuildingNumber</option>
-                            }
-                             <option value = @package.FinalDestination.Address selected=""></option>
+                            <td>
+                            <select class="form-select" @bind="pickupPointId" @bind:event="oninput" @bind:after="UpdateFinalLocation">
+                                    @if (locations != null)
+                                    {
+                                        
+                                            @foreach (var pickupPoint in locations)
+                                            {
+                                                <option value="@pickupPoint.Id">@pickupPoint.Address.City @pickupPoint.Address.Street @pickupPoint.Address.BuildingNumber</option>
+                                            }
+                                        
+                                    }
+                                </select>
+                                @if (locations == null)
+                                {
+                                    errorMsgForPickupPoints = "No pickup points were found";
+                                    <pickupPoint>@errorMsgForPickupPoints</pickupPoint>
+                                }
+                            </td>
                         }
-                    </select>
-                    @if (locations == null)
-                    {
-                        errorMsgForPickupPoints = "No pickup points were found";
-                        <pickupPoint>@errorMsgForPickupPoints</pickupPoint>
-                    }
-                </div>
+                        else
+                        {
+                            <td>@package.FinalDestination.Address.City @package.FinalDestination.Address.Street @package.FinalDestination.Address.BuildingNumber</td>
+                        }
+                    </Authorized>
+                </AuthorizeView>
+
 
             </tr>
             </tbody>
@@ -105,13 +122,13 @@
     private string pickupPoint = "";
     private IEnumerable<GetPickUpPointDto>? locations = new List<GetPickUpPointDto>();
     private string errorMsgForPickupPoints = "";
-    private SendPackageReturnDto packageWithAllInfo;
     private string? packageNumber;
     private string errorLabel = "";
     bool packageInfoValid;
     private GetPackageDto package;
     private string user;
-
+    private GlobalContext globalContext;
+    private long pickupPointId;
 
     private async Task ShowPackageInfo()
     {
@@ -119,6 +136,13 @@
         try
         {
             package = await PackageService.GetPackageByTrackingNumberAsync(packageNumber);
+            foreach (var pickupPoint in locations)
+            {
+                if (pickupPoint.Address.Id == package.FinalDestination.Address.Id)
+                {
+                    pickupPointId = pickupPoint.Id;
+                }
+            }
             packageInfoValid = true;
             errorLabel = "";
         }
@@ -127,20 +151,44 @@
             errorLabel = "There is no package with this tracking number: " + packageNumber;
         }
     }
+    
+    private async Task UpdateFinalLocation()
+    {
+        Console.WriteLine(pickupPointId);
+        var dto = new UpdateFinalLocationDto()
+        {
+            PackageId = package.Id,
+            LocationId = pickupPointId
+        };
+        try
+        {
+            await PackageService.UpdateFinalLocation(dto, globalContext.Jwt);
+        }
+        catch (Exception e)
+        {
+            errorLabel = "Couldn't update: " + packageNumber;
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
+        
         locations = await LocationService.GetAllPickupPoints();
         string currentUrl = NavigationManager.Uri;
         Uri uri = new Uri(currentUrl);
         string query = uri.Query;
         NameValueCollection queryParameters = System.Web.HttpUtility.ParseQueryString(query);
         packageNumber = queryParameters.Get("package");
+        globalContext = (await protectedSessionStorage.GetAsync<GlobalContext>("globalContext")).Value;
+        
         if (packageNumber != null)
         {
             await ShowPackageInfo();
+            pickupPoint = package.FinalDestination.Address.Id.ToString();
         }
     }
+    
+    
 
 
 }

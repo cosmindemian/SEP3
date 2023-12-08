@@ -45,6 +45,7 @@ public class DtoMapper
     {
         var addressDto = new GetAddressDto
         {
+            Id = address.Id,
             City = address.City,
             Street = address.Street,
             BuildingNumber = address.StreetNumber

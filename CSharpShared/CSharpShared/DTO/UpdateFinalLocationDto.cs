@@ -10,4 +10,8 @@ public class UpdateFinalLocationDto
         PackageId = packageId;
         LocationId = locationId;
     }
+
+    public UpdateFinalLocationDto()
+    {
+    }
 }

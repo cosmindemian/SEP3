@@ -1,9 +1,11 @@
 ﻿
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text;
 using Client.Interfaces;
 using System.Text.Json;
 using gateway.DTO;
+using Google.Protobuf.WellKnownTypes;
 
 namespace Client.Implementations
 {
@@ -67,6 +69,23 @@ namespace Client.Implementations
                     PropertyNameCaseInsensitive = true
                 });
                 return packages;
+            }
+
+            public async Task UpdateFinalLocation(UpdateFinalLocationDto dto, string token)
+            {
+                string uri = "/Package/update_location";
+                var request = new HttpRequestMessage(HttpMethod.Put, uri);
+                request.Headers.Add("Bearer", new []{token});
+                request.Content = new StringContent(JsonSerializer.Serialize(dto), Encoding.UTF8, "application/json");
+                
+                HttpResponseMessage response = await client.SendAsync(request);
+                
+                string result = await response.Content.ReadAsStringAsync();
+                
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception(result);
+                }
             }
     }
 }
