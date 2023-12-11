@@ -4,7 +4,7 @@ using gateway.RpcClient.Interface;
 
 namespace gateway.Model.Implementation;
 
-public class LocationLogicImpl : ILocationLogic
+public class LocationLogicImpl : ILocationServiceLogic
 {
     private readonly ILocationServiceClient _locationServiceClient;
     private readonly IPackageServiceClient _packageServiceClient;

@@ -29,7 +29,7 @@
 
 @code {
     public bool NewNotification { get; set; } = false;
-    public MqConsumer MqConsumer { get; set; } = new();
+    public MqClient MqClient { get; set; } = new();
     private bool _showNotification = false;
     CancellationTokenSource messageConsumerCancellationToken = new();
     public List<string> Notifications { get; set; } = new();
@@ -37,13 +37,13 @@
     {
         if (firstRender)
         {
-            MqConsumer.MessageReceived += receiveMessage;
+            MqClient.MessageReceived += receiveMessage;
         }
         var state = await AuthProvider.GetAuthenticationStateAsync();
         if (state.User.Identity != null && state.User.Identity.IsAuthenticated)
         {
             ;
-            await MqConsumer.Setup(messageConsumerCancellationToken.Token,
+            await MqClient.Setup(messageConsumerCancellationToken.Token,
                 long.Parse(state.User.Claims.First(claim => claim.Type == AuthenticationEntity.UserIdClaim).Value));
         }
     }
@@ -63,7 +63,7 @@
     public void Dispose()
     {
         messageConsumerCancellationToken.Cancel();
-        MqConsumer.MessageReceived -= receiveMessage;
+        MqClient.MessageReceived -= receiveMessage;
     }
 
     public void OnClick()

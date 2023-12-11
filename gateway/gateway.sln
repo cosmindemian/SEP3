@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication", "..\authen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpShared", "..\CSharpShared\CSharpShared\CSharpShared.csproj", "{5B686A78-67BD-446C-8D63-B1F78ED171D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpProto", "..\CSharpShared\CSharpProto\CSharpProto.csproj", "{555A2D50-036D-4F35-AB45-57558E354D51}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "c_proto", "..\CSharpShared\c_proto\c_proto.csproj", "{555A2D50-036D-4F35-AB45-57558E354D51}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GatewayTest", "GatewayTest\GatewayTest.csproj", "{CD2C3F42-7AD7-4136-90A3-DE6E106872C3}"
 EndProject

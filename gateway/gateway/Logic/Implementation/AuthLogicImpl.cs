@@ -8,7 +8,7 @@ using RpcClient.RpcClient.Interface;
 
 namespace gateway.Model.Implementation;
 
-public class AuthLogicLogicImpl : IAuthLogic
+public class AuthLogicImpl : IAuth
 {
     private readonly IAuthenticationServiceClient _authServiceClient;
     private readonly IUserServiceClient _userServiceClient;
@@ -16,7 +16,7 @@ public class AuthLogicLogicImpl : IAuthLogic
     private readonly Logger.Logger _logger = Logger.Logger.Instance;
     private readonly IMessagingLogic _messagingLogic;
 
-    public AuthLogicLogicImpl(IAuthenticationServiceClient authServiceClient, IUserServiceClient userServiceClient,
+    public AuthLogicImpl(IAuthenticationServiceClient authServiceClient, IUserServiceClient userServiceClient,
         DtoMapper dtoMapper, IMessagingLogic mqPublisher)
     {
         _authServiceClient = authServiceClient;
@@ -31,17 +31,17 @@ public class AuthLogicLogicImpl : IAuthLogic
         {
             var token = await _authServiceClient.LoginAsync(loginDto.email, loginDto.password);
             var user = await _userServiceClient.GetUserByIdAsync(AuthenticationEntity.ParseToken(token.Token).UserId);
-            _logger.Log($"AuthLogicLogicImpl: Login of {loginDto} successful");
+            _logger.Log($"AuthLogicImpl: Login of {loginDto} successful");
             return _dtoMapper.BuildTokenDto(token, user);
         }
         catch (RpcException e)
         {
             if (e.StatusCode == StatusCode.Unauthenticated)
             {
-                _logger.Log($"AuthLogicLogicImpl: Login of {loginDto} failed, invalid credentials");
+                _logger.Log($"AuthLogicImpl: Login of {loginDto} failed, invalid credentials");
                 throw new LoginException("Invalid credentials");
             }
-            _logger.Log($"AuthLogicLogicImpl: Login of {loginDto} failed");
+            _logger.Log($"AuthLogicImpl: Login of {loginDto} failed");
             throw;
         }
     }
@@ -53,7 +53,7 @@ public class AuthLogicLogicImpl : IAuthLogic
         try
         {
             await _authServiceClient.RegisterAsync(registerDto.email, registerDto.password, user.User.Id);
-            _logger.Log($"AuthLogicLogicImpl: Registration of {registerDto} successful");
+            _logger.Log($"AuthLogicImpl: Registration of {registerDto} successful");
         }
         catch (Exception e)
         {
@@ -61,7 +61,7 @@ public class AuthLogicLogicImpl : IAuthLogic
             {
                 _userServiceClient.DeleteUserAsync(user.User.Id);
             }
-            _logger.Log($"AuthLogicLogicImpl: Registration of {registerDto} failed");
+            _logger.Log($"AuthLogicImpl: Registration of {registerDto} failed");
             throw;
         }
 
@@ -71,7 +71,7 @@ public class AuthLogicLogicImpl : IAuthLogic
         }
         catch (Exception e)
         {
-            _logger.Log($"AuthLogicLogicImpl: Registration of {registerDto} failed");
+            _logger.Log($"AuthLogicImpl: Registration of {registerDto} failed");
         }
     }
 

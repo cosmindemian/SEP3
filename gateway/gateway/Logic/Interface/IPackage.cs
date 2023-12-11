@@ -3,7 +3,7 @@ using Google.Protobuf.WellKnownTypes;
 
 namespace gateway.Model;
 
-public interface IPackageLogic
+public interface IPackage
 {
     Task<GetPackageDto> GetPackageByTrackingNumberAsync(string trackingNumber);
     

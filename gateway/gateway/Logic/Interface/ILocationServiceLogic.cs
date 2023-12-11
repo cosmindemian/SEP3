@@ -2,7 +2,7 @@ using gateway.DTO;
 
 namespace gateway.Model;
 
-public interface ILocationLogic
+public interface ILocationServiceLogic
 {
     Task<SendLocationReturnDto> CreateLocation(CreateLocationDto dto);
     Task<IEnumerable<GetPickUpPointDto>> GetAllPickUpPointsAsync();

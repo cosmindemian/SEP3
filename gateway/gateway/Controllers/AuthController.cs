@@ -9,13 +9,13 @@ namespace gateway.Controllers;
 [Route("[controller]")]
 public class AuthController: ControllerBase
 {
-    private readonly IAuthLogic _authLogicLogic;
+    private readonly IAuth authLogic;
     private readonly ExceptionHandler _exceptionHandler;
     private readonly Logger.Logger _logger= Logger.Logger.Instance;
 
-    public AuthController(IAuthLogic authLogicLogic, ExceptionHandler exceptionHandler)
+    public AuthController(IAuth authLogic, ExceptionHandler exceptionHandler)
     {
-        this._authLogicLogic = authLogicLogic;
+        this.authLogic = authLogic;
         _exceptionHandler = exceptionHandler;
     }
 
@@ -25,7 +25,7 @@ public class AuthController: ControllerBase
     {
         try
         {
-            var dto = await _authLogicLogic.LoginAsync(userLoginDto);
+            var dto = await authLogic.LoginAsync(userLoginDto);
             _logger.Log($"AuthController: Login of {userLoginDto} successful");
             return Ok(dto);
         }
@@ -41,7 +41,7 @@ public class AuthController: ControllerBase
     {
         try
         {
-            await _authLogicLogic.RegisterAsync(userRegisterDto);
+            await authLogic.RegisterAsync(userRegisterDto);
             _logger.Log($"AuthController: Registration of {userRegisterDto} successful");
             return Ok();
         }
@@ -57,7 +57,7 @@ public class AuthController: ControllerBase
     {
         try 
         {
-            await _authLogicLogic.VerifyEmailAsync(dto);
+            await authLogic.VerifyEmailAsync(dto);
             _logger.Log($"AuthController: Email verification of {dto} successful");
             return Ok();
         }

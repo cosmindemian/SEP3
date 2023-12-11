@@ -13,13 +13,13 @@ namespace gateway.Controllers;
 [Route("[controller]")]
 public class PackageController : ControllerBase
 {
-    private readonly IPackageLogic _packageLogicLogic;
+    private readonly IPackage _packageLogic;
     private readonly ExceptionHandler _exceptionHandler;
     private readonly Logger.Logger _logger = Logger.Logger.Instance;
-    public PackageController(IPackageLogic packageLogicLogic, ExceptionHandler exceptionHandler)
+    public PackageController(IPackage packageLogic, ExceptionHandler exceptionHandler)
     {
         _exceptionHandler = exceptionHandler;
-        this._packageLogicLogic = packageLogicLogic;
+        this._packageLogic = packageLogic;
     }
 
     [HttpGet("{trackingNumber}")]
@@ -27,7 +27,7 @@ public class PackageController : ControllerBase
     {
         try
         {
-            var package = await _packageLogicLogic.GetPackageByTrackingNumberAsync(trackingNumber);
+            var package = await _packageLogic.GetPackageByTrackingNumberAsync(trackingNumber);
             _logger.Log($"PackageController: GetByTrackingNumberAsync of {trackingNumber} successful");
             return Ok(package);
         }
@@ -45,7 +45,7 @@ public class PackageController : ControllerBase
         try
         {
             var email = User.Claims.First(c => c.Type == ClaimTypes.Email).Value;
-            var packages = await _packageLogicLogic.GetPackagesByUserAsync(email);
+            var packages = await _packageLogic.GetPackagesByUserAsync(email);
             _logger.Log($"PackageController: GetAllPackagesOfUser of {email} successful");
             return Ok(packages);
         }
@@ -61,7 +61,7 @@ public class PackageController : ControllerBase
     {
         try
         {
-            var returnDto = await _packageLogicLogic.SendPackageAsync(dto);
+            var returnDto = await _packageLogic.SendPackageAsync(dto);
             _logger.Log($"PackageController: SendPackageAsync of {dto} successful");
             return Ok(returnDto);
         }
@@ -80,7 +80,7 @@ public class PackageController : ControllerBase
         try
         {
             var userId = long.Parse(User.Claims.First(c => c.Type == "UserId").Value);
-            await _packageLogicLogic.UpdatePackageLocationAsync(dto.PackageId, dto.LocationId, userId);
+            await _packageLogic.UpdatePackageLocationAsync(dto.PackageId, dto.LocationId, userId);
             _logger.Log($"PackageController: UpdatePackageLocationAsync of {dto} successful");
             return Ok();
         }

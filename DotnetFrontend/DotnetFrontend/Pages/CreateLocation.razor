@@ -5,10 +5,11 @@
 @using gateway.DTO
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using Validators.LocationValidation
+@using Validators.packageValidation
 @inject IPackageService PackageService;
 @inject ILocationService LocationService;
 @inject ProtectedSessionStorage protectedSessionStorage
-<PageTitle>Create Location</PageTitle>
+<PageTitle>Send a package</PageTitle>
 
 <h1 class="text-center fw-bold text-uppercase">CREATE a new Location</h1>
 
@@ -120,7 +121,7 @@
 
         <div class="text-center mt-5">
            
-            <button type="submit" class="btn btn-primary" >Create location</button>
+            <button type="submit" class="btn btn-primary" >Send a package</button>
         </div>
        
     </div>
