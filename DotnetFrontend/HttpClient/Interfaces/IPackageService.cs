@@ -9,5 +9,6 @@ namespace Client.Interfaces
         Task<GetPackageDto> GetPackageByTrackingNumberAsync(string trackingNumber);
         Task<SendPackageReturnDto> CreatePackage(SendPackageDto dto);
         Task<GetAllPackagesByUserDto> GetAllPackagesByUserId(string token);
+        Task UpdateFinalLocation(UpdateFinalLocationDto dto, string token);
     }
 }

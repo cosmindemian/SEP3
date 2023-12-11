@@ -14,7 +14,7 @@ public class EmailLogicImpl
         var toMail = new MailAddress(recipientEmail);
 
         var fromEmail = new MailAddress("cheekyprimateverify@gmail.com");
-            var fromEmailPassword = " ";
+            var fromEmailPassword = "hlyx xnpy vlny kfpf\n";
 
         string subject = "Your account is successfully created";
         string body = "<br/><br/>We are excited to tell you that your account is" +
