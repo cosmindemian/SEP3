@@ -3,13 +3,13 @@ using RpcClient.RpcClient.Interface;
 
 namespace gateway.Model.Implementation;
 
-public class UserLogicLogicImpl : IUserLogic
+public class UserLogicImpl : IUserLogic
 {
     private readonly IUserServiceClient _userServiceClient;
     private readonly DtoMapper _dtoMapper;
     private readonly Logger.Logger _logger = Logger.Logger.Instance;
 
-    public UserLogicLogicImpl(IUserServiceClient userServiceClient)
+    public UserLogicImpl(IUserServiceClient userServiceClient)
     {
         _userServiceClient = userServiceClient;
     }
