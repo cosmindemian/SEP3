@@ -22,7 +22,6 @@ import java.util.NoSuchElementException;
 public class PacketRpcService extends PacketServiceGrpc.PacketServiceImplBase {
 
     private final PacketService packetService;
-    private final StatusService statusService;
     private final PacketRpcMapper mapper;
 
     @Override
@@ -35,8 +34,6 @@ public class PacketRpcService extends PacketServiceGrpc.PacketServiceImplBase {
             PacketServiceOuterClass.Packet packetRpc = mapper.buildPacketRpc(packet);
             responseObserver.onNext(packetRpc);
             responseObserver.onCompleted();
-        } catch (DataIntegrityViolationException e) {
-            responseObserver.onError(Status.DATA_LOSS.withDescription(e.getMessage()).asException());
         } catch (Exception e) {
             responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asException());
         }
@@ -142,30 +139,25 @@ public class PacketRpcService extends PacketServiceGrpc.PacketServiceImplBase {
             packetService.updatePacketLocation(request.getPacketId(), request.getLocationId(), request.getUserId());
             responseObserver.onNext(Empty.newBuilder().build());
             responseObserver.onCompleted();
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             responseObserver.onError(Status.INVALID_ARGUMENT.withDescription(e.getMessage()).asException());
-        }
-        catch (UnauthorizedException e){
+        } catch (UnauthorizedException e) {
             responseObserver.onError(Status.UNAUTHENTICATED.withDescription(e.getMessage()).asException());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asException());
         }
     }
 
     @Override
     public void getAllPacketsByLocationId(PacketServiceOuterClass.Id request, StreamObserver<PacketServiceOuterClass.Packets> responseObserver) {
-        try{
+        try {
             ArrayList<Packet> packets = packetService.getAllPacketsByLocationId(request.getId());
             PacketServiceOuterClass.Packets packetsRpc = mapper.buildPacketsRpc(packets);
             responseObserver.onNext(packetsRpc);
             responseObserver.onCompleted();
-        }
-        catch (NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             responseObserver.onError(Status.NOT_FOUND.withDescription(e.getMessage()).asException());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asException());
         }
     }

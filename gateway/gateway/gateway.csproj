@@ -18,7 +18,5 @@
       <ProjectReference Include="..\RabbitMq\RabbitMq.csproj" />
       <ProjectReference Include="..\RpcClient\RpcClient.csproj" />
     </ItemGroup>
-
-
-
+    
 </Project>

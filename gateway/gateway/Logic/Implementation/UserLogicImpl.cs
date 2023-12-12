@@ -3,7 +3,7 @@ using RpcClient.RpcClient.Interface;
 
 namespace gateway.Model.Implementation;
 
-public class UserLogicImpl : IUser
+public class UserLogicImpl : IUserLogic
 {
     private readonly IUserServiceClient _userServiceClient;
     private readonly DtoMapper _dtoMapper;

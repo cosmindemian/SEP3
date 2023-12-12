@@ -171,7 +171,7 @@
             UserDto receiver = new UserDto(_packageValidator.ReceiverPhoneNumber, _packageValidator.ReceiverEmail, _packageValidator.ReceiverName);
             SendPackageDto sendPackageDto = new SendPackageDto(long.Parse(pickupPoint),  sender, receiver: receiver, long.Parse(_packageValidator.PackageType) );
             
-            packageWithAllInfo = await PackageService.CreatePackage(sendPackageDto);
+            packageWithAllInfo = await PackageService.SendPackage(sendPackageDto);
             string packageTrackingNumber = packageWithAllInfo.PackageNumber;
             NavManager.NavigateTo("/PackageSentConfirmation/" + packageTrackingNumber);
         }

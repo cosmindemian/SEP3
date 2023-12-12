@@ -7,7 +7,7 @@ namespace Client.Interfaces
     public interface IPackageService
     {
         Task<GetPackageDto> GetPackageByTrackingNumberAsync(string trackingNumber);
-        Task<SendPackageReturnDto> CreatePackage(SendPackageDto dto);
+        Task<SendPackageReturnDto> SendPackage(SendPackageDto dto);
         Task<GetAllPackagesByUserDto> GetAllPackagesByUserId(string token);
         Task UpdateFinalLocation(UpdateFinalLocationDto dto, string token);
     }
