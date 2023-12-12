@@ -22,7 +22,6 @@ import java.util.NoSuchElementException;
 public class PacketRpcService extends PacketServiceGrpc.PacketServiceImplBase {
 
     private final PacketService packetService;
-    private final StatusService statusService;
     private final PacketRpcMapper mapper;
 
     @Override
