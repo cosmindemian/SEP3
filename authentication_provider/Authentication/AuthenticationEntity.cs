@@ -6,13 +6,15 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Authentication;
 
+//The class represents  claims of the jwt token and contains methods to parse and create the token claims
 public class AuthenticationEntity
 {
+    
     public long UserId { get; set; }
     public string Email { get; set; }
     public string AuthLevel { get; set; }
+    
     public const string Admin = "Admin";
-
     public const string UserIdClaim = "UserId";
     public AuthenticationEntity(long userId, string email, string authLevel)
     {
