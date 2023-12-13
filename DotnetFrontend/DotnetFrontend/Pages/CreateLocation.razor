@@ -143,9 +143,17 @@
         {
             CreateLocationDto sendLocationDto = 
                 new CreateLocationDto(_locationValidator.City, _locationValidator.Zip, _locationValidator.Street,
-                    _locationValidator.StreetNumber, _locationValidator.Type,_locationValidator.Name, _locationValidator.Opening_Hours.ToString("HH:mm"),
+                    _locationValidator.StreetNumber, _locationValidator.Type,_locationValidator.Name,
+                    _locationValidator.Opening_Hours.ToString("HH:mm"),
                     _locationValidator.Closing_Hours.ToString("HH:mm"));
-            await LocationService.CreateLocation(sendLocationDto);
+            var context = (await protectedSessionStorage.
+                GetAsync<GlobalContext>("globalContext")).Value;
+            if (context == null || context.Jwt == null)
+            {
+                NavManager.NavigateTo("/Login");
+                return;
+            }
+            await LocationService.CreateLocation(sendLocationDto, context.Jwt);
             errorMsg = "";
             NavManager.NavigateTo("/SeeAllPickupPoints");
         }

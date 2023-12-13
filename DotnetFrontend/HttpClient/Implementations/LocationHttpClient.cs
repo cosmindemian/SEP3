@@ -20,11 +20,15 @@ namespace Client.Implementations
             _exceptionHandler = exceptionHandler;
         }
 
-        public async Task<SendLocationReturnDto> CreateLocation(CreateLocationDto dto)
+        public async Task<SendLocationReturnDto> CreateLocation(CreateLocationDto dto, string token)
         {
-            HttpResponseMessage response = await client.PostAsJsonAsync("/Location", dto);
+            
+            var request = new HttpRequestMessage(HttpMethod.Post, "/Location");
+            request.Headers.Add("Bearer", new []{token});
+            request.Content = JsonContent.Create(dto);
+            var response = await client.SendAsync(request);
             string result = await response.Content.ReadAsStringAsync();
-            if (!response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode && response.StatusCode != System.Net.HttpStatusCode.Forbidden)
             {
                 var content= await response.Content.ReadFromJsonAsync<ApiException>();
                 _exceptionHandler.Throw(content);

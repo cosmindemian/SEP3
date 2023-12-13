@@ -20,4 +20,9 @@ public class SendLocationReturnDto
         Warehouse = warehouse;
         IsPickUpPoint = false;
     }
+    
+    public SendLocationReturnDto()
+    {
+        
+    }
 }
