@@ -35,17 +35,17 @@ user_service port = 9093
 - Run maven clean install in java_proto.
 - Open gateway and build CSharpProto.
 
-#### 4. Authentication_provider.
-Open Authentication_provider
-Create a “Config” folder in persistence.
-Inside the folder, create class “DatabaseConfig” with the following constants:
+#### 4. Authentication_provider
+- Open Authentication_provider
+- Create a “Config” folder in persistence.
+- Inside the folder, create class “DatabaseConfig” with the following constants:
 ```
 public const string Host = "localhost";
 public const string Name = "postgres";
 public const string Password = "database_password";
 public const string Database = "postgres";
 ```
-Run “dotnet ef database update” through the terminal in persistence.
+- Run “dotnet ef database update” through the terminal in persistence.
 
 #### 5.  RabbitMQ 
 - Create a new exchange “notification_exchange” 
