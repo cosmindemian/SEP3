@@ -12,12 +12,10 @@
 <a href="https://maven.apache.org/" target="_blank"> <img src="https://github.com/cosmindemian/SEP3/assets/114725463/fc644644-265d-4893-b215-b960fd049d94" alt="maven" width="60" height="40"></a>
 <a href="https://gradle.org/" target="_blank"> <img src="https://www.vectorlogo.zone/logos/gradle/gradle-icon.svg" alt="gradle" width="40" height="40"></a>
 
-
-
-
 ## Configuration
 
-### To run the java microservices you need to have application.properties file in location_service, packet_service, user_service (..\src\main\resources\application.properties).
+#### 1. Java Microservices
+To run the java microservices you need to have application.properties file in location_service, packet_service, user_service (..\src\main\resources\application.properties).
 
 ```
 spring.datasource.url= ${your_database_url}
@@ -28,7 +26,39 @@ spring.jpa.hibernate.ddl-auto=create
 grpc.server.port= {your_port}
 ```
 (Use different ports for every service)
+```
+packet_service port = 9091
+location_service port = 9092
+user_service port = 9093
+```
+#### 2. Proto files
+- Run maven clean install in java_proto.
+- Open gateway and build CSharpProto.
 
+#### 4. Authentication_provider.
+Open Authentication_provider
+Create a “Config” folder in persistence.
+Inside the folder, create class “DatabaseConfig” with the following constants:
+```
+public const string Host = "localhost";
+public const string Name = "postgres";
+public const string Password = "database_password";
+public const string Database = "postgres";
+```
+Run “dotnet ef database update” through the terminal in persistence.
 
+#### 5.  RabbitMQ 
+- Create a new exchange “notification_exchange” 
+- In queues and streams create a new queue called “notification”;
+
+#### 6. Roles
+- To run the application, “Roles” table needs a default value.
+- In “authentication_provider” schema, in the table Roles (if it does not exist, create it) then add the following values:
   
-  
+| Id  | Name  |
+| --- | ----- |
+| 1   | user  |
+| 2   | Admin |
+
+If you want to use admin features (like creating/deleting a location), you have to change your account role in the database, to reflect that you are an Admin (Credentials table/RoleId to the Admin roleId).~
+
