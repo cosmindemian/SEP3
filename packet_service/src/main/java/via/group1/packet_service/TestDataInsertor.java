@@ -30,12 +30,14 @@ public class TestDataInsertor implements ApplicationRunner {
         sizeRepository.save(size);
         sizeRepository.save(size2);
         sizeRepository.save(size3);
-        Status status = new Status("In transit", "In transit");
+        Status status = new Status("Not Sent", "Waiting to be bring to a pickup point");
         Status status2 = new Status("Delivered", "Delivered");
+        Status status4 = new Status("In transit", "Packet is in transit");
         Status status3 = new Status("Lost", "Lost");
         statusRepository.save(status);
         statusRepository.save(status2);
         statusRepository.save(status3);
+        statusRepository.save(status4);
         Packet packet = new Packet(1L, 2L, 2L, 3L, status, size, "Test");
         Packet packet2 = new Packet(1L, 2L, 3L, 4L, status2, size2);
         Packet packet3 = new Packet(2L, 3L, 4L, 2L, status3, size3);
