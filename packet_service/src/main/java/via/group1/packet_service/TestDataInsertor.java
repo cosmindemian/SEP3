@@ -30,7 +30,7 @@ public class TestDataInsertor implements ApplicationRunner {
         sizeRepository.save(size);
         sizeRepository.save(size2);
         sizeRepository.save(size3);
-        Status status = new Status("Not Sent", "Waiting to be bring to a pickup point");
+        Status status = new Status("Not Sent", "Waiting to be brought to a pickup point");
         Status status2 = new Status("Delivered", "Delivered");
         Status status4 = new Status("In transit", "Packet is in transit");
         Status status3 = new Status("Lost", "Lost");
