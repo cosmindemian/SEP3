@@ -1,10 +1,9 @@
+<h1 align="center" id="title">OrangutanOnTime</h1>
 
-# SEP3 
+<h4 align="left">🚀 Demo</h4>
+<p> https://youtu.be/yNLHGXefAOw </p>
 
-#### 🚀 Demo
-https://www.youtube.com/watch?v=VKWVDOkdPik
-
-<h4 align="left">Languages and Tools:</h4>
+<h4 align="left">💻 Languages and Tools:</h4>
 <a href="https://git-scm.com/" target="_blank"> <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="40" height="40">
 <a href="https://www.postgresql.org" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="40" height="40"><a href="https://spring.io/" target="_blank"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="40" height="40">
 <a href="https://www.rabbitmq.com/" target="_blank"> <img src="https://github.com/cosmindemian/SEP3/assets/114725463/5f4b2a0f-94a8-48ae-bae3-4c292521ad4b" alt="spring" width="40" height="40">
@@ -53,7 +52,7 @@ public const string Database = "postgres";
 
 #### 5.  RabbitMQ 
 - Create a new exchange “notification_exchange” 
-- In queues and streams create a new queue called “notification”;
+- In queues and streams create a new queue called “notification” (if its not auto created)
 
 #### 6. Roles
 - To run the application, “Roles” table needs a default value.
@@ -64,5 +63,5 @@ public const string Database = "postgres";
 | 1   | user  |
 | 2   | Admin |
 
-If you want to use admin features (like creating/deleting a location), you have to change your account role in the database, to reflect that you are an Admin (Credentials table/RoleId to the Admin roleId).~
+If you want to use admin features (like creating/deleting a location), you have to change your account role in the database, to reflect that you are an Admin (Credentials table/RoleId to the Admin roleId).
 
