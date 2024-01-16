@@ -60,11 +60,9 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine(TrackingNumber);
         try
         {
             package = await PackageService.GetPackageByTrackingNumberAsync(TrackingNumber);
-            Console.WriteLine(package);
             errorLabel = "";
         }
         catch (Exception e)

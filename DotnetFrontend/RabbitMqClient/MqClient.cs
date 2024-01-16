@@ -11,7 +11,7 @@ public class MqClient
     private bool _running = false;
     private long _userId = 0;
     private IModel _model;
-    public static event EventHandler<MessageEventReturn>? MessageReceived;
+    public event EventHandler<MessageEventReturn>? MessageReceived;
     private List<ulong> _deliveredTags = new List<ulong>();
 
     public async Task Setup(CancellationToken cancellationToken, long userId)

@@ -24,13 +24,13 @@ public class TestDataInsertor implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        Size size = new Size("Small", "10", "10", "10", "10");
-        Size size2 = new Size("Medium", "20", "20", "20", "20");
-        Size size3 = new Size("Large", "30", "30", "30", "30");
+        Size size = new Size("Standard package", "50", "40", "30", "5");
+        Size size2 = new Size("Overweight package", "60", "50", "40", "30");
+        Size size3 = new Size("Extra package", "150", "90", "50", "50");
         sizeRepository.save(size);
         sizeRepository.save(size2);
         sizeRepository.save(size3);
-        Status status = new Status("Not Sent", "Waiting to be bring to a pickup point");
+        Status status = new Status("Not Sent", "Waiting to be brought to a pickup point");
         Status status2 = new Status("Delivered", "Delivered");
         Status status4 = new Status("In transit", "Packet is in transit");
         Status status3 = new Status("Lost", "Lost");

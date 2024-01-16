@@ -7,7 +7,7 @@ namespace Client.Interfaces
 {
     public interface ILocationService
     {
-        Task<SendLocationReturnDto> CreateLocation(CreateLocationDto dto);
+        Task<SendLocationReturnDto> CreateLocation(CreateLocationDto dto, string token);
         Task<IEnumerable<GetPickUpPointDto>> GetAllPickupPoints();
         Task DeletePickupPoint(long id, string token);
     }
