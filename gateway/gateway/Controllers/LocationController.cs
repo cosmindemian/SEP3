@@ -65,6 +65,9 @@ public async Task<ActionResult> DeletePickupPointAsync(long id)
             await _locationServiceLogic.DeletePickupPoint(id);
                 _logger.Log($"LocationController: DeletePickupPoint delete location with id  {id} was called");
                 return Ok();
+            
+
+
         }
         catch (Exception e)
         {

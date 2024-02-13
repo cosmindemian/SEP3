@@ -10,7 +10,7 @@ using RpcClient.RpcClient.Interface;
 
 namespace gateway.Model.Implementation;
 
-public class PackageLogicImpl : IPackage
+public class PackageLogicImpl : IPackageLogic
 {
     private readonly IPackageServiceClient _packageServiceClient;
     private readonly ILocationServiceClient _locationServiceClient;
